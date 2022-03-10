@@ -42,13 +42,55 @@ MyBatis下载地址：https://github.com/mybatis/mybatis-3
 
 ## 二、搭建MyBatis
 
+### 1. 开发环境
 
+IDE：idea 2021.3
 
+构建工具：maven 3.8.1
 
+MySQL版本：MySQL 5.7
 
+MyBatis版本：MyBatis 3.5.7
 
+### 2. 创建maven工程
 
+1. 打包方式：jar
 
+2. 引入依赖
+
+```xml
+<dependencies>
+  <!-- Mybatis核心 -->
+  <dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.5.7</version>
+  </dependency>
+  
+  <!-- junit测试 -->
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+    
+  </dependency>
+  <!-- MySQL驱动 -->
+  <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>5.1.3</version>
+  </dependency>
+</dependencies>
+```
+
+## 3、创建MyBatis的核心配置文件
+
+> 习惯上命名为[mybatis-config.xml](MyBatis_demo1/src/main/resources/mybatis-config.xml)，这个文件名仅仅只是建议，并非强制要求。将来整合Spring之后，这个配置文件可以省略，所以大家操作时可以直接复制、粘贴。
+> 
+> 核心配置文件主要用于配置连接数据库的环境以及MyBatis的全局配置信息
+> 
+> 核心配置文件存放的位置是src/main/resources目录下
 
 
 
