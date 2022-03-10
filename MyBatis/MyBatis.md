@@ -185,17 +185,79 @@ public interface UserMapper {
 
 ### 6. 通过junit测试功能
 
+```
+//读取MyBatis的核心配置文件
+InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
+//创建SqlSessionFactoryBuilder对象
+SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new
+SqlSessionFactoryBuilder();
+//通过核心配置文件所对应的字节输入流创建工厂类SqlSessionFactory，生产SqlSession对象
+SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(is);
+//创建SqlSession对象，此时通过SqlSession对象所操作的sql都必须手动提交或回滚事务
+//SqlSession sqlSession = sqlSessionFactory.openSession();
+//创建SqlSession对象，此时通过SqlSession对象所操作的sql都会自动提交
+SqlSession sqlSession = sqlSessionFactory.openSession(true);
+//通过代理模式创建UserMapper接口的代理实现类对象
+UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+//调用UserMapper接口中的方法，就可以根据UserMapper的全类名匹配元素文件，通过调用的方法名匹配
+映射文件中的SQL标签，并执行标签中的SQL语句
+int result = userMapper.insertUser();
+//sqlSession.commit();
+System.out.println("结果："+result); 
+```
 
+[相关文件MyBatisTest.java](MyBatis_demo1/src/test/java/com/toxicant123/mybatis/test/MyBatisTest.java)
 
+> * SqlSession：代表Java程序和数据库之间的会话。（HttpSession是Java程序和浏览器之间的会话）
+> * SqlSessionFactory：是“生产”SqlSession的“工厂”。
+> * 工厂模式：如果创建某一个对象，使用的过程基本固定，那么我们就可以把创建这个对象的相关代码封装到一个“工厂类”中，以后都使用这个工厂类来“生产”我们需要的对象。
 
+### 7. 加入log4j日志功能
 
+1. 加入依赖
 
+```xml
+<!-- log4j日志 -->
+<dependency>
+  <groupId>log4j</groupId>
+  <artifactId>log4j</artifactId>
+  <version>1.2.17</version>
+</dependency>
+```
 
+2. 加入log4j的配置文件
 
+> log4j的配置文件名为log4j.xml，存放的位置是src/main/resources目录下
 
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+    <param name="Encoding" value="UTF-8"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss,SSS}
+%m (%F:%L) \n"/>
+    </layout>
+  </appender>
+  <logger name="java.sql">
+    <level value="debug"/>
+  </logger>
+  <logger name="org.apache.ibatis">
+    <level value="info"/>
+  </logger>
+  <root>
+    <level value="debug"/>
+    <appender-ref ref="STDOUT"/>
+  </root>
+</log4j:configuration>
+```
 
-
-
+> 日志的级别
+> 
+> FATAL(致命)>ERROR(错误)>WARN(警告)>INFO(信息)>DEBUG(调试)
+> 
+> 从左到右打印的内容越来越详细
 
 
 
