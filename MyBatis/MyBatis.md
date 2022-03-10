@@ -84,7 +84,7 @@ MyBatis版本：MyBatis 3.5.7
 </dependencies>
 ```
 
-## 3、创建MyBatis的核心配置文件
+### 3. 创建MyBatis的核心配置文件
 
 > 习惯上命名为mybatis-config.xml，这个文件名仅仅只是建议，并非强制要求。将来整合Spring之后，这个配置文件可以省略，所以大家操作时可以直接复制、粘贴。
 > 
@@ -119,6 +119,84 @@ MyBatis版本：MyBatis 3.5.7
 ```
 
 [相关文件mybatis-config.xml](MyBatis_demo1/src/main/resources/mybatis-config.xml)
+
+### 4. 创建mapper接口
+
+> MyBatis中的mapper接口相当于以前的dao。但是区别在于，mapper仅仅是接口，我们不需要提供实现类。
+
+```java
+public interface UserMapper {
+  /**
+   * 添加用户信息
+   */
+  int insertUser();
+}
+```
+
+[相关文件UserMapper.java](MyBatis_demo1/src/main/java/com/toxicant123/mybatis/mapper/UserMapper.java)
+
+### 5. 创建MyBatis的映射文件
+
+相关概念：ORM（Object Relationship Mapping）对象关系映射。
+
+* 对象：Java的实体类对象
+* 关系：关系型数据库
+* 映射：二者之间的对应关系
+
+| Java概念 | 数据库概念 |
+|:------:|:-----:|
+|   类    |   表   |
+|   属性   | 字段/列  |
+|   对象   | 记录/行  |
+
+> 1、映射文件的命名规则：
+> 
+> 表所对应的实体类的类名+Mapper.xml
+> 
+> 例如：表t_user，映射的实体类为User，所对应的映射文件为UserMapper.xml
+> 
+> 因此一个映射文件对应一个实体类，对应一张表的操作
+> 
+> MyBatis映射文件用于编写SQL，访问以及操作表中的数据
+> 
+> MyBatis映射文件存放的位置是src/main/resources/mappers目录下
+> 
+> 2、MyBatis中可以面向接口操作数据，要保证两个一致：
+> 
+> a.mapper接口的全类名和映射文件的命名空间（namespace）保持一致
+> 
+> b.mapper接口中方法的方法名和映射文件中编写SQL的标签的id属性保持一致
+
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.mapper.UserMapper">
+  <!--int insertUser();-->
+  <insert id="insertUser">
+    insert into t_user values(null,'张三','123',23,'女')
+  </insert>
+</mapper>
+```
+
+[相关文件UserMapper.xml](MyBatis_demo1/src/main/resources/mappers/UserMapper.xml)
+
+### 6. 通过junit测试功能
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
