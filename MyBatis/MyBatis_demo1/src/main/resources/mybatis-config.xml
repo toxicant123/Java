@@ -3,21 +3,31 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration><!--根标签-->
+    <properties resource="jdbc.properties"/>
+
+    <!--设置类型的别名-->
+    <typeAliases>
+        <package name="com.toxicant123.mybatis.pojo"/>
+    </typeAliases>
+    
     <!--设置连接数据库的环境-->
     <environments default="development">
         <environment id="development">
             <!--事务管理方式，若为JDBC则需要手动提交事务-->
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3307/mybatis?useSSL=false"/>
-                <property name="username" value="root"/>
-                <property name="password" value="123456"/>
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
             </dataSource>
         </environment>
     </environments>
+    
     <!--引入映射文件-->
     <mappers>
-        <mapper resource="mappers/UserMapper.xml"/>
+<!--        <mapper resource="mappers/UserMapper.xml"/>-->
+        <package name="com.toxicant123.mybatis.mapper"/>
     </mappers>
+    
 </configuration>
