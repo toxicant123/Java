@@ -1,13 +1,16 @@
 package com.toxicant123.mybatis.test;
 
 import com.toxicant123.mybatis.mapper.UserMapper;
+import com.toxicant123.mybatis.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author toxicant123
@@ -38,7 +41,49 @@ public class MyBatisTest {
         //测试功能
         int result = mapper.insertUser();
         //提交事务
-//        sqlSession.commit();
+//      sqlSession.commit();
         System.out.println("result: " + result);
+    }
+    
+    @Test
+    public void testUpdate() throws Exception {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatis-config.xml");
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        SqlSession sqlSession = sessionFactory.openSession(true);
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        mapper.updateUser();
+
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatis-config.xml");
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        SqlSession sqlSession = sessionFactory.openSession(true);
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        mapper.deleteUser();
+
+    }
+
+    @Test
+    public void testSelectById() throws Exception {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatis-config.xml");
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        SqlSession sqlSession = sessionFactory.openSession(true);
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        User userById = mapper.getUserById();
+        System.out.println(userById);
+
+    }
+
+    @Test
+    public void testSelectList() throws Exception {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatis-config.xml");
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        SqlSession sqlSession = sessionFactory.openSession(true);
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        List<User> allUser = mapper.getAllUser();
+        System.out.println(allUser);
+
     }
 }

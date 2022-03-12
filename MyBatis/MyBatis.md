@@ -253,6 +253,8 @@ System.out.println("结果："+result);
 </log4j:configuration>
 ```
 
+[相关文件log4j.xml](MyBatis_demo1/src/main/resources/log4j.xml)
+
 > 日志的级别
 > 
 > FATAL(致命)>ERROR(错误)>WARN(警告)>INFO(信息)>DEBUG(调试)

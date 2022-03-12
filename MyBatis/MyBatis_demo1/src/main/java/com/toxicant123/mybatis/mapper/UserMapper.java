@@ -1,5 +1,9 @@
 package com.toxicant123.mybatis.mapper;
 
+import com.toxicant123.mybatis.pojo.User;
+
+import java.util.List;
+
 /**
  * <p>
  *     MyBatis面向接口编程的两个一致：<br>
@@ -23,4 +27,26 @@ public interface UserMapper {
      * @return
      */
     int insertUser();
+
+    /**
+     * 修改用户信息
+     */
+    void updateUser();
+
+    /**
+     * 删除用户信息
+     */
+    void deleteUser();
+
+    /**
+     * 根据id查询用户信息
+     * @return
+     */
+    User getUserById();
+
+    /**
+     * 查询所有用户信息
+     * @return
+     */
+    List<User> getAllUser();
 }
