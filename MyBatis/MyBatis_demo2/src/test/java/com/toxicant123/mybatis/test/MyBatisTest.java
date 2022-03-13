@@ -1,5 +1,6 @@
 package com.toxicant123.mybatis.test;
 
+
 import com.toxicant123.mybatis.mapper.UserMapper;
 import com.toxicant123.mybatis.pojo.User;
 import org.apache.ibatis.io.Resources;

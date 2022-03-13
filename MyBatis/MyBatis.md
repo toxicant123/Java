@@ -86,7 +86,7 @@ MyBatis版本：MyBatis 3.5.7
 
 ### 3. 创建MyBatis的核心配置文件
 
-> 习惯上命名为mybatis-config.xml，这个文件名仅仅只是建议，并非强制要求。将来整合Spring之后，这个配置文件可以省略，所以大家操作时可以直接复制、粘贴。
+> 习惯上命名为mybatis-config.xml，这个文件名仅仅只是建议，并非强制要求。将来整合Spring之后，这个配置文件可以省略，所以操作时可以直接复制、粘贴。
 > 
 > 核心配置文件主要用于配置连接数据库的环境以及MyBatis的全局配置信息
 > 
@@ -361,6 +361,100 @@ System.out.println("结果："+result);
 ```
 
 [相关文件mybatis-config-core.xml](MyBatis_demo1/src/main/resources/mybatis-config-core.xml)
+
+## 四、MyBatis的增删改查
+
+1. 添加
+
+```xml
+<!--int insertUser();-->
+<insert id="insertUser">
+  insert into t_user values(null,'admin','123456',23,'男')
+</insert>
+```
+
+2. 删除
+
+```xml
+<!--int deleteUser();-->
+<delete id="deleteUser">
+  delete from t_user where id = 7
+</delete>
+```
+
+3. 修改
+
+```xml
+<!--int updateUser();-->
+<update id="updateUser">
+  update t_user set username='ybc',password='123' where id = 6
+</update>
+```
+
+4. 查询一个实体类对象
+
+```xml
+<!--User getUserById();-->
+<select id="getUserById" resultType="com.atguigu.mybatis.bean.User">
+  select * from t_user where id = 2
+</select>
+```
+
+5. 查询集合
+
+```xml
+<!--List<User> getUserList();-->
+<select id="getUserList" resultType="com.atguigu.mybatis.bean.User">
+  select * from t_user
+</select>
+```
+
+[相关文件UserMapper.xml](MyBatis_demo1/src/main/resources/com/toxicant123/mybatis/mapper/UserMapper.xml)
+
+> 注意：
+> 1. 查询的标签select必须设置属性resultType或resultMap，用于设置实体类和数据库表的映射关系  
+>  resultType：自动映射，用于属性名和表中字段名一致的情况  
+>  resultMap：自定义映射，用于一对多或多对一或字段名和属性名不一致的情况
+> 2. 当查询的数据为多条时，不能使用实体类作为返回值，只能使用集合，否则会抛出异常TooManyResultsException；但是若查询的数据只有一条，可以使用实体类或集合作为返回值
+
+## 五、MyBatis获取参数值的两种方式（重点）
+
+MyBatis获取参数值的两种方式：**${}和#{}**
+
+${}的本质就是字符串拼接，#{}的本质就是占位符赋值
+
+${}使用字符串拼接的方式拼接sql，若为字符串类型或日期类型的字段进行赋值时，需要手动加单引号；但是#{}使用占位符赋值的方式拼接sql，此时为字符串类型或日期类型的字段进行赋值时，可以自动添加单引号
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

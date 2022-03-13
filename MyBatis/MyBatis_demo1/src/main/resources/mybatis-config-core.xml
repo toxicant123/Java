@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
         PUBLIC "-//MyBatis.org//DTD Config 3.0//EN"
-        "http://MyBatis.org/dtd/MyBatis-3-config.dtd">
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <!--引入properties文件，此时就可以${属性名}的方式访问属性值-->
     <properties resource="jdbc.properties"></properties>
@@ -81,9 +81,9 @@
         -->
 
         <!--因为resources无法直接创建package，在创建文件夹时需要
-            以：com/atguigu/mybatis/mapper的形式创建
+            以：com/toxicant123/mybatis/mapper的形式创建
         -->
-        <package name="com.atguigu.mybatis.mapper"/>
+        <package name="com.toxicant123.mybatis.mapper"/>
     </mappers>
 </configuration>
 
