@@ -614,6 +614,165 @@ MyBatis设置了默认的类型别名：
 
 ## 七、特殊SQL的执行
 
+### 1. 模糊查询
+
+```java
+/**
+* 测试模糊查询
+* @param mohu
+* @return
+*/
+List<User> testMohu(@Param("mohu") String mohu);
+```
+
+```xml
+<!--List<User> testMohu(@Param("mohu") String mohu);-->
+<select id="testMohu" resultType="User">
+  <!--select * from t_user where username like '%${mohu}%'-->
+  <!--select * from t_user where username like concat('%',#{mohu},'%')-->
+  select * from t_user where username like "%"#{mohu}"%"
+</select>
+```
+
+### 2. 批量删除
+
+```java
+/**
+* 批量删除
+* @param ids
+* @return
+*/
+int deleteMore(@Param("ids") String ids);
+```
+
+```xml
+<!--int deleteMore(@Param("ids") String ids);-->
+<delete id="deleteMore">
+  delete from t_user where id in (${ids})
+</delete>
+```
+
+### 3. 动态设置表名
+
+```java
+/**
+* 动态设置表名，查询所有的用户信息
+* @param tableName
+* @return
+*/
+List<User> getAllUser(@Param("tableName") String tableName);
+```
+
+```xml
+<!--List<User> getAllUser(@Param("tableName") String tableName);-->
+<select id="getAllUser" resultType="User">
+  select * from ${tableName}
+</select>
+```
+
+### 4. 添加功能获取自增的主键
+
+t_clazz(clazz_id,clazz_name)
+
+t_student(student_id,student_name,clazz_id)
+
+1、添加班级信息
+
+2、获取新添加的班级的id
+
+3、为班级分配学生，即将某学的班级id修改为新添加的班级的id
+
+```java
+/**
+* 添加用户信息
+* @param user
+* @return
+* useGeneratedKeys：设置使用自增的主键
+* keyProperty：因为增删改有统一的返回值是受影响的行数，因此只能将获取的自增的主键放在传输的参
+数user对象的某个属性中
+*/
+int insertUser(User user);
+```
+
+```xml
+<!--int insertUser(User user);-->
+<insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+  insert into t_user values(null,#{username},#{password},#{age},#{sex})
+</insert>
+```
+
+[相关文件SQLMapper.java](MyBatis_demo2/src/main/java/com/toxicant123/mybatis/mapper/SQLMapper.java)
+
+[相关文件SQLMapper.xml](MyBatis_demo2/src/main/resources/com/toxicant123/mybatis/mapper/SQLMapper.xml)
+
+[相关文件SQLMapperTest.java](MyBatis_demo2/src/test/java/com/toxicant123/mybatis/test/SQLMapperTest.java)
+
+## 八、自定义映射resultMap
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
