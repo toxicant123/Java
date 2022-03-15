@@ -22,6 +22,18 @@ public class ResultMapTest {
      * b> 设置全局配置，将下划线自动映射为驼峰
      * <setting name="mapUnderscoreToCamelCase" value="true"/>
      * c> 通过resultMap设置自定义的映射关系
+     * <resultMap id="empResultMap" type="Emp">
+     *         <id property="eid" column="eid"/>
+     *         <result property="empName" column="emp_name"/>
+     *         <result property="age" column="age"/>
+     *         <result property="sex" column="sex"/>
+     *         <result property="email" column="email"/>
+     *  </resultMap>
+     *
+     *  处理多对一的映射关系：
+     *  a> 级联属性赋值
+     *  b> association
+     *  c> 分布查询
      */
 
     @Test
@@ -30,6 +42,24 @@ public class ResultMapTest {
         EmpMapper mapper = sqlSession.getMapper(EmpMapper.class);
         List<Emp> allEmp = mapper.getAllEmp();
         System.out.println(allEmp);
+
+    }
+
+    @Test
+    public void testGetEmpAndDept(){
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        EmpMapper mapper = sqlSession.getMapper(EmpMapper.class);
+        Emp empAndDept = mapper.getEmpAndDept(1);
+        System.out.println(empAndDept);
+
+    }
+
+    @Test
+    public void testGetEmpAndDeptByStep(){
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        EmpMapper mapper = sqlSession.getMapper(EmpMapper.class);
+        Emp empAndDeptByStepOne = mapper.getEmpAndDeptByStepOne(2);
+        System.out.println(empAndDeptByStepOne);
 
     }
 }

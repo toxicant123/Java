@@ -709,34 +709,143 @@ int insertUser(User user);
 
 ## 八、自定义映射resultMap
 
+### 1. resultMap处理字段和属性的映射关系
 
+若字段名和实体类中的属性名不一致，则可以通过resultMap设置自定义映射
 
+```xml
+<!--
+resultMap：设置自定义映射
+属性：
+id：表示自定义映射的唯一标识
+type：查询的数据要映射的实体类的类型
+子标签：
+id：设置主键的映射关系
+result：设置普通字段的映射关系
+association：设置多对一的映射关系
+collection：设置一对多的映射关系
+属性：
+property：设置映射关系中实体类中的属性名
+column：设置映射关系中表中的字段名
+-->
+<resultMap id="userMap" type="User">
+  <id property="id" column="id"></id>
+  <result property="userName" column="user_name"></result>
+  <result property="password" column="password"></result>
+  <result property="age" column="age"></result>
+  <result property="sex" column="sex"></result>
+</resultMap>
+        <!--List<User> testMohu(@Param("mohu") String mohu);-->
+<select id="testMohu" resultMap="userMap">
+<!--select * from t_user where username like '%${mohu}%'-->
+select id,user_name,password,age,sex from t_user where user_name like
+concat('%',#{mohu},'%')
+</select>
+```
 
+> 若字段名和实体类中的属性名不一致，但是字段名符合数据库的规则（使用_），实体类中的属性名符合Java的规则（使用驼峰）
+> 
+> 此时也可通过以下两种方式处理字段名和实体类中的属性的映射关系
+> 
+> a>可以通过为字段起别名的方式，保证和实体类中的属性名保持一致
+> 
+> b>可以在MyBatis的核心配置文件中设置一个全局配置信息mapUnderscoreToCamelCase，可以在查询表中数据时，自动将_类型的字段名转换为驼峰
+> 
+> 例如：字段名user_name，设置了mapUnderscoreToCamelCase，此时字段名就会转换为userName
 
+### 2. 多对一映射处理
 
+> 查询员工信息以及员工所对应的部门信息
 
+#### a> 级联方式处理映射关系
 
+```xml
+<resultMap id="empDeptMap" type="Emp">
+  <id column="eid" property="eid"></id>
+  <result column="ename" property="ename"></result>
+  <result column="age" property="age"></result>
+  <result column="sex" property="sex"></result>
+  <result column="did" property="dept.did"></result>
+  <result column="dname" property="dept.dname"></result>
+</resultMap>
+        <!--Emp getEmpAndDeptByEid(@Param("eid") int eid);-->
+<select id="getEmpAndDeptByEid" resultMap="empDeptMap">
+select emp.*,dept.* from t_emp emp left join t_dept dept on emp.did =
+dept.did where emp.eid = #{eid}
+</select>
+```
 
+#### b> 使用association处理映射关系
 
+```xml
 
+<resultMap id="empDeptMap" type="Emp">
+  <id column="eid" property="eid"></id>
+  <result column="ename" property="ename"></result>
+  <result column="age" property="age"></result>
+  <result column="sex" property="sex"></result>
+  <association property="dept" javaType="Dept">
+    <id column="did" property="did"></id>
+    <result column="dname" property="dname"></result>
+  </association>
+</resultMap>
+        <!--Emp getEmpAndDeptByEid(@Param("eid") int eid);-->
+<select id="getEmpAndDeptByEid" resultMap="empDeptMap">
+select emp.*,dept.* from t_emp emp left join t_dept dept on emp.did =
+dept.did where emp.eid = #{eid}
+</select>
+```
 
+#### c> 分步查询
 
+1) 查询员工信息
 
+```java
+/**
+* 通过分步查询查询员工信息
+* @param eid
+* @return
+*/
+Emp getEmpByStep(@Param("eid") int eid);
+```
 
+```java
+<resultMap id="empDeptStepMap"type="Emp">
+<id column="eid"property="eid"></id>
+<result column="ename"property="ename"></result>
+<result column="age"property="age"></result>
+<result column="sex"property="sex"></result>
+<!--
+        select：设置分步查询，查询某个属性的值的sql的标识（namespace.sqlId）
+        column：将sql以及查询结果中的某个字段设置为分步查询的条件
+        -->
+<association property="dept"
+        select="com.atguigu.MyBatis.mapper.DeptMapper.getEmpDeptByStep"column="did">
+</association>
+</resultMap>
+<!--Emp getEmpByStep(@Param("eid") int eid);-->
+<select id="getEmpByStep"resultMap="empDeptStepMap">
+        select*from t_emp where eid= #{eid}
+</select>
+```
 
+2) 根据员工所对应的部门id查询部门信息
 
+```java
+/**
+* 分步查询的第二步：根据员工所对应的did查询部门信息
+* @param did
+* @return
+*/
+Dept getEmpDeptByStep(@Param("did") int did);
+```
 
-
-
-
-
-
-
-
-
-
-
-
+```xml
+<!--Dept getEmpDeptByStep(@Param("did") int did);-->
+<select id="getEmpDeptByStep" resultType="Dept">
+  select * from t_dept where did = #{did}
+</select>
+```
 
 
 

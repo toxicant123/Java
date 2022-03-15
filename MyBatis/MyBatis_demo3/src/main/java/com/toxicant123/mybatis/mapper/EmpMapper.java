@@ -1,6 +1,7 @@
 package com.toxicant123.mybatis.mapper;
 
 import com.toxicant123.mybatis.pojo.Emp;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +18,19 @@ public interface EmpMapper {
      * @return
      */
     List<Emp> getAllEmp();
+
+    /**
+     * 查询员工以及员工所对应的部门信息
+     * @param eid
+     * @return
+     */
+    Emp getEmpAndDept(@Param("eid") Integer eid);
+
+    /**
+     * 通过分步查询查询员工以及员工对应的部门信息
+     * 分步查询第一步：查询员工信息
+     * @param eid
+     * @return
+     */
+    Emp getEmpAndDeptByStepOne(@Param("eid") Integer eid);
 }
