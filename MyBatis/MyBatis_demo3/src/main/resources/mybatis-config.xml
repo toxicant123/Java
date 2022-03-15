@@ -5,6 +5,12 @@
 <configuration>
     <properties resource="jdbc.properties"/>
 
+    <!--设置MyBatis的全局配置-->
+    <settings>
+        <!--将下划线自动映射为驼峰，例如：emp_name:empName-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
     <typeAliases>
         <package name="com.toxicant123.mybatis.pojo"/>
     </typeAliases>
