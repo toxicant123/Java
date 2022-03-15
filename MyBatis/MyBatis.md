@@ -847,26 +847,98 @@ Dept getEmpDeptByStep(@Param("did") int did);
 </select>
 ```
 
+### 3. 一对多映射处理
 
+#### a> collection
 
+```java
+/**
+* 根据部门id查新部门以及部门中的员工信息
+* @param did
+* @return
+*/
+Dept getDeptEmpByDid(@Param("did") int did);
+```
+```xml
 
+<resultMap id="deptEmpMap" type="Dept">
+  <id property="did" column="did"></id>
+  <result property="dname" column="dname"></result>
+  <!--
+  ofType：设置collection标签所处理的集合属性中存储数据的类型
+  -->
+  <collection property="emps" ofType="Emp">
+    <id property="eid" column="eid"></id>
+    <result property="ename" column="ename"></result>
+    <result property="age" column="age"></result>
+    <result property="sex" column="sex"></result>
+  </collection>
+</resultMap>
+        <!--Dept getDeptEmpByDid(@Param("did") int did);-->
+<select id="getDeptEmpByDid" resultMap="deptEmpMap">
+select dept.*,emp.* from t_dept dept left join t_emp emp on dept.did =
+emp.did where dept.did = #{did}
+</select>
+```
 
+#### b> 分步查询
 
+1) 查询部门信息
 
+```java
+/**
+* 分步查询部门和部门中的员工
+* @param did
+* @return
+*/
+Dept getDeptByStep(@Param("did") int did);
+```
 
+```xml
+<resultMap id="deptEmpStep" type="Dept">
+  <id property="did" column="did"></id>
+  <result property="dname" column="dname"></result>
+  <collection property="emps" fetchType="eager"
+              select="com.atguigu.MyBatis.mapper.EmpMapper.getEmpListByDid" column="did">
+  </collection>
+</resultMap>
+        <!--Dept getDeptByStep(@Param("did") int did);-->
+<select id="getDeptByStep" resultMap="deptEmpStep">
+select * from t_dept where did = #{did}
+</select>
+```
 
+2) 根据部门id查询部门中的所有员工
 
+```java
+/**
+* 根据部门id查询员工信息
+* @param did
+* @return
+*/
+List<Emp> getEmpListByDid(@Param("did") int did);
+```
 
+```xml
+<!--List<Emp> getEmpListByDid(@Param("did") int did);-->
+<select id="getEmpListByDid" resultType="Emp">
+  select * from t_emp where did = #{did}
+</select>
+```
 
+> 分步查询的优点：可以实现延迟加载，但是必须在核心配置文件中设置全局配置信息：
+> 
+> lazyLoadingEnabled：延迟加载的全局开关。当开启时，所有关联对象都会延迟加载
+> 
+> aggressiveLazyLoading：当开启时，任何方法的调用都会加载该对象的所有属性。 否则，每个属性会按需加载
+> 
+> 此时就可以实现按需加载，获取的数据是什么，就只会执行相应的sql。此时可通过association和collection中的fetchType属性设置当前的分步查询是否使用延迟加载，fetchType="lazy(延迟加载)|eager(立即加载)"
 
+## 九、动态SQL
 
+Mybatis框架的动态SQL技术是一种根据特定条件动态拼装SQL语句的功能，它存在的意义是为了解决拼接SQL语句字符串时的痛点问题。
 
-
-
-
-
-
-
+### 1. if
 
 
 
