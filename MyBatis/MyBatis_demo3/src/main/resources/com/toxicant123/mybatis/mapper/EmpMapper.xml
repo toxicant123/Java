@@ -61,8 +61,14 @@
         <result property="email" column="email"/>
         <!--
             select：设置分步查询的sql的唯一标识（namespace.SQLId或mapper接口的全类名.方法名）
+            column：设置分步查询的条件
+            fetchType：可通过此属性手动控制延迟加载的效果（lazy|eager）
+                       lazy表示延迟加载，eager表示立即加载
         -->
-        <association property="dept" select="com.toxicant123.mybatis.mapper.DeptMapper.getEmpAndDeptByStepTwo" column="did"/>
+        <association property="dept"
+                     select="com.toxicant123.mybatis.mapper.DeptMapper.getEmpAndDeptByStepTwo"
+                     column="did"
+                     fetchType="lazy"/>
     </resultMap>
     
 <!--    List<Emp> getAllEmp();-->
@@ -85,4 +91,9 @@
         select * from t_emp where eid = #{eid}
     </select>
 
+<!--    List<Emp> getDeptAndEmpByStepTwo(@Param("did") Integer did);-->
+    <select id="getDeptAndEmpByStepTwo" resultType="emp">
+        select * from t_emp where did = #{did}
+    </select>
+    
 </mapper>

@@ -18,4 +18,19 @@ public interface DeptMapper {
      * @return
      */
     Dept getEmpAndDeptByStepTwo(@Param("did") Integer did);
+
+    /**
+     * 获取部门以及部门中所有的员工信息
+     * @param did
+     * @return
+     */
+    Dept getDeptAndEmp(@Param("did") Integer did);
+
+    /**
+     * 通过分步查询查询部门以及部门中所有员工的信息
+     * 分步查询第一步：查询部门信息
+     * @param did
+     * @return
+     */
+    Dept getDeptAndEmpByStepOne(@Param("did") Integer did);
 }

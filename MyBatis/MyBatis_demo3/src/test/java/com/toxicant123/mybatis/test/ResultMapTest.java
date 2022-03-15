@@ -1,6 +1,8 @@
 package com.toxicant123.mybatis.test;
 
+import com.toxicant123.mybatis.mapper.DeptMapper;
 import com.toxicant123.mybatis.mapper.EmpMapper;
+import com.toxicant123.mybatis.pojo.Dept;
 import com.toxicant123.mybatis.pojo.Emp;
 import com.toxicant123.mybatis.utils.SqlSessionUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -33,7 +35,11 @@ public class ResultMapTest {
      *  处理多对一的映射关系：
      *  a> 级联属性赋值
      *  b> association
-     *  c> 分布查询
+     *  c> 分步查询
+     *
+     *  处理一对多的映射关系：
+     *  a> collection
+     *  b> 分步查询
      */
 
     @Test
@@ -60,6 +66,36 @@ public class ResultMapTest {
         EmpMapper mapper = sqlSession.getMapper(EmpMapper.class);
         Emp empAndDeptByStepOne = mapper.getEmpAndDeptByStepOne(2);
         System.out.println(empAndDeptByStepOne);
+
+    }
+
+    /**
+     * 测试延迟加载
+     */
+    @Test
+    public void testGetEmpAndDeptByStep2(){
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        EmpMapper mapper = sqlSession.getMapper(EmpMapper.class);
+        Emp empAndDeptByStepOne = mapper.getEmpAndDeptByStepOne(2);
+        System.out.println(empAndDeptByStepOne.getEmpName());
+
+    }
+
+    @Test
+    public void testGetDeptAndEmp(){
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        DeptMapper mapper = sqlSession.getMapper(DeptMapper.class);
+        Dept deptAndEmp = mapper.getDeptAndEmp(1);
+        System.out.println(deptAndEmp);
+
+    }
+
+    @Test
+    public void testGetDeptAndEmpByStep(){
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        DeptMapper mapper = sqlSession.getMapper(DeptMapper.class);
+        Dept deptAndEmp = mapper.getDeptAndEmpByStepOne(1);
+        System.out.println(deptAndEmp);
 
     }
 }
