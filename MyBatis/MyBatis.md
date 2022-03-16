@@ -1172,6 +1172,132 @@ d>查询的数据所转换的实体类类型必须实现序列化的接口
 
 [相关文件CacheMapperTest.java](MyBatis_demo3/src/test/java/com/toxicant123/mybatis/test/CacheMapperTest.java)
 
+### 5. 整合第三方缓存EHCache
+
+用于替代二级缓存
+
+a> 添加依赖
+
+```xml
+<!-- Mybatis EHCache整合包 -->
+<dependency>
+  <groupId>org.mybatis.caches</groupId>
+  <artifactId>mybatis-ehcache</artifactId>
+  <version>1.2.1</version>
+</dependency>
+        <!-- slf4j日志门面的一个具体实现 -->
+<dependency>
+<groupId>ch.qos.logback</groupId>
+<artifactId>logback-classic</artifactId>
+<version>1.2.3</version>
+</dependency>
+```
+
+b> 各jar包功能
+
+|     jar包名称      |         作用          |
+|:---------------:|:-------------------:|
+| mybatis-ehcache | Mybatis和EHCache的整合包 |
+|     ehcache     |     EHCache核心包      |
+|    slf4j-api    |     SLF4J日志门面包      |
+| logback-classic | 支持SLF4J门面接口的一个具体实现  |
+
+c> 创建EHCache的配置文件ehcache.xml
+
+d> 设置二级缓存的类型
+
+```xml
+<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+```
+
+e> 加入logback日志
+
+存在SLF4J时，作为简易日志的log4j将失效，此时我们需要借助SLF4J的具体实现logback来打印日志。
+
+创建logback的配置文件logback.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+  <!-- 指定日志输出的位置 -->
+  <appender name="STDOUT"
+            class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <!-- 日志输出的格式 -->
+      <!-- 按照顺序分别是：时间、日志级别、线程名称、打印日志的类、日志主体内容、换行 -->
+      <pattern>[%d{HH:mm:ss.SSS}] [%-5level] [%thread] [%logger]
+        [%msg]%n
+      </pattern>
+    </encoder>
+  </appender>
+  <!-- 设置全局日志级别。日志级别按顺序分别是：DEBUG、INFO、WARN、ERROR -->
+  <!-- 指定任何一个日志级别都只打印当前级别和后面级别的日志。 -->
+  <root level="DEBUG">
+    <!-- 指定打印日志的appender，这里通过“STDOUT”引用了前面配置的appender -->
+    <appender-ref ref="STDOUT"/>
+  </root>
+  <!-- 根据特殊需求指定局部日志级别 -->
+  <logger name="com.atguigu.crowd.mapper" level="DEBUG"/>
+</configuration>
+```
+
+f> EHCache配置文件说明
+
+|               属性名               | 是否必须 |                                                                                                                作用                                                                                                                 |
+|:-------------------------------:|:----:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|       maxElementsInMemory       |  是   |                                                                                                        在内存中缓存的element的最大数目                                                                                                        |
+|        maxElementsOnDisk        |  是   |                                                                                                   在磁盘上缓存的element的最大数目，若是0表示无穷大                                                                                                    |
+|             eternal             |  是   |                                                                    设定缓存的elements是否永远不过期。如果为true，则缓存的数据始终有效，如果为false那么还要根据timeToIdleSeconds、timeToLiveSeconds判断                                                                    |
+|         overflowToDisk          |  是   |                                                                                                  设定当内存缓存溢出的时候是否将过期的element缓存到磁盘上                                                                                                  |
+|        timeToIdleSeconds        |  否   |                                                                           当缓存在EhCache中的数据前后两次访问的时间超过timeToIdleSeconds的属性取值时，这些数据便会删除，默认值是0，也就是可闲置时间无穷大                                                                            |
+|        timeToLiveSeconds        |  否   |                                                                                              缓存element的有效生命期，默认是0.,也就是element存活时间无穷大                                                                                              |
+|      diskSpoolBufferSizeMB      |  否   |                                                                                         DiskStore(磁盘缓存)的缓存区大小。默认是30MB。每个Cache都应该有自己的一个缓冲区                                                                                         |
+|         diskPersistent          |  否   |                                                                                               在VM重启的时候是否启用磁盘保存EhCache中的数据，默认是false。                                                                                               |
+| diskExpiryThreadIntervalSeconds |  否   |                                                                                      磁盘缓存的清理线程运行间隔，默认是120秒。每个120s，相应的线程会进行一次EhCache中数据的清理工作                                                                                       |
+|    memoryStoreEvictionPolicy    |  否   |                                                                        当内存缓存达到最大，有新的element加入的时候，移除缓存中element的策略。默认是LRU（最近最少使用），可选的有LFU（最不常使用）和FIFO（先进先出）                                                                         |
+
+[相关文件CacheMapper.xml](MyBatis_demo3/src/main/resources/com/toxicant123/mybatis/mapper/CacheMapper.xml)
+[相关文件ehcache.xml](MyBatis_demo3/src/main/resources/ehcache.xml)
+[相关文件logback.xml](MyBatis_demo3/src/main/resources/logback.xml)
+
+## 十一、MyBatis的逆向工程
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

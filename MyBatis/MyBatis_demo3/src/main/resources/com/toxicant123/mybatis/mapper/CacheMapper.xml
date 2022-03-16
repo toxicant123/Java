@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.toxicant123.mybatis.mapper.CacheMapper">
 
-    <cache/>
+<!--    <cache/>-->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 
     <!--    Emp getEmpByEid(@Param("eid") Integer eid);-->
     <select id="getEmpByEid" resultType="emp">
