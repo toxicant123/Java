@@ -1268,24 +1268,95 @@ f> EHCache配置文件说明
   - Mapper接口
   - Mapper映射文件
 
+### 1. 创建逆向工程的步骤
 
+a> 添加依赖和插件
 
+```xml
+<!-- 依赖MyBatis核心包 -->
+<dependencies>
+  <dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.5.7</version>
+  </dependency>
+</dependencies>
+        <!-- 控制Maven在构建过程中相关配置 -->
+<build>
+<!-- 构建过程中用到的插件 -->
+<plugins>
+  <!-- 具体插件，逆向工程的操作是以构建过程中插件形式出现的 -->
+  <plugin>
+    <groupId>org.mybatis.generator</groupId>
+    <artifactId>mybatis-generator-maven-plugin</artifactId>
+    <version>1.3.0</version>
+    <!-- 插件的依赖 -->
+    <dependencies>
+      <!-- 逆向工程的核心依赖 -->
+      <dependency>
+        <groupId>org.mybatis.generator</groupId>
+        <artifactId>mybatis-generator-core</artifactId>
+        <version>1.3.2</version>
+      </dependency>
+      <!-- 数据库连接池 -->
+      <dependency>
+        <groupId>com.mchange</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>0.9.2</version>
+      </dependency>
+      <!-- MySQL驱动 -->
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.8</version>
+      </dependency>
+    </dependencies>
+  </plugin>
+</plugins>
+</build>
+```
 
+b> 创建MyBatis的核心配置文件
 
+c> 创建逆向工程的配置文件
 
+> 文件名必须是：generatorConfig.xml
 
+d> 执行MBG插件的generate目标
 
+![img_2.png](img_2.png)
 
+效果：
 
+![img_3.png](img_3.png)
 
+### 2 QBC查询
 
+```java
+public class MGBTest {
+  @Test
+  public void testMBG() throws IOException {
+    InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
+    SqlSession sqlSession = new
+            SqlSessionFactoryBuilder().build(is).openSession(true);
+    EmpMapper mapper = sqlSession.getMapper(EmpMapper.class);
+    EmpExample empExample = new EmpExample();
+//创建条件对象，通过andXXX方法为SQL添加查询添加，每个条件之间是and关系
+    empExample.createCriteria().andEnameLike("a").andAgeGreaterThan(20).andDidIsNot
+    Null();
+//将之前添加的条件通过or拼接其他条件
+    empExample.or().andSexEqualTo("男");
+    List<Emp> list = mapper.selectByExample(empExample);
+    for (Emp emp : list) {
+      System.out.println(emp);
+    }
+  }
+}
+```
 
+[相关模块MyBatis_MBG_Simple](MyBatis_MBG_Simple/pom.xml)
 
-
-
-
-
-
+[相关模块MyBatis_MBG_Standard](MyBatis_MBG_Standard/pom.xml)
 
 
 
