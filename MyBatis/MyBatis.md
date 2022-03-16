@@ -19,9 +19,9 @@ iBatis一词来源于“internet”和“abatis”的组合，是一个基于Jav
 
 MyBatis下载地址：https://github.com/mybatis/mybatis-3
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
-![img_1.png](img_1.png)
+![img_1.png](picture/img_1.png)
 
 ### 4. 和其它持久化层技术对比
 
@@ -1324,11 +1324,11 @@ c> 创建逆向工程的配置文件
 
 d> 执行MBG插件的generate目标
 
-![img_2.png](img_2.png)
+![img_2.png](picture/img_2.png)
 
 效果：
 
-![img_3.png](img_3.png)
+![img_3.png](picture/img_3.png)
 
 ### 2 QBC查询
 
@@ -1358,37 +1358,84 @@ public class MGBTest {
 
 [相关模块MyBatis_MBG_Standard](MyBatis_MBG_Standard/pom.xml)
 
+## 十二、分页插件
 
+### 1. 插件使用步骤
 
+a> 添加依赖
 
+```xml
+<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+<dependency>
+  <groupId>com.github.pagehelper</groupId>
+  <artifactId>pagehelper</artifactId>
+  <version>5.2.0</version>
+</dependency>
+```
 
+b> 配置分页插件
 
+在MyBatis的核心配置文件中配置插件
 
+```xml
+<plugins>
+  <!--设置分页插件-->
+  <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+</plugins>
+```
 
+### 2. 分页插件的使用
 
+a> 在查询功能之前使用PageHelper.startPage(int pageNum, int pageSize)开启分页功能
 
+> pageNum：当前页的页码
+> 
+> pageSize：每页显示的条数
 
+b> 在查询获取list集合之后，使用PageInfo<T> pageInfo = new PageInfo<>(List<T> list, int navigatePages)获取分页相关数据
 
+> list：分页之后的数据
+> 
+> navigatePages：导航分页的页码数
 
+c> 分页相关数据
 
+> PageInfo{
+> 
+>     pageNum=8, pageSize=4, size=2, startRow=29, endRow=30, total=30, pages=8,
+> 
+>     list=Page{count=true, pageNum=8, pageSize=4, startRow=28, endRow=32, total=30, pages=8, reasonable=false, pageSizeZero=false},
+> 
+>     prePage=7, nextPage=0, isFirstPage=false, isLastPage=true, hasPreviousPage=true, hasNextPage=false, navigatePages=5, navigateFirstPage4, navigateLastPage8, navigatepageNums=[4, 5, 6, 7, 8]
+> 
+> }
+> 
+> 常用数据：
+> 
+> pageNum：当前页的页码
+> 
+> pageSize：每页显示的条数
+> 
+> size：当前页显示的真实条数
+> 
+> total：总记录数
+> 
+> pages：总页数
+> 
+> prePage：上一页的页码
+> 
+> nextPage：下一页的页码
+> 
+> isFirstPage/isLastPage：是否为第一页/最后一页
+> 
+> hasPreviousPage/hasNextPage：是否存在上一页/下一页
+> 
+> navigatePages：导航分页的页码数
+> 
+> navigatepageNums：导航分页的页码，[1,2,3,4,5]
 
+[相关文件pom.xml](MyBatis_MBG_Standard/pom.xml)
 
+[相关文件PageHelperTest.java](MyBatis_MBG_Standard/src/main/resources/mybatis-config.xml)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+[相关文件mybatis-config.xml](MyBatis_MBG_Standard/src/test/java/com/toxicant123/mybatis/test/PageHelperTest.java)
