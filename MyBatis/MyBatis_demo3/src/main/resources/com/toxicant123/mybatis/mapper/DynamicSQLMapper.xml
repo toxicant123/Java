@@ -5,7 +5,7 @@
 <mapper namespace="com.toxicant123.mybatis.mapper.DynamicSQLMapper">
     <!--    List<Emp> getEmpByCondition(Emp emp);-->
     <select id="getEmpByCondition" resultType="emp">
-        select * from t_emp
+        select <include refid="empColumns"/> from t_emp
         <trim prefix="where" suffixOverrides="and|or">
             <if test="empName != null and empName != ''">
                 emp_name = #{empName} and
@@ -56,5 +56,57 @@
             and email = #{email}
         </if>
     </select>
+
+    <!--    List<Emp> getEmpByChoose(Emp emp);-->
+    <select id="getEmpByChoose" resultType="emp">
+        select * from t_emp
+        <where>
+            <choose>
+                <when test="empName != null and empName != ''">
+                    emp_name = #{empName}
+                </when>
+                <when test="age != null and age != ''">
+                    age = #{age}
+                </when>
+                <when test="sex != null and sex != ''">
+                    sex = #{sex}
+                </when>
+                <when test="email != null and email != ''">
+                    email = #{email}
+                </when>
+                <otherwise>
+                    did = 1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--    int deleteMoreByArray(Integer[] eids);-->
+    <delete id="deleteMoreByArray">
+        delete from t_emp where eid in
+        <foreach collection="eids" item="eid" separator="," open="(" close=")">
+            #{eid}
+        </foreach>
+<!--        (<foreach collection="eids" item="eid" separator=",">-->
+<!--        #{eid}-->
+<!--    </foreach>)-->
+<!--        <foreach collection="eids" separator="or">-->
+<!--            eid = #{eid}-->
+<!--        </foreach>-->
+    </delete>
+
+<!--    int insertMoreByList(List<Emp> emps);-->
+    <insert id="insertMoreByList">
+        insert into t_emp values
+        <foreach collection="emps" item="emp" separator=",">
+            (
+                null,#{emp.empName},#{emp.age},#{emp.sex},#{emp.email},null
+            )
+        </foreach>
+    </insert>
+
+    <sql id="empColumns">
+        eid,emp_name,age,sex,email
+    </sql>
 
 </mapper>
