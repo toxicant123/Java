@@ -1,12 +1,14 @@
 package com.toxicant123.mybatis.pojo;
 
+import java.io.Serializable;
+
 /**
  * @author toxicant123
  * @version 1.0
  * @Description
  * @create 2022-03-15 9:45
  */
-public class Emp {
+public class Emp implements Serializable {
     private Integer eid;
 
     private String empName;
