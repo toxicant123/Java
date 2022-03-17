@@ -310,15 +310,73 @@ public void testDeleteByMap(){
 }
 ```
 
+### 4. 修改
 
+```java
+@Test
+public void testUpdateById(){
+    User user = new User(4L, "admin", 22, null);
+    //UPDATE user SET name=?, age=? WHERE id=?
+    int result = userMapper.updateById(user);
+    System.out.println("受影响行数："+result);
+}
+```
 
+### 5. 查询
 
+#### a> 根据id查询用户信息
 
+```java
+@Test
+public void testSelectById(){
+    //根据id查询用户信息
+    //SELECT id,name,age,email FROM user WHERE id=?
+    User user = userMapper.selectById(4L);
+    System.out.println(user);
+}
+```
 
+#### b> 根据多个id查询多个用户信息
 
+```java
+@Test
+public void testSelectBatchIds(){
+    //根据多个id查询多个用户信息
+    //SELECT id,name,age,email FROM user WHERE id IN ( ? , ? )
+    List<Long> idList = Arrays.asList(4L, 5L);
+    List<User> list = userMapper.selectBatchIds(idList);
+    list.forEach(System.out::println);
+}
+```
 
+### c> 通过map条件查询用户信息
 
+```java
+@Test
+public void testSelectByMap(){
+    //通过map条件查询用户信息
+    //SELECT id,name,age,email FROM user WHERE name = ? AND age = ?
+    Map<String, Object> map = new HashMap<>();
+    map.put("age", 22);
+    map.put("name", "admin");
+    List<User> list = userMapper.selectByMap(map);
+    list.forEach(System.out::println);
+}
+```
 
+#### d> 查询所有数据
+
+```java
+@Test
+public void testSelectList(){
+    //查询所有用户信息
+    //SELECT id,name,age,email FROM user
+    List<User> list = userMapper.selectList(null);
+    list.forEach(System.out::println);
+}
+```
+
+> 通过观察BaseMapper中的方法，大多方法中都有Wrapper类型的形参，此为条件构造器，可针对于SQL语句设置不同的条件，若没有条件，则可以为该形参赋值null，即查询（删除/修改）所有数据
 
 
 
