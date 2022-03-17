@@ -252,6 +252,77 @@ MyBatis-Plus中的基本CRUD在内置的BaseMapper中都已得到了实现，可
 
 ### 2. 插入
 
+```java
+@Test
+public void testInsert(){
+    User user = new User(null, "张三", 23, "zhangsan@atguigu.com");
+    //INSERT INTO user ( id, name, age, email ) VALUES ( ?, ?, ?, ? )
+    int result = userMapper.insert(user);
+    System.out.println("受影响行数："+result);
+    //1475754982694199298
+    System.out.println("id自动获取："+user.getId());
+}
+```
+
+> 最终执行的结果，所获取的id为1475754982694199298
+> 
+> 这是因为MyBatis-Plus在实现插入数据时，会默认基于雪花算法的策略生成id
+
+### 3. 删除
+
+#### a> 通过id删除记录
+
+```java
+@Test
+public void testDeleteById(){
+    //通过id删除用户信息
+    //DELETE FROM user WHERE id=?
+    int result = userMapper.deleteById(1475754982694199298L);
+    System.out.println("受影响行数："+result);
+}
+```
+
+#### b> 通过id批量删除记录
+
+```java
+@Test
+public void testDeleteBatchIds(){
+    //通过多个id批量删除
+    //DELETE FROM user WHERE id IN ( ? , ? , ? )
+    List<Long> idList = Arrays.asList(1L, 2L, 3L);
+    int result = userMapper.deleteBatchIds(idList);
+    System.out.println("受影响行数："+result);
+}
+```
+
+#### c> 通过map条件删除记录
+
+```java
+@Test
+public void testDeleteByMap(){
+    //根据map集合中所设置的条件删除记录
+    //DELETE FROM user WHERE name = ? AND age = ?
+    Map<String, Object> map = new HashMap<>();
+    map.put("age", 23);
+    map.put("name", "张三");
+    int result = userMapper.deleteByMap(map);
+    System.out.println("受影响行数："+result);
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
