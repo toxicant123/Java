@@ -130,6 +130,8 @@ VALUES (1, 'Jone', 18, 'test1@baomidou.com'),
 </dependencies>
 ```
 
+[相关文件pom.xml](mybatisplus/pom.xml)
+
 #### c> idea中安装lombok插件
 
 ### 4. 编写代码
@@ -147,6 +149,8 @@ spring:
     username: root
     password: 123456
 ```
+
+[相关文件application.yaml](mybatisplus/src/main/resources/application.yaml)
 
 注意：
 
@@ -178,6 +182,8 @@ public class MybatisplusApplication {
 }
 ```
 
+[相关文件MyBatisplusApplication](mybatisplus/src/main/java/com/toxicant123/mybatisplus/MybatisplusApplication.java)
+
 #### c> 添加实体
 
 ```java
@@ -189,6 +195,8 @@ public class User {
   private String email;
 }
 ```
+
+[相关文件User](mybatisplus/src/main/java/com/toxicant123/mybatisplus/pojo/User.java)
 
 User类编译之后的结果：
 
@@ -202,6 +210,8 @@ User类编译之后的结果：
 public interface UserMapper extends BaseMapper<User> {
 }
 ```
+
+[相关文件UserMapper.xml](mybatisplus/src/main/java/com/toxicant123/mybatisplus/mapper/UserMapper.java)
 
 #### e> 测试
 
@@ -218,6 +228,8 @@ public class MybatisPlusTest {
   }
 }
 ```
+
+[相关文件MybatisplusApplicationTest](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MybatisplusApplicationTests.java)
 
 结果：
 
@@ -239,6 +251,8 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 ```
+
+[相关文件application.yaml](mybatisplus/src/main/resources/application.yaml)
 
 ![img_9.png](img_9.png)
 
@@ -263,6 +277,7 @@ public void testInsert(){
     System.out.println("id自动获取："+user.getId());
 }
 ```
+[相关文件MybatisplusApplicationTest](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MybatisplusApplicationTests.java)
 
 > 最终执行的结果，所获取的id为1475754982694199298
 > 
@@ -309,6 +324,8 @@ public void testDeleteByMap(){
     System.out.println("受影响行数："+result);
 }
 ```
+
+[相关文件MybatisplusApplicationTest](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MybatisplusApplicationTests.java)
 
 ### 4. 修改
 
@@ -378,10 +395,25 @@ public void testSelectList(){
 
 > 通过观察BaseMapper中的方法，大多方法中都有Wrapper类型的形参，此为条件构造器，可针对于SQL语句设置不同的条件，若没有条件，则可以为该形参赋值null，即查询（删除/修改）所有数据
 
+[相关文件MybatisplusApplicationTest](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MybatisplusApplicationTests.java)
 
+### 6. 自定义mapper文件
 
+mybatis设定的mapper默认存放位置：
 
+![img_10.png](img_10.png)
 
+如下创建：
+
+![img_11.png](img_11.png)
+
+[相关文件UserMapper.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/mapper/UserMapper.java)
+
+[相关文件UserMapper.xml](mybatisplus/src/main/resources/mapper/UserMapper.xml)
+
+[相关文件MybatisplusApplicationTest](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MybatisplusApplicationTests.java)
+
+### 7. 通用Service
 
 
 
