@@ -2,7 +2,10 @@ package com.toxicant123.mybatisplus.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.toxicant123.mybatisplus.pojo.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Map;
 
 /**
  * @author toxicant123
@@ -12,4 +15,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserMapper extends BaseMapper<User> {
+
+    /**
+     * 根据id查询用户信息为map集合
+     * @param id
+     * @return
+     */
+    Map<String,Object> selectMapById(@Param("id") Long id);
+
 }

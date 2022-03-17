@@ -164,45 +164,93 @@ spring:
   否则运行测试用例报告如下错误：  
   java.sql.SQLException: The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is unrecognized or represents more
 
+#### b> 启动类
 
+> 在Spring Boot启动类中添加@MapperScan注解，扫描mapper包
 
+```java
+@SpringBootApplication
+@MapperScan("com.atguigu.mybatisplus.mapper")
+public class MybatisplusApplication {
+  public static void main(String[] args) {
+    SpringApplication.run(MybatisplusApplication.class, args);
+  }
+}
+```
 
+#### c> 添加实体
 
+```java
+@Data //lombok注解
+public class User {
+  private Long id;
+  private String name;
+  private Integer age;
+  private String email;
+}
+```
 
+User类编译之后的结果：
 
+![img_7.png](img_7.png)
 
+#### d> 添加mapper
 
+> BaseMapper是MyBatis-Plus提供的模板mapper，其中包含了基本的CRUD方法，泛型为操作的实体类型
 
+```java
+public interface UserMapper extends BaseMapper<User> {
+}
+```
 
+#### e> 测试
 
+```java
+@SpringBootTest
+public class MybatisPlusTest {
+  @Autowired
+  private UserMapper userMapper;
 
+  @Test
+  public void testSelectList() {
+//selectList()根据MP内置的条件构造器查询一个list集合，null表示没有条件，即查询所有
+    userMapper.selectList(null).forEach(System.out::println);
+  }
+}
+```
 
+结果：
 
+![img_8.png](img_8.png)
 
+注意：
 
+> IDEA在 userMapper 处报错，因为找不到注入的对象，因为类是动态创建的，但是程序可以正确的执行。
+> 
+> 为了避免报错，可以在mapper接口上添加 @Repository 注解
 
+#### f> 添加日志
 
+在application.yml中配置日志输出
 
+```yaml
+# 配置MyBatis日志
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+```
 
+![img_9.png](img_9.png)
 
+## 三、基本CRUD
 
+### 1. BaseMapper
 
+MyBatis-Plus中的基本CRUD在内置的BaseMapper中都已得到了实现，可以直接使用，接口如下：
 
+[相关文件BaseMapper.java](resource/BaseMapper.java)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### 2. 插入
 
 
 

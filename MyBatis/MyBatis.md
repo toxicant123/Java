@@ -122,7 +122,7 @@ MyBatis版本：MyBatis 3.5.7
 
 ### 4. 创建mapper接口
 
-> MyBatis中的mapper接口相当于以前的dao。但是区别在于，mapper仅仅是接口，我们不需要提供实现类。
+> MyBatis中的mapper接口相当于以前的dao。但是区别在于，mapper仅仅是接口，不需要提供实现类。
 
 ```java
 public interface UserMapper {
@@ -210,7 +210,7 @@ System.out.println("结果："+result);
 
 > * SqlSession：代表Java程序和数据库之间的会话。（HttpSession是Java程序和浏览器之间的会话）
 > * SqlSessionFactory：是“生产”SqlSession的“工厂”。
-> * 工厂模式：如果创建某一个对象，使用的过程基本固定，那么我们就可以把创建这个对象的相关代码封装到一个“工厂类”中，以后都使用这个工厂类来“生产”我们需要的对象。
+> * 工厂模式：如果创建某一个对象，使用的过程基本固定，那么就可以把创建这个对象的相关代码封装到一个“工厂类”中，以后都使用这个工厂类来“生产”需要的对象。
 
 ### 7. 加入log4j日志功能
 
@@ -1212,7 +1212,7 @@ d> 设置二级缓存的类型
 
 e> 加入logback日志
 
-存在SLF4J时，作为简易日志的log4j将失效，此时我们需要借助SLF4J的具体实现logback来打印日志。
+存在SLF4J时，作为简易日志的log4j将失效，此时需要借助SLF4J的具体实现logback来打印日志。
 
 创建logback的配置文件logback.xml
 
