@@ -415,6 +415,95 @@ mybatis设定的mapper默认存放位置：
 
 ### 7. 通用Service
 
+说明：
+
+* 通用 Service CRUD 封装IService接口，进一步封装 CRUD 采用`get 查询单行` `remove 删除` `list 查询集合` `page 分页` 前缀命名方式区分`Mapper`层避免混淆，
+* 泛型`T`为任意实体对象
+* 建议如果存在自定义通用 Service 方法的可能，请创建自己的`IBaseService`继承`Mybatis-Plus`提供的基类
+
+#### a> IService
+
+MyBatis-Plus中有一个接口 IService和其实现类 ServiceImpl，封装了常见的业务层逻辑
+
+详情查看源码IService和ServiceImpl
+
+#### b> 创建Service接口和实现类
+
+```java
+/**
+* UserService继承IService模板提供的基础功能
+*/
+public interface UserService extends IService<User> {
+}
+```
+
+[相关文件UserService.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/service/UserService.java)
+
+```java
+/**
+* ServiceImpl实现了IService，提供了IService中基础功能的实现
+* 若ServiceImpl无法满足业务需求，则可以使用自定的UserService定义方法，并在实现类中实现
+*/
+@Service
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements
+UserService {
+}
+```
+
+[相关文件UserServiceImpl.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/service/impl/UserServiceImpl.java)
+
+
+#### c> 测试查询记录数
+
+```java
+@Autowired
+private UserService userService;
+
+@Test
+public void testGetCount(){
+    long count = userService.count();
+    System.out.println("总记录数：" + count);
+}
+```
+
+#### d> 测试批量插入
+
+```java
+@Test
+public void testSaveBatch(){
+    // SQL长度有限制，海量数据插入单条SQL无法实行，
+    // 因此MP将批量插入放在了通用Service中实现，而不是通用Mapper
+    ArrayList<User> users = new ArrayList<>();
+    for (int i = 0; i < 5; i++) {
+    User user = new User();
+    user.setName("ybc" + i);
+    user.setAge(20 + i);
+    users.add(user);
+}
+    //SQL:INSERT INTO t_user ( username, age ) VALUES ( ?, ? )
+    userService.saveBatch(users);
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
