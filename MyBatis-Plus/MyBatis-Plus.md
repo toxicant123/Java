@@ -485,6 +485,8 @@ public void testSaveBatch(){
 }
 ```
 
+[相关文件MyBatisServiceTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusServiceTest.java)
+
 ## 四、常用注解
 
 ### 1. @TableName
@@ -525,6 +527,8 @@ mybatis-plus:
     # 配置MyBatis-Plus操作表的默认前缀
       table-prefix: t_
 ```
+
+[相关文件User.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/pojo/User.java)
 
 ### 2. @TableId
 
@@ -646,6 +650,8 @@ mybatis-plus:
 
 2. 优点：整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞，并且效率较高。
 
+[相关文件User.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/pojo/User.java)
+
 ### 3. @TableField
 
 经过以上的测试，可以发现，MyBatis-Plus在执行SQL语句时，要保证实体类中的属性名和表中的字段名一致
@@ -671,6 +677,8 @@ mybatis-plus:
 此时需要在实体类属性上使用@TableField("username")设置属性所对应的字段名
 
 ![img_20.png](img_20.png)
+
+[相关文件User.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/pojo/User.java)
 
 ### 4. @TableLogic
 
@@ -853,6 +861,8 @@ public class testWrapper{
 }
 ```
 
+[相关文件MyBatisWrapperTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusWrapperTest.java)
+
 ### 3. UpdateWrapper
 
 ```java
@@ -880,6 +890,8 @@ public class testWrapper {
   }
 }
 ```
+
+[相关文件MyBatisWrapperTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusWrapperTest.java)
 
 ### 4. condition
 
@@ -941,6 +953,8 @@ public class testWrapper {
 }
 ```
 
+[相关文件MyBatisWrapperTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusWrapperTest.java)
+
 ### 5. LambdaQueryWrapper
 
 ```java
@@ -964,6 +978,8 @@ public class testWrapper{
 }
 ```
 
+[相关文件MyBatisWrapperTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusWrapperTest.java)
+
 ### 6. LambdaUpdateWrapper
 
 ```java
@@ -985,7 +1001,7 @@ public class testWrapper{
 }
 ```
 
-相关文件MyBatisPlusWrapperTest.java
+[相关文件MyBatisWrapperTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusWrapperTest.java)
 
 ## 六、插件
 
@@ -1008,6 +1024,8 @@ public class MyBatisPlusConfig {
   }
 }
 ```
+
+[相关文件MyBatisPlusConfig.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/config/MyBatisPlusConfig.java)
 
 #### b> 测试
 
@@ -1036,22 +1054,283 @@ public class testWrapper{
 
 User(id=1, name=Jone, age=18, email=test1@baomidou.com, isDeleted=0) User(id=2, name=Jack, age=20, email=test2@baomidou.com, isDeleted=0) User(id=3, name=Tom, age=28, email=test3@baomidou.com, isDeleted=0) User(id=4, name=Sandy, age=21, email=test4@baomidou.com, isDeleted=0) User(id=5, name=Billie, age=24, email=test5@baomidou.com, isDeleted=0) 当前页：1 每页显示的条数：5 总记录数：17 总页数：4 是否有上一页：false 是否有下一页：true
 
+[相关文件MyBatisPlusPluginTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusPluginTest.java)
+
+### 2. xml自定义分页
+
+#### a> UserMapper中定义接口方法
+
+```java
+/**
+* 根据年龄查询用户列表，分页显示
+* @param page 分页对象,xml中可以从里面进行取值,传递参数 Page 即自动分页,必须放在第一位
+* @param age 年龄
+* @return
+*/
+Page<User> selectPageVo(@Param("page") Page<User> page, @Param("age") Integer age);
+```
+
+[相关文件ProductMapper.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/mapper/ProductMapper.java)
+
+#### b> UserMapper.xml中编写SQL
+
+```xml
+<!--SQL片段，记录基础字段-->
+<sql id="BaseColumns">id,username,age,email</sql>
+        <!--IPage<User> selectPageVo(Page<User> page, Integer age);-->
+<select id="selectPageVo" resultType="User">
+SELECT <include refid="BaseColumns"></include> FROM t_user WHERE age > #
+{age}
+</select>
+```
+
+[相关文件UserMapper.xml](mybatisplus/src/main/resources/mapper/UserMapper.xml)
+
+#### c> 测试
+
+```java
+@SpringBootTest
+public class testWrapper{
+  @Test
+  public void testSelectPageVo(){
+//设置分页参数
+    Page<User> page = new Page<>(1, 5);
+    userMapper.selectPageVo(page, 20);
+//获取分页数据
+    List<User> list = page.getRecords();
+    list.forEach(System.out::println);
+    System.out.println("当前页："+page.getCurrent());
+    System.out.println("每页显示的条数："+page.getSize());
+    System.out.println("总记录数："+page.getTotal());
+    System.out.println("总页数："+page.getPages());
+    System.out.println("是否有上一页："+page.hasPrevious());
+    System.out.println("是否有下一页："+page.hasNext());
+  }
+}
+```
+
+结果：
+
+User(id=3, name=Tom, age=28, email=test3@baomidou.com, isDeleted=null) User(id=4, name=Sandy, age=21, email=test4@baomidou.com, isDeleted=null) User(id=5, name=Billie, age=24, email=test5@baomidou.com, isDeleted=null) User(id=8, name=ybc1, age=21, email=null, isDeleted=null) User(id=9, name=ybc2, age=22, email=null, isDeleted=null) 当前页：1 每页显示的条数：5 总记录数：12 总页数：3 是否有上一页：false 是否有下一页：true
+
+[相关文件MyBatisPlusPluginTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusPluginTest.java)
 
 
+### 3. 乐观锁
 
+#### a> 场景
 
+一件商品，成本价是80元，售价是100元。老板先是通知小李，说你去把商品价格增加50元。小李正在玩游戏，耽搁了一个小时。正好一个小时后，老板觉得商品价格增加到150元，价格太高，可能会影响销量。又通知小王，你把商品价格降低30元。
 
+此时，小李和小王同时操作商品后台系统。小李操作的时候，系统先取出商品价格100元；小王也在操作，取出的商品价格也是100元。小李将价格加了50元，并将100+50=150元存入了数据库；小王将商品减了30元，并将100-30=70元存入了数据库。是的，如果没有锁，小李的操作就完全被小王的覆盖了。
 
+现在商品价格是70元，比成本价低10元。几分钟后，这个商品很快出售了1千多件商品，老板亏1万多。
 
+#### b> 乐观锁与悲观锁
 
+上面的故事，如果是乐观锁，小王保存价格前，会检查下价格是否被人修改过了。如果被修改过了，则重新取出的被修改后的价格，150元，这样他会将120元存入数据库。
 
+如果是悲观锁，小李取出数据后，小王只能等小李操作完之后，才能对价格进行操作，也会保证最终的价格是120元。
 
+#### c> 模拟修改冲突
 
+数据库中增加商品表
 
+```sql
+CREATE TABLE t_product(
+  id      BIGINT(20)  NOT NULL COMMENT '主键ID',
+  NAME    VARCHAR(30) NULL DEFAULT NULL COMMENT '商品名称',
+  price   INT(11)          DEFAULT 0 COMMENT '价格',
+  VERSION INT(11)          DEFAULT 0 COMMENT '乐观锁版本号',
+  PRIMARY KEY (id)
+);
+```
 
+添加数据
 
+```sql
+INSERT INTO t_product (id, NAME, price) VALUES (1, '外星人笔记本', 100);
+```
 
+添加实体
 
+```java
+package com.atguigu.mybatisplus.entity;
+
+import lombok.Data;
+
+@Data
+public class Product {
+  private Long id;
+  private String name;
+  private Integer price;
+  private Integer version;
+}
+```
+
+[相关文件Product.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/pojo/Product.java)
+
+添加mapper
+
+```java
+public interface ProductMapper extends BaseMapper<Product> {
+}
+```
+
+[相关文件ProductMapper.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/mapper/ProductMapper.java)
+
+测试
+
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void testConcurrentUpdate() {
+//1、小李
+    Product p1 = productMapper.selectById(1L);
+    System.out.println("小李取出的价格：" + p1.getPrice());
+//2、小王
+    Product p2 = productMapper.selectById(1L);
+    System.out.println("小王取出的价格：" + p2.getPrice());
+    //3、小李将价格加了50元，存入了数据库
+    p1.setPrice(p1.getPrice() + 50);
+    int result1 = productMapper.updateById(p1);
+    System.out.println("小李修改结果：" + result1);
+//4、小王将商品减了30元，存入了数据库
+    p2.setPrice(p2.getPrice() - 30);
+    int result2 = productMapper.updateById(p2);
+    System.out.println("小王修改结果：" + result2);
+//最后的结果
+    Product p3 = productMapper.selectById(1L);
+//价格覆盖，最后的结果：70
+    System.out.println("最后的结果：" + p3.getPrice());
+  }
+}
+```
+
+[相关文件MyBatisPlusPluginTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusPluginTest.java)
+
+#### d> 乐观锁实现流程
+
+数据库中添加version字段
+
+取出记录时，获取当前version
+
+```sql
+SELECT id,`name`,price,`version` FROM product WHERE id = 1
+```
+
+更新时，version + 1，如果where语句中的version版本不对，则更新失败
+
+```sql
+UPDATE product SET price=price+50, `version`=`version` + 1 WHERE id=1 AND `version`=1
+```
+
+#### e> Mybatis-Plus实现乐观锁
+
+修改实体类
+
+```java
+package com.atguigu.mybatisplus.entity;
+
+import com.baomidou.mybatisplus.annotation.Version;
+import lombok.Data;
+
+@Data
+public class Product {
+  private Long id;
+  private String name;
+  private Integer price;
+  @Version
+  private Integer version;
+}
+```
+
+[相关文件Product.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/pojo/Product.java)
+
+添加乐观锁插件配置
+
+```java
+@Configuration
+//用于扫描mapper接口所在的包
+@MapperScan("com.toxicant123.mybatisplus.mapper")
+public class MyBatisPlusConfig {
+  @Bean
+  public MybatisPlusInterceptor mybatisPlusInterceptor(){
+    MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
+    //添加分页插件
+    mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+    //添加乐观锁插件
+    mybatisPlusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+    return mybatisPlusInterceptor;
+  }
+}
+```
+
+[相关文件MyBatisPlusConfig.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/config/MyBatisPlusConfig.java)
+
+测试修改冲突
+
+小李查询商品信息：
+
+SELECT id,name,price,version FROM t_product WHERE id=?
+
+小王查询商品信息：
+
+SELECT id,name,price,version FROM t_product WHERE id=?
+
+小李修改商品价格，自动将version+1
+
+UPDATE t_product SET name=?, price=?, version=? WHERE id=? AND version=?
+
+Parameters: 外星人笔记本(String), 150(Integer), 1(Integer), 1(Long), 0(Integer)
+
+小王修改商品价格，此时version已更新，条件不成立，修改失败
+
+UPDATE t_product SET name=?, price=?, version=? WHERE id=? AND version=?
+
+Parameters: 外星人笔记本(String), 70(Integer), 1(Integer), 1(Long), 0(Integer)
+
+最终，小王修改失败，查询价格：150
+
+SELECT id,name,price,version FROM t_product WHERE id=?
+
+优化流程
+
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void testConcurrentVersionUpdate() {
+//小李取数据
+    Product p1 = productMapper.selectById(1L);
+//小王取数据
+    Product p2 = productMapper.selectById(1L);
+//小李修改 + 50
+    p1.setPrice(p1.getPrice() + 50);
+    int result1 = productMapper.updateById(p1);
+    System.out.println("小李修改的结果：" + result1);
+//小王修改 - 30
+    p2.setPrice(p2.getPrice() - 30);
+    int result2 = productMapper.updateById(p2);
+    System.out.println("小王修改的结果：" + result2);
+    if (result2 == 0) {
+//失败重试，重新获取version并更新
+      p2 = productMapper.selectById(1L);
+      p2.setPrice(p2.getPrice() - 30);
+      result2 = productMapper.updateById(p2);
+    }
+    System.out.println("小王修改重试的结果：" + result2);
+//老板看价格
+    Product p3 = productMapper.selectById(1L);
+    System.out.println("老板看价格：" + p3.getPrice());
+  }
+}
+```
+
+[相关文件MyBatisPlusPluginTest.java](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MyBatisPlusPluginTest.java)
+
+## 七、通用枚举
 
 
 
