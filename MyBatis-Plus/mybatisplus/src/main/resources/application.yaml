@@ -10,4 +10,4 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+  type-aliases-package: com.toxicant123.mybatisplus.pojo

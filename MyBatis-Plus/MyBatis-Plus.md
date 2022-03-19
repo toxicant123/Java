@@ -989,6 +989,84 @@ public class testWrapper{
 
 ## 六、插件
 
+### 1. 分页插件
+
+> MyBatis Plus自带分页插件，只要简单的配置即可实现分页功能
+
+#### a> 添加配置类
+
+```java
+@Configuration
+//用于扫描mapper接口所在的包
+@MapperScan("com.toxicant123.mybatisplus.mapper")
+public class MyBatisPlusConfig {
+  @Bean
+  public MybatisPlusInterceptor mybatisPlusInterceptor() {
+    MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+    interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+    return interceptor;
+  }
+}
+```
+
+#### b> 测试
+
+```java
+@SpringBootTest
+public class testWrapper{
+  @Test
+  public void testPage(){
+//设置分页参数
+    Page<User> page = new Page<>(1, 5);
+    userMapper.selectPage(page, null);
+//获取分页数据
+    List<User> list = page.getRecords();
+    list.forEach(System.out::println);
+    System.out.println("当前页："+page.getCurrent());
+    System.out.println("每页显示的条数："+page.getSize());
+    System.out.println("总记录数："+page.getTotal());
+    System.out.println("总页数："+page.getPages());
+    System.out.println("是否有上一页："+page.hasPrevious());
+    System.out.println("是否有下一页："+page.hasNext());
+  }
+}
+```
+
+测试结果：
+
+User(id=1, name=Jone, age=18, email=test1@baomidou.com, isDeleted=0) User(id=2, name=Jack, age=20, email=test2@baomidou.com, isDeleted=0) User(id=3, name=Tom, age=28, email=test3@baomidou.com, isDeleted=0) User(id=4, name=Sandy, age=21, email=test4@baomidou.com, isDeleted=0) User(id=5, name=Billie, age=24, email=test5@baomidou.com, isDeleted=0) 当前页：1 每页显示的条数：5 总记录数：17 总页数：4 是否有上一页：false 是否有下一页：true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
