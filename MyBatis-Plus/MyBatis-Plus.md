@@ -602,7 +602,7 @@ mybatis-plus:
 
 垂直分表适合将表中某些不常用且占了大量空间的列拆分出去。
 
-例如，前面示意图中的 nickname 和 description 字段，假设我们是一个婚恋网站，用户在筛选其他用户的时候，主要是用 age 和 sex 两个字段进行查询，而 nickname 和 description 两个字段主要用于展示，一般不会在业务查询中用到。description 本身又比较长，因此我们可以将这两个字段独立到另外一张表中，这样在查询 age 和 sex 时，就能带来一定的性能提升。
+例如，前面示意图中的 nickname 和 description 字段，假设一个婚恋网站，用户在筛选其他用户的时候，主要是用 age 和 sex 两个字段进行查询，而 nickname 和 description 两个字段主要用于展示，一般不会在业务查询中用到。description 本身又比较长，因此可以将这两个字段独立到另外一张表中，这样在查询 age 和 sex 时，就能带来一定的性能提升。
 
 * 水平分表
 
@@ -621,7 +621,7 @@ mybatis-plus:
 
 > 取模
 
-1. 同样以用户 ID 为例，假如我们一开始就规划了 10 个数据库表，可以简单地用 user_id % 10 的值来表示数据所属的数据库表编号，ID 为 985 的用户放到编号为 5 的子表中，ID 为 10086 的用户放到编号为 6 的子表中。
+1. 同样以用户 ID 为例，假如一开始就规划了 10 个数据库表，可以简单地用 user_id % 10 的值来表示数据所属的数据库表编号，ID 为 985 的用户放到编号为 5 的子表中，ID 为 10086 的用户放到编号为 6 的子表中。
 2. 复杂点：初始表数量的确定。表数量太多维护比较麻烦，表数量太少又可能导致单表性能存在问题。
 3. 优点：表分布比较均匀。
 4. 缺点：扩充新的表很麻烦，所有数据都要重分布。
@@ -648,7 +648,7 @@ mybatis-plus:
 
 ### 3. @TableField
 
-经过以上的测试，我们可以发现，MyBatis-Plus在执行SQL语句时，要保证实体类中的属性名和表中的字段名一致
+经过以上的测试，可以发现，MyBatis-Plus在执行SQL语句时，要保证实体类中的属性名和表中的字段名一致
 
 如果实体类中的属性名和字段名不一致的情况，会出现什么问题呢？
 
@@ -700,64 +700,294 @@ UPDATE t_user SET is_deleted=1 WHERE id=? AND is_deleted=0
 
 SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE is_deleted=0
 
+[相关文件User.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/pojo/User.java)
+
 ## 五、条件构造器和常用接口
 
+### 1. wapper介绍
 
+![img_23.png](img_23.png)
 
+* Wrapper ： 条件构造抽象类，最顶端父类
+  - AbstractWrapper ： 用于查询条件封装，生成 sql 的 where 条件
+    * QueryWrapper ： 查询条件封装
+    * UpdateWrapper ： Update 条件封装
+    * AbstractLambdaWrapper ： 使用Lambda 语法
+      - LambdaQueryWrapper ：用于Lambda语法使用的查询Wrapper
+      - LambdaUpdateWrapper ： Lambda 更新封装Wrapper
 
+### 2. QueryWrapper
 
+#### a> 例1：组装查询条件
 
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void test01() {
+//查询用户名包含a，年龄在20到30之间，并且邮箱不为null的用户信息
+//SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE is_deleted=0AND(username LIKE?AND age BETWEEN?AND?AND email IS NOT NULL)
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    queryWrapper.like("username", "a")
+            .between("age", 20, 30)
+            .isNotNull("email");
+    List<User> list = userMapper.selectList(queryWrapper);
+    list.forEach(System.out::println);
+  }
+}
+```
 
+#### b> 例2：组装排序条件
 
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void test02() {
+//按年龄降序查询用户，如果年龄相同则按id升序排列
+//SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE is_deleted=0 ORDER BY age DESC,id ASC
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    queryWrapper
+            .orderByDesc("age")
+            .orderByAsc("id");
+    List<User> users = userMapper.selectList(queryWrapper);
+    users.forEach(System.out::println);
+  }
+}
+```
 
+#### c> 例3：组装删除条件
 
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void test03() {
+//删除email为空的用户
+//DELETE FROM t_user WHERE (email IS NULL)
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    queryWrapper.isNull("email");
+//条件构造器也可以构建删除语句的条件
+    int result = userMapper.delete(queryWrapper);
+    System.out.println("受影响的行数：" + result);
+  }
+}
+```
 
+#### d> 例4：条件的优先级
 
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void test04() {
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+//将（年龄大于20并且用户名中包含有a）或邮箱为null的用户信息修改
+//UPDATE t_user SET age=?, email=? WHERE (username LIKE ? AND age > ? OR email IS NULL)
+    queryWrapper
+            .like("username", "a")
+            .gt("age", 20)
+            .or()
+            .isNull("email");
+    User user = new User();
+    user.setAge(18);
+    user.setEmail("user@atguigu.com");
+    int result = userMapper.update(user, queryWrapper);
+    System.out.println("受影响的行数：" + result);
+  }
+}
+```
 
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void test04() {
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+//将用户名中包含有a并且（年龄大于20或邮箱为null）的用户信息修改
+//UPDATE t_user SET age=?, email=? WHERE (username LIKE ? AND (age > ? OR email IS NULL))
+//lambda表达式内的逻辑优先运算
+    queryWrapperlike("username", "a")
+            .and(i -> i.gt("age", 20).or().isNull("email"));
+    User user = new User();
+    user.setAge(18);
+    user.setEmail("user@atguigu.com");
+    int result = userMapper.update(user, queryWrapper);
+    System.out.println("受影响的行数：" + result);
+  }
+}
+```
 
+#### e> 例5：组装select子句
 
+```java
+@SpringBootTest
+public class testWrapper{
+  @Test
+  public void test05() {
+//查询用户信息的username和age字段
+//SELECT username,age FROM t_user
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    queryWrapper.select("username", "age");
+//selectMaps()返回Map集合列表，通常配合select()使用，避免User对象中没有被查询到的列值为null
+    List<Map<String, Object>> maps = userMapper.selectMaps(queryWrapper);
+    maps.forEach(System.out::println);
+  }
+}
+```
 
+#### f> 例6：实现子查询
 
+```java
+@SpringBootTest
+public class testWrapper{
+  @Test
+  public void test06() {
+//查询id小于等于3的用户信息
+//SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE (id IN (select id from t_user where id <= 3))
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    queryWrapper.inSql("id", "select id from t_user where id <= 3");
+    List<User> list = userMapper.selectList(queryWrapper);
+    list.forEach(System.out::println);
+  }
+}
+```
 
+### 3. UpdateWrapper
 
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void test07() {
+//将（年龄大于20或邮箱为null）并且用户名中包含有a的用户信息修改
+//组装set子句以及修改条件
+    UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+//lambda表达式内的逻辑优先运算
+    updateWrapper
+            .set("age", 18)
+            .set("email", "user@atguigu.com")
+            .like("username", "a")
+            .and(i -> i.gt("age", 20).or().isNull("email"));
+//这里必须要创建User对象，否则无法应用自动填充。如果没有自动填充，可以设置为null
+//UPDATE t_user SET username=?, age=?,email=? WHERE (username LIKE ? AND (age > ? OR email IS NULL))
+//User user = new User();
+//user.setName("张三");
+    //int result = userMapper.update(user, updateWrapper);
+//UPDATE t_user SET age=?,email=? WHERE (username LIKE ? AND (age > ? OR email IS NULL))
+    int result = userMapper.update(null, updateWrapper);
+    System.out.println(result);
+  }
+}
+```
 
+### 4. condition
 
+> 在真正开发的过程中，组装条件是常见的功能，而这些条件数据来源于用户输入，是可选的，因此在组装这些条件时，必须先判断用户是否选择了这些条件，若选择则需要组装该条件，若没有选择则一定不能组装，以免影响SQL执行的结果
 
+#### 思路一：
 
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void test08() {
+//定义查询条件，有可能为null（用户未输入或未选择）
+    String username = null;
+    Integer ageBegin = 10;
+    Integer ageEnd = 24;
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+//StringUtils.isNotBlank()判断某字符串是否不为空且长度不为0且不由空白符(whitespace)
+    构成
+    if (StringUtils.isNotBlank(username)) {
+      queryWrapper.like("username", "a");
+    }
+    if (ageBegin != null) {
+      queryWrapper.ge("age", ageBegin);
+    }
+    if (ageEnd != null) {
+      queryWrapper.le("age", ageEnd);
+    }
+//SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE (age >= ? AND age <= ?)
+    List<User> users = userMapper.selectList(queryWrapper);
+    users.forEach(System.out::println);
+  }
+}
+```
 
+#### 思路二：
 
+> 上面的实现方案没有问题，但是代码比较复杂，可以使用带condition参数的重载方法构建查询条件，简化代码的编写
 
+```java
+@SpringBootTest
+public class testWrapper {
+  @Test
+  public void test08UseCondition() {
+//定义查询条件，有可能为null（用户未输入或未选择）
+    String username = null;
+    Integer ageBegin = 10;
+    Integer ageEnd = 24;
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+//StringUtils.isNotBlank()判断某字符串是否不为空且长度不为0且不由空白符(whitespace)
+    构成
+    queryWrapper.like(StringUtils.isNotBlank(username), "username", "a")
+            .ge(ageBegin != null, "age", ageBegin)
+            .le(ageEnd != null, "age", ageEnd);
+//SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE (age >= ? AND age <= ?)
+    List<User> users = userMapper.selectList(queryWrapper);
+    users.forEach(System.out::println);
+  }
+}
+```
 
+### 5. LambdaQueryWrapper
 
+```java
+@SpringBootTest
+public class testWrapper{
+  @Test
+  public void test09() {
+//定义查询条件，有可能为null（用户未输入）
+    String username = "a";
+    Integer ageBegin = 10;
+    Integer ageEnd = 24;
+    LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+//避免使用字符串表示字段，防止运行时错误
+    queryWrapper
+            .like(StringUtils.isNotBlank(username), User::getName, username)
+            .ge(ageBegin != null, User::getAge, ageBegin)
+            .le(ageEnd != null, User::getAge, ageEnd);
+    List<User> users = userMapper.selectList(queryWrapper);
+    users.forEach(System.out::println);
+  }
+}
+```
 
+### 6. LambdaUpdateWrapper
 
+```java
+@SpringBootTest
+public class testWrapper{
+  @Test
+  public void test10() {
+//组装set子句
+    LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+    updateWrapper
+            .set(User::getAge, 18)
+            .set(User::getEmail, "user@atguigu.com")
+            .like(User::getName, "a")
+            .and(i -> i.lt(User::getAge, 24).or().isNull(User::getEmail)); //lambda表达式内的逻辑优先运算
+    User user = new User();
+    int result = userMapper.update(user, updateWrapper);
+    System.out.println("受影响的行数：" + result);
+  }
+}
+```
 
+相关文件MyBatisPlusWrapperTest.java
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## 六、插件
 
 
 

@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 //设置实体类所对应的表名
-@TableName("t_user")
+@TableName("user")
 public class User {
     /**
      * 将属性所对应的字段指定为主键
