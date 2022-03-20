@@ -1332,6 +1332,112 @@ public class testWrapper {
 
 ## 七、通用枚举
 
+表中的有些字段值是固定的，例如性别（男或女），此时可以使用MyBatis-Plus的通用枚举来实现
+
+#### a> 数据库表添加字段sex
+
+![img_24.png](img_24.png)
+
+#### b> 创建通用枚举类型
+
+```java
+package com.atguigu.mp.enums;
+
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import lombok.Getter;
+
+@Getter
+public enum SexEnum {
+  MALE(1, "男"),
+  FEMALE(2, "女");
+  @EnumValue
+  private Integer sex;
+  private String sexName;
+
+  SexEnum(Integer sex, String sexName) {
+    this.sex = sex;
+    this.sexName = sexName;
+  }
+}
+```
+
+[相关文件SexEnum.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/enums/SexEnum.java)
+
+#### c> 配置扫描通用枚举
+
+```yaml
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#   设置MyBatis-Plus的全局配置
+  global-config:
+    db-config:
+#       设置实体类所对应的表的统一前缀
+      table-prefix: t_
+#       设置统一的主键生成策略
+      id-type: auto
+#   配置类型别名所对应的包
+  type-aliases-package: com.toxicant123.mybatisplus.pojo
+  # 扫描通用枚举的包
+  type-enums-package: com.toxicant123.mybatisplus.enums
+```
+
+[相关文件application.yaml](mybatisplus/src/main/resources/application.yaml)
+
+#### d> 测试
+
+```java
+@SpringBootTest
+public class MyBatisPlusTest {
+  @Test
+  public void testSexEnum(){
+    User user = new User();
+    user.setName("Enum");
+    user.setAge(20);
+//设置性别信息为枚举项，会将@EnumValue注解所标识的属性值存储到数据库
+    user.setSex(SexEnum.MALE);
+//INSERT INTO t_user ( username, age, sex ) VALUES ( ?, ?, ? )
+//Parameters: Enum(String), 20(Integer), 1(Integer)
+    userMapper.insert(user);
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

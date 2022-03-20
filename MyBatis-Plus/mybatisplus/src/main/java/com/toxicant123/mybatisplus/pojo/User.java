@@ -1,9 +1,7 @@
 package com.toxicant123.mybatisplus.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.toxicant123.mybatisplus.enums.SexEnum;
 import lombok.Data;
 
 /**
@@ -22,7 +20,7 @@ public class User {
      *  @TableId 注解的type属性设置主键生成策略
      *  @TableId(value = "uid", type = IdType.AUTO)
      */
-    @TableId("id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Long id;
 
     //指定属性所对应的字段名
@@ -32,6 +30,8 @@ public class User {
     private Integer age;
 
     private String email;
+
+    private SexEnum sex;
 
     @TableLogic
     private Integer is_deleted;
