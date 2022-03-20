@@ -1,6 +1,6 @@
 # MyBatis-Plus
 
-![img_1.png](img_1.png)
+![img_1.png](picture/img_1.png)
 
 ## 一、MyBatis-Plus简介
 
@@ -12,7 +12,7 @@
 > 
 > 我们的愿景是成为 MyBatis 最好的搭档，就像魂斗罗中的 1P、2P，基友搭配，效率翻倍。
 
-![img_2.png](img_2.png)
+![img_2.png](picture/img_2.png)
 
 ### 2、特性
 
@@ -38,7 +38,7 @@
 
 ### 4. 框架结构
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
 ## 二、入门案例   
 
@@ -90,13 +90,13 @@ VALUES (1, 'Jone', 18, 'test1@baomidou.com'),
 
 使用 Spring Initializr 快速初始化一个 Spring Boot 工程
 
-![img_3.png](img_3.png)
+![img_3.png](picture/img_3.png)
 
-![img_4.png](img_4.png)
+![img_4.png](picture/img_4.png)
 
-![img_5.png](img_5.png)
+![img_5.png](picture/img_5.png)
 
-![img_6.png](img_6.png)
+![img_6.png](picture/img_6.png)
 
 #### b> 引入依赖
 
@@ -200,7 +200,7 @@ public class User {
 
 User类编译之后的结果：
 
-![img_7.png](img_7.png)
+![img_7.png](picture/img_7.png)
 
 #### d> 添加mapper
 
@@ -233,7 +233,7 @@ public class MybatisPlusTest {
 
 结果：
 
-![img_8.png](img_8.png)
+![img_8.png](picture/img_8.png)
 
 注意：
 
@@ -254,7 +254,7 @@ mybatis-plus:
 
 [相关文件application.yaml](mybatisplus/src/main/resources/application.yaml)
 
-![img_9.png](img_9.png)
+![img_9.png](picture/img_9.png)
 
 ## 三、基本CRUD
 
@@ -401,11 +401,11 @@ public void testSelectList(){
 
 mybatis设定的mapper默认存放位置：
 
-![img_10.png](img_10.png)
+![img_10.png](picture/img_10.png)
 
 如下创建：
 
-![img_11.png](img_11.png)
+![img_11.png](picture/img_11.png)
 
 [相关文件UserMapper.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/mapper/UserMapper.java)
 
@@ -503,13 +503,13 @@ public void testSaveBatch(){
 
 程序抛出异常，Table 'mybatis_plus.user' doesn't exist，因为现在的表名为t_user，而默认操作的表名和实体类型的类名一致，即user表
 
-![img_12.png](img_12.png)
+![img_12.png](picture/img_12.png)
 
 #### b> 通过@TableName解决问题
 
 > 在实体类类型上添加@TableName("t_user")，标识实体类对应的表，即可成功执行SQL语句
 
-![img_13.png](img_13.png)
+![img_13.png](picture/img_13.png)
 
 #### c> 通过全局配置解决问题
 
@@ -543,13 +543,13 @@ mybatis-plus:
 
 程序抛出异常，Field 'uid' doesn't have a default value，说明MyBatis-Plus没有将uid作为主键赋值
 
-![img_15.png](img_15.png)
+![img_15.png](picture/img_15.png)
 
 #### b> 通过@TableId解决问题
 
 在实体类中uid属性上通过@TableId将其标识为主键，即可成功执行SQL语句
 
-![img_16.png](img_16.png)
+![img_16.png](picture/img_16.png)
 
 #### c> @TableId的value属性
 
@@ -557,7 +557,7 @@ mybatis-plus:
 
 此时需要通过@TableId注解的value属性，指定表中的主键字段，@TableId("uid")或@TableId(value="uid")
 
-![img_17.png](img_17.png)
+![img_17.png](picture/img_17.png)
 
 #### d> @TableId的type属性
 
@@ -599,7 +599,7 @@ mybatis-plus:
 
 单表数据拆分有两种方式：垂直分表和水平分表。示意图如下：
 
-![img_18.png](img_18.png)
+![img_18.png](picture/img_18.png)
 
 
 * 垂直分表
@@ -646,7 +646,7 @@ mybatis-plus:
 
 12bit作为毫秒内的流水号（意味着每个节点在每毫秒可以产生 4096 个 ID）。
 
-![img_19.png](img_19.png)
+![img_19.png](picture/img_19.png)
 
 2. 优点：整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞，并且效率较高。
 
@@ -676,7 +676,7 @@ mybatis-plus:
 
 此时需要在实体类属性上使用@TableField("username")设置属性所对应的字段名
 
-![img_20.png](img_20.png)
+![img_20.png](picture/img_20.png)
 
 [相关文件User.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/pojo/User.java)
 
@@ -692,11 +692,11 @@ mybatis-plus:
 
 > step1：数据库中创建逻辑删除状态列，设置默认值为0
 
-![img_21.png](img_21.png)
+![img_21.png](picture/img_21.png)
 
 > step2：实体类中添加逻辑删除属性
 
-![img_22.png](img_22.png)
+![img_22.png](picture/img_22.png)
 
 > step3：测试
 >
@@ -714,7 +714,7 @@ SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE is_deleted=0
 
 ### 1. wapper介绍
 
-![img_23.png](img_23.png)
+![img_23.png](picture/img_23.png)
 
 * Wrapper ： 条件构造抽象类，最顶端父类
   - AbstractWrapper ： 用于查询条件封装，生成 sql 的 where 条件
@@ -1336,7 +1336,7 @@ public class testWrapper {
 
 #### a> 数据库表添加字段sex
 
-![img_24.png](img_24.png)
+![img_24.png](picture/img_24.png)
 
 #### b> 创建通用枚举类型
 
