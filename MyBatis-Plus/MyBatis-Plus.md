@@ -145,7 +145,7 @@ spring:
     # 配置数据源类型
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/mybatis-plus?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3307/mybatis_plus?characterEncoding=utf-8&useSSL=false
     username: root
     password: 123456
 ```
@@ -1617,15 +1617,12 @@ public class MyBatisPlusTest {
 
 ## 十、MyBatisX插件
 
+MyBatis-Plus提供了强大的mapper和service模板，能够大大的提高开发效率
 
+但是在真正开发过程中，MyBatis-Plus并不能解决所有问题，例如一些复杂的SQL，多表联查，就需要自己去编写代码和SQL语句，这个时候可以使用MyBatisX插件
 
+MyBatisX一款基于 IDEA 的快速开发插件，为效率而生。
 
+MyBatisX插件用法：https://baomidou.com/pages/ba5b24/
 
-
-
-
-
-
-
-
-
+[相关demo](mybatisx_demo)
