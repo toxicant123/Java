@@ -455,6 +455,121 @@ ${}使用字符串拼接的方式拼接sql，若为字符串类型或日期类�
 
 此时，会将这些参数放在map集合中，以@Param注解的value属性值为键，以参数为值；以param1,param2...为键，以参数为值；只需要通过${}和#{}访问map集合的键就可以获取相对应的值，注意${}需要手动加单引号
 
+### 6. MyBatis的两个内置函数
+
+#### 1、_parameter 代表整个参数
+
+单个参数，_parameter 就是这个参数
+
+多个参数 会被封装成一个map，_parameter就是代表这个map，get(0)可以取到第一个参数
+
+一些使用注意：
+
+1. 简单数据类型
+
+此时#{id,jdbcType=INTEGER}中id可以取任意名字如#{a,jdbcType=INTEGER},
+
+如果需要if test则一定使用&#60;if test="_parameter != null">，此处一定使用_parameter != null而不是id != null
+
+```xml
+<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Java.lang.Integer" >
+ select 
+ <include refid="Base_Column_List" />
+ from base.tb_user
+<if test="_parameter != null">
+ where id = #{id,jdbcType=INTEGER}
+</if>
+</select>
+```
+
+2. 一个对象数据类型
+
+此时#{name,jdbcType=CHAR},#{sex,jdbcType=CHAR}中的name和sex一定要使用user对象的属性名
+
+测试user对象&#60;if test="_parameter != null">，测试user对象属性&#60;if test="name != null">，或者&#60;if test="#{name} != null">
+
+```xml
+<!--int insert(User user);-->
+<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+insert into tb_user (name, sex) values (#{name,jdbcType=CHAR}, #{sex,jdbcType=CHAR})
+</insert>
+```
+
+3. 两个对象数据类型
+
+List&#60;User> select(User user,Page page)，此时if test一定要&#60;if test='_parameter.get("0").name != null'>(通过parameter.get(0)得到第一个参数即user)，where语句where name = #{0.name,jdbcType=CHAR}(通过0.name确保第一个参数user的name属性值)
+
+不用0,1也可以取名List&#60;User> select(@param(user)User user,@param(page)Page page)
+
+
+
+
+
+#### 2、_databaseId  
+
+如果配置了databaseIdProvider标签， _databaseId就是代表当前数据库的别名，mysql或者oracle等等。
+
+在mybatis配置文件中配置：
+
+```xml
+<databaseIdProvider type="DB_VENDOR">
+
+  <!-- 为不同的数据库厂商起别名 -->
+  <property name="MySQL" value="mysql"/>
+  　　
+  <property name="Oracle" value="oracle"/>
+  　　
+  <property name="SQL Server" value="sqlserver"/>
+  
+</databaseIdProvider>
+```
+
+也可以配置多个数据库环境 通过改变default的value来切换数据库（如果想要切换数据库直接更改default属性中的内容即可，不用修改sql）
+
+例如：
+
+```xml
+<environments default="dev_oracle">
+
+　　<!--mysql环境-->
+　　<environment id="dev_mysql">
+　　<transactionManager type="JDBC"></transactionManager>
+　　<dataSource type="POOLED">
+　　　　<property name="driver" value="${jdbc.driver}" />
+　　　　<property name="url" value="${jdbc.url}" />
+　　　　<property name="username" value="${jdbc.username}" />
+　　　　<property name="password" value="${jdbc.password}" />
+　　</dataSource>
+　　</environment>
+　　<!--Oracle环境-->
+　　<environment id="dev_oracle">
+　　<transactionManager type="JDBC" />
+　　<dataSource type="POOLED">
+　　　　<property name="driver" value="${orcl.driver}" />
+　　　　<property name="url" value="${orcl.url}" />
+　　　　<property name="username" value="${orcl.username}" />
+　　　　<property name="password" value="${orcl.password}" />
+　　</dataSource>
+</environment>
+</environments>
+```
+
+mapper:
+
+```xml
+<select id="getEmpByDataBaseId" resultType="emp">
+　　<if test="_databaseId=='mysql'">
+　　　　select * from employee
+　　　　<if test="_parameter!=null">
+　　　　　　where last_name=#{_parameter.lastName}
+　　　　</if>
+　　</if>
+　　<if test="_databaseId=='oracle'">
+　　　　select * from employees_tbl
+　　</if>
+</select>
+```
+
 [相关文件ParameterMapper.java](MyBatis_demo2/src/main/java/com/toxicant123/mybatis/mapper/ParameterMapper.java)
 
 [相关文件ParameterMapper.xml](MyBatis_demo2/src/main/resources/com/toxicant123/mybatis/mapper/ParameterMapper.xml)
