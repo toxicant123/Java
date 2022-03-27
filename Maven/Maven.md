@@ -4,9 +4,9 @@
 
 #### [第一章 Maven 概述](file/初级篇/第一章Maven概述.md)
 
-#### 第二章 Maven 核心程序解压和配置
-
-#### 第三章 使用 Maven：命令行环境
+#### [第二章 Maven 核心程序解压和配置](file/初级篇/第二章Maven核心程序解压和配置.md)
+[](file/初级篇/第三章使用Maven：命令行环境.md)
+#### [第三章 使用 Maven：命令行环境](file/初级篇/第三章使用Maven：命令行环境.md)
 
 #### 第四章 使用 Maven：IDEA环境
 
