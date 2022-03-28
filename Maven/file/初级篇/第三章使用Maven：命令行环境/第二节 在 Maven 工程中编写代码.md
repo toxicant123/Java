@@ -2,7 +2,7 @@
 
 ## 1、主体程序
 
-![img_4.png](img_4.png)
+![img_4.png](picture/img_4.png)
 
 主体程序指的是被测试的程序，同时也是将来在项目中真正要使用的程序。
 
@@ -20,7 +20,7 @@ public class Calculator {
 
 ## 2、测试程序
 
-![img_5.png](img_5.png)
+![img_5.png](picture/img_5.png)
 
 ```java
 package com.atguigu.maven;

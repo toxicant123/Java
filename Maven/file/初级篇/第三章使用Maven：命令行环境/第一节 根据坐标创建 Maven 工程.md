@@ -4,7 +4,7 @@
 
 ### ①数学中的坐标
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
 使用 x、y、z 三个『向量』作为空间的坐标系，可以在『空间』中唯一的定位到一个『点』。
 
@@ -67,11 +67,11 @@ Maven本地仓库根目录\javax\servlet\servlet-api\2.5\servlet-api-2.5.jar
 
 ### ②在工作空间目录下打开命令行窗口
 
-![img_1.png](img_1.png)
+![img_1.png](picture/img_1.png)
 
 ### ③使用命令生成Maven工程
 
-![img_2.png](img_2.png)
+![img_2.png](picture/img_2.png)
 
 运行 mvn archetype:generate 命令
 
@@ -170,7 +170,7 @@ POM 理念集中体现在 Maven 工程根目录下 pom.xml 这个配置文件中
 
 ### ①各个目录的作用
 
-![img_3.png](img_3.png)
+![img_3.png](picture/img_3.png)
 
 ### ②约定目录结构的意义
 

@@ -51,11 +51,11 @@ mvn test
 
 mvn package
 
-![img_16.png](img_16.png)
+![img_16.png](picture/img_16.png)
 
 通过查看 war 包内的结构，我们看到被 Web 工程依赖的 Java 工程确实是会变成 Web 工程的 WEB-INF/lib 目录下的 jar 包。
 
-![img_17.png](img_17.png)
+![img_17.png](picture/img_17.png)
 
 ### ③查看当前 Web 工程所依赖的 jar 包的列表
 
