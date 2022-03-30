@@ -8,7 +8,7 @@
 
 #### [第三章 使用 Maven：命令行环境](file/初级篇/第三章使用Maven：命令行环境.md)
 
-#### 第四章 使用 Maven：IDEA环境
+#### [第四章 使用 Maven：IDEA环境](file/初级篇/第四章使用Maven：IDEA环境.md)
 
 #### 第五章 其他核心概念
 
