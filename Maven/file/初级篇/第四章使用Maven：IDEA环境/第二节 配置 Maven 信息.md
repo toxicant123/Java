@@ -4,4 +4,4 @@
 
 配置之后，IDEA 会根据我们在这里指定的 Maven 家目录自动识别到我们在 settings.xml 配置文件中指定的本地仓库。
 
-![img_6.png](img_6.png)
+![img_6.png](picture/img_6.png)
