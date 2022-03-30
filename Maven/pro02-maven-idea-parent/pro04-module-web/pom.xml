@@ -2,16 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>pro02-maven-idea-parent</artifactId>
+        <groupId>com.toxicant123.maven</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.toxicant123.maven</groupId>
-    <artifactId>pro02-maven-idea-parent</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>pro03-module-java</module>
-        <module>pro04-module-web</module>
-    </modules>
+    <artifactId>pro04-module-web</artifactId>
+
+<!--    web工程要求打包方式为war-->
+    <packaging>war</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
