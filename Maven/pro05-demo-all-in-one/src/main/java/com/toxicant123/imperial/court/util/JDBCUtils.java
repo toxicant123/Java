@@ -3,15 +3,16 @@ package com.toxicant123.imperial.court.util;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
  * 功能1：从数据源获取数据库连接<br/>
  * 功能2：将数据源绑定到本地线程（借助ThreadLocal）<br/>
  * 功能3：释放线程时和本地线程解除绑定<br/>
+ *
  * @author toxicant123
  * @version 1.0
  * @Description
@@ -21,6 +22,10 @@ public class JDBCUtils {
 
     //数据源成员变量设置为静态资源，保证大对象的单例性，同时保证静态方法中可以访问
     private static DataSource dataSource;
+
+    //由于 Threadlocal对象需要作为绑定数据时k-v对中的key，所以要保证唯一性
+    //加 static 声明为静态资源即可保证唯一性
+    private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
 
     // 在静态代码块中初始化数据源
     static {
@@ -53,10 +58,48 @@ public class JDBCUtils {
 
     /**
      * 工具方法：获取数据库连接并返回
+     *
      * @return
      */
-    public static Connection getConnection(){
-        return null;
+    public static Connection getConnection() {
+        Connection connection = null;
+
+        try {
+            // 1. 尝试从当前线程检查是否存在已经绑定的 Connection 对象
+            connection = threadLocal.get();
+
+            // 2. 检查 Connection对象是否为空
+            if (connection == null) {
+                // 3. 如果为null，则从数据源获取数据库连接
+                connection = dataSource.getConnection();
+
+                // 4. 获取到数据库连接后绑定到当前线程
+                threadLocal.set(connection);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            //为了调用工具方便，编译时异常不往外抛
+            //为了不掩盖问题，捕获到的编译时异常封装为运行时异常抛出
+            throw new RuntimeException(e);
+        }
+
+        return connection;
+    }
+
+    /**
+     * 释放数据库连接
+     * @param connection
+     */
+    public static void releaseConnection(Connection connection){
+        if (connection != null){
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 }
