@@ -7,6 +7,7 @@
     <groupId>com.toxicant123</groupId>
     <artifactId>pro05-demo-all-in-one</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
