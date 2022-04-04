@@ -4,6 +4,19 @@
            xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
+<!--配置web应用初始化参数指定视图前缀、后缀-->
+<!--
+    物理视图举例：/WEB-INF/pages/index.html
+    对应逻辑视图：index
+-->
+    <context-param>
+        <param-name>view-prefix</param-name>
+        <param-value>/WEB-INF/pages/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view-suffix</param-name>
+        <param-value>.html</param-value>
+    </context-param>
     
     <filter>
         <filter-name>txFilter</filter-name>
