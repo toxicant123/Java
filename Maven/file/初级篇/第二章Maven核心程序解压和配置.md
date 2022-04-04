@@ -12,7 +12,7 @@
 
 [Maven – Download Apache Maven](https://maven.apache.org/download.cgi)
 
-![img_3.png](img_3.png)
+![img_3.png](picture/img_3.png)
 
 具体下载地址：https://dlcdn.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip
 
@@ -20,7 +20,7 @@
 
 核心程序压缩包：apache-maven-3.8.4-bin.zip，解压到非中文、没有空格的目录。例如：
 
-![img_4.png](img_4.png)
+![img_4.png](picture/img_4.png)
 
 在解压目录中，我们需要着重关注 Maven 的核心配置文件：conf/settings.xml
 
@@ -102,7 +102,7 @@ Maven 下载 jar 包默认访问境外的中央仓库，而国外网站速度很
 
 Maven 是一个用 Java 语言开发的程序，它必须基于 JDK 来运行，需要通过 JAVA_HOME 来找到 JDK 的安装位置。
 
-![img_5.png](img_5.png)
+![img_5.png](picture/img_5.png)
 
 可以使用下面的命令验证：
 
@@ -118,7 +118,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.141-b15, mixed mode)
 
 ### 2. 配置 MAVEN_HOME
 
-![img_6.png](img_6.png)
+![img_6.png](picture/img_6.png)
 
 > TIP  
 > 配置环境变量的规律：  
@@ -127,7 +127,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.141-b15, mixed mode)
 
 ### 3. 配置PATH
 
-![img_7.png](img_7.png)
+![img_7.png](picture/img_7.png)
 
 ### 4. 验证
 
