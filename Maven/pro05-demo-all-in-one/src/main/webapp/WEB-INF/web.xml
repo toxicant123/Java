@@ -42,6 +42,14 @@
         <servlet-name>workServlet</servlet-name>
         <url-pattern>/work</url-pattern>
     </servlet-mapping>
+    <filter>
+        <filter-name>loginFilter</filter-name>
+        <filter-class>com.toxicant123.imperial.court.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>/work</url-pattern>
+    </filter-mapping>
     
     <filter>
         <filter-name>txFilter</filter-name>
