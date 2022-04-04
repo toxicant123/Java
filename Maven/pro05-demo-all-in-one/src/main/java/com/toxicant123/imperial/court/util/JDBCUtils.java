@@ -94,7 +94,11 @@ public class JDBCUtils {
     public static void releaseConnection(Connection connection){
         if (connection != null){
             try {
+                // 在数据库连接池中将当前连接对象标记为空闲
                 connection.close();
+
+                // 将当前数据库连接从当前线程上移除
+                threadLocal.remove();
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);

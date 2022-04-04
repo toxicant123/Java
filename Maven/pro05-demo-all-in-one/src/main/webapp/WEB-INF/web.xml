@@ -34,6 +34,14 @@
         <servlet-name>authServlet</servlet-name>
         <url-pattern>/auth</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>workServlet</servlet-name>
+        <servlet-class>com.toxicant123.imperial.court.servlet.module.WorkServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>workServlet</servlet-name>
+        <url-pattern>/work</url-pattern>
+    </servlet-mapping>
     
     <filter>
         <filter-name>txFilter</filter-name>

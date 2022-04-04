@@ -2,6 +2,8 @@ package com.toxicant123.maven;
 
 import com.toxicant123.imperial.court.dao.BaseDao;
 import com.toxicant123.imperial.court.entity.Emp;
+import com.toxicant123.imperial.court.entity.Memorials;
+import com.toxicant123.imperial.court.service.impl.MemorialsServiceImpl;
 import com.toxicant123.imperial.court.util.JDBCUtils;
 import org.junit.Test;
 
@@ -48,5 +50,11 @@ public class ImperialCourtTest {
         System.out.println("connection = " + connection);
 
         JDBCUtils.releaseConnection(connection);
+    }
+
+    @Test
+    public void test1(){
+        List<Memorials> allMemorialsDigest = new MemorialsServiceImpl().getAllMemorialsDigest();
+        System.out.println(allMemorialsDigest);
     }
 }
