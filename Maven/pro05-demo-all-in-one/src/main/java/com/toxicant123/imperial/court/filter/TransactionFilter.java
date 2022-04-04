@@ -40,12 +40,14 @@ public class TransactionFilter implements Filter {
         // 前置操作：排除静态资源
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String servletPath = request.getServletPath();
-        String extName = servletPath.substring(servletPath.lastIndexOf("."));
+        if (servletPath.contains(".")) {
+            String extName = servletPath.substring(servletPath.lastIndexOf("."));
 
-        if (staticResourceExtNameSet.contains(extName)) {
-            //如果检测到当前请求确实是静态资源，则直接放行，不做事务操作
-            filterChain.doFilter(servletRequest,servletResponse);
-            return;
+            if (staticResourceExtNameSet.contains(extName)) {
+                //如果检测到当前请求确实是静态资源，则直接放行，不做事务操作
+                filterChain.doFilter(servletRequest,servletResponse);
+                return;
+            }
         }
 
 
@@ -77,7 +79,7 @@ public class TransactionFilter implements Filter {
             String message = e.getMessage();
 
             //将异常信息存入请求域
-            request.setAttribute("message",message);
+            request.setAttribute("systemMessage",message);
 
             //将请求转发到指定页面
             request.getRequestDispatcher("/").forward(request,servletResponse);

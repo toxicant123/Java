@@ -17,6 +17,23 @@
         <param-name>view-suffix</param-name>
         <param-value>.html</param-value>
     </context-param>
+
+    <servlet>
+        <servlet-name>portalServlet</servlet-name>
+        <servlet-class>com.toxicant123.imperial.court.servlet.module.PortalServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>portalServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>authServlet</servlet-name>
+        <servlet-class>com.toxicant123.imperial.court.servlet.module.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>authServlet</servlet-name>
+        <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
     
     <filter>
         <filter-name>txFilter</filter-name>
