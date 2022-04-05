@@ -32,7 +32,9 @@
 mvn help:effective-pom
 ```
 
-运行效果点击[这里](datum/Effective%20POM.xml)查看。
+运行效果点击查看。
+
+![img_1.png](img_1.png)
 
 ## 4、小结
 
