@@ -1,6 +1,7 @@
 package com.atguigu.imperial.court.controller;
 
-import com.atguigu.imperial.court.MySQLProvider;
+
+import com.atguigu.imperial.court.api.MySQLProvider;
 import com.atguigu.imperial.court.entity.Emp;
 import com.atguigu.imperial.court.util.ResultEntity;
 import org.springframework.beans.factory.annotation.Autowired;

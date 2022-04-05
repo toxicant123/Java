@@ -1,4 +1,4 @@
-package com.atguigu.imperial.court;
+package com.atguigu.imperial.court.api;
 
 import com.atguigu.imperial.court.entity.Emp;
 import com.atguigu.imperial.court.util.ResultEntity;
