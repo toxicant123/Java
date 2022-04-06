@@ -175,6 +175,12 @@ mvn hello:sayHello
 
 ![img_27.png](img_27.png)
 
+#### [3]图形化界面使用
 
+![img_28.png](img_28.png)
 
+#### [4]命令行使用
 
+执行已和插件目标绑定的生命周期：
+
+![img_29.png](img_29.png)
