@@ -56,13 +56,13 @@ tcp 0 0 0.0.0.0:8081 0.0.0.0:* LISTEN 9872/java
 
 初始化界面还是很酷的：
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
 ## 2、初始设置
 
-![img_1.png](img_1.png)
+![img_1.png](picture/img_1.png)
 
-![img_2.png](img_2.png)
+![img_2.png](picture/img_2.png)
 
 这里参考提示：
 
@@ -76,23 +76,23 @@ ed5e96a8-67aa-4dca-9ee8-1930b1dd5415
 
 所以登录信息输入如下：
 
-![img_3.png](img_3.png)
+![img_3.png](picture/img_3.png)
 
 继续执行初始化：
 
-![img_4.png](img_4.png)
+![img_4.png](picture/img_4.png)
 
 给 admin 用户指定新密码：
 
-![img_5.png](img_5.png)
+![img_5.png](picture/img_5.png)
 
 匿名登录，启用还是禁用？由于启用匿名登录后，后续操作比较简单，这里我们演示禁用匿名登录的操作方式：
 
-![img_6.png](img_6.png)
+![img_6.png](picture/img_6.png)
 
 完成：
 
-![img_7.png](img_7.png)
+![img_7.png](picture/img_7.png)
 
 ## 3、对接 Nexus
 
@@ -100,7 +100,7 @@ ed5e96a8-67aa-4dca-9ee8-1930b1dd5415
 
 #### [1]了解 Nexus 上的各种仓库
 
-![img_8.png](img_8.png)
+![img_8.png](picture/img_8.png)
 
 |  仓库类型  |              说明               |
 |:------:|:-----------------------------:|
@@ -117,11 +117,11 @@ ed5e96a8-67aa-4dca-9ee8-1930b1dd5415
 
 初始状态下，这几个仓库都没有内容：
 
-![img_9.png](img_9.png)
+![img_9.png](picture/img_9.png)
 
 #### [2]使用空的本地仓库
 
-![img_10.png](img_10.png)
+![img_10.png](picture/img_10.png)
 
 ```xml
   <!-- 配置一个新的 Maven 本地仓库 -->
@@ -143,9 +143,9 @@ ed5e96a8-67aa-4dca-9ee8-1930b1dd5415
 
 这里的 url 标签是这么来的：
 
-![img_11.png](img_11.png)
+![img_11.png](picture/img_11.png)
 
-![img_12.png](img_12.png)
+![img_12.png](picture/img_12.png)
 
 把上图中看到的地址复制出来即可。如果我们在前面允许了匿名访问，到这里就够了。但如果我们禁用了匿名访问，那么接下来我们还要继续配置 settings.xml：
 
@@ -182,7 +182,7 @@ Downloaded from nexus-mine: http://192.168.198.100:8081/repository/maven-public/
 
 下载后，Nexus 服务器上就有了 jar 包：
 
-![img_13.png](img_13.png)
+![img_13.png](picture/img_13.png)
 
 ### ②将 jar 包部署到 Nexus
 
@@ -227,7 +227,7 @@ Uploaded to nexus-mine: http://192.168.198.100:8081/repository/maven-snapshots/c
 [INFO] demo07-redis-data-provider 1.0-SNAPSHOT ............ SUCCESS [ 0.273 s]
 ```
 
-![img_14.png](img_14.png)
+![img_14.png](picture/img_14.png)
 
 ### ③引用别人部署的 jar 包
 
@@ -258,6 +258,6 @@ Uploaded to nexus-mine: http://192.168.198.100:8081/repository/maven-snapshots/c
 
 举例：修改 maven-central 仓库代理的远程库地址
 
-![img_15.png](img_15.png)
+![img_15.png](picture/img_15.png)
 
-![img_16.png](img_16.png)
+![img_16.png](picture/img_16.png)
