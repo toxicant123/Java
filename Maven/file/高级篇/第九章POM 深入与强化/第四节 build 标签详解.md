@@ -143,11 +143,11 @@ executions 标签内可以配置多个 execution 标签，execution 标签内：
 
 configuration 标签内进行配置时使用的标签是插件本身定义的。就以 maven-site-plugin 插件为例，它的核心类是 org.apache.maven.plugins.site.render.SiteMojo，在这个类中我们看到了 outputDirectory 属性：
 
-![img_10.png](img_10.png)
+![img_10.png](picture/img_10.png)
 
 SiteMojo 的父类是：AbstractSiteRenderingMojo，在父类中我们看到 reportPlugins 属性：
 
-![img_12.png](img_12.png)
+![img_12.png](picture/img_12.png)
 
 结论：每个插件能够做哪些设置都是各个插件自己规定的，无法一概而论。
 
@@ -197,7 +197,7 @@ public class Hello {
 
 此时我们执行编译命令：
 
-![img_11.png](img_11.png)
+![img_11.png](picture/img_11.png)
 
 ### ④配置构建过程
 
@@ -227,7 +227,7 @@ public class Hello {
 
 ### ⑤再次执行编译命令
 
-![img_13.png](img_13.png)
+![img_13.png](picture/img_13.png)
 
 ### ⑥两种配置方式比较
 
@@ -240,7 +240,7 @@ public class Hello {
 
 查看 [Maven 官网页面](https://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html)，我们找到 source 标签的介绍：
 
-![img_14.png](img_14.png)
+![img_14.png](picture/img_14.png)
 
 翻译过来就是：调用 Java 编译器命令时传入的 -source 参数。那对编译器来说，-source 参数是啥意思呢？
 
@@ -307,7 +307,7 @@ C:\Users\13655>javac -help
   -Werror                      出现警告时终止编译
 ```
 
-![img_17.png](img_17.png)
+![img_17.png](picture/img_17.png)
 
 『提供与指定发行版的源兼容性』这句话的意思是：
 
@@ -317,7 +317,7 @@ C:\Users\13655>javac -help
 
 另外我们还看到：
 
-![img_15.png](img_15.png)
+![img_15.png](picture/img_15.png)
 
 这个功能还可以通过在 properties 标签中配置 maven.compiler.source 属性来实现。所以我们也经常会看到类似这样的配置：
 
@@ -331,11 +331,11 @@ C:\Users\13655>javac -help
 
 #### [2]target 标签含义
 
-![img_16.png](img_16.png)
+![img_16.png](picture/img_16.png)
 
 翻译过来就是：调用 Java 编译器命令时传入的 -target 参数。那对编译器来说，-target 参数是啥意思呢？
 
-![img_18.png](img_18.png)
+![img_18.png](picture/img_18.png)
 
 『生成特定 VM 版本的类文件』这句话的意思是：
 
@@ -353,7 +353,7 @@ C:\Users\13655>javac -help
 
 这样一来，打包的方式肯定要进行调整。所以 SpringBoot 提供了 spring-boot-maven-plugin 这个插件来定制打包行为。
 
-![img_19.png](img_19.png)
+![img_19.png](picture/img_19.png)
 
 ### ②示例代码
 
@@ -373,7 +373,7 @@ C:\Users\13655>javac -help
 
 ### ③插件的七个目标
 
-![img_20.png](img_20.png)
+![img_20.png](picture/img_20.png)
 
 |          目标名称           |                                                                                                                                作用                                                                                                                                |
 |:-----------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|

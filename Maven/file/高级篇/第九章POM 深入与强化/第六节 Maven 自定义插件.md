@@ -48,7 +48,7 @@ Mojo 这个单词的意思是：Maven Old Java Object，其实 mojo 这个单词
 
 每一个 Mojo 都需要实现 org.apache.maven.plugin.Mojo 接口。
 
-![img_24.png](img_24.png)
+![img_24.png](picture/img_24.png)
 
 #### [2] AbstractMojo 抽象类
 
@@ -71,7 +71,7 @@ public class MyHelloPlugin extends AbstractMojo {
 
 对应的 pom.xml 中的依赖： maven-plugin-api
 
-![img_25.png](img_25.png)
+![img_25.png](picture/img_25.png)
 
 #### [2]直接在类上标记注解
 
@@ -134,7 +134,7 @@ mvn hello:sayHello
 
 * 效果：
 
-![img_26.png](img_26.png)
+![img_26.png](picture/img_26.png)
 
 ### ③配置到 build 标签里
 
@@ -173,14 +173,14 @@ mvn hello:sayHello
 
 #### [2]效果
 
-![img_27.png](img_27.png)
+![img_27.png](picture/img_27.png)
 
 #### [3]图形化界面使用
 
-![img_28.png](img_28.png)
+![img_28.png](picture/img_28.png)
 
 #### [4]命令行使用
 
 执行已和插件目标绑定的生命周期：
 
-![img_29.png](img_29.png)
+![img_29.png](picture/img_29.png)

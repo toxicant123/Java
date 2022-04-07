@@ -18,7 +18,7 @@
 
 和 Java 类一样，POM 之间其实也是单继承的。如果我们给一个 POM 指定了父 POM，那么继承关系如下图所示：
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
 ## 3、有效 POM
 
@@ -34,7 +34,7 @@ mvn help:effective-pom
 
 运行效果点击查看。
 
-![img_1.png](img_1.png)
+![img_1.png](picture/img_1.png)
 
 ## 4、小结
 
