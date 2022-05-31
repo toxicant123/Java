@@ -24,6 +24,6 @@
 
 #### [第九章 POM 深入与强化](file/高级篇/第九章POM%20深入与强化.md)
 
-#### 第十章 生产实践
+#### [第十章 生产实践](file/高级篇/第十章生产实践.md)
 
 Maven中央仓库地址：https://mvnrepository.com/
