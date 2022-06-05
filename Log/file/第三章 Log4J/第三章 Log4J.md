@@ -4,7 +4,7 @@ Log4j是Apache下的一款开源的日志框架，通过在项目中使用 Log4J
 
 官方网站： http://logging.apache.org/log4j/1.2/
 
-### 4.1 Log4j入门
+### 3.1 Log4j入门
 
 1. 建立maven工程
 2. 添加依赖
@@ -65,11 +65,11 @@ public class Log4jTest {
 
 > 注：一般只使用4个级别，优先级从高到低为 ERROR > WARN > INFO > DEBUG
 
-### 4.2 Log4j组件
+### 3.2 Log4j组件
 
 Log4J 主要由 Loggers (日志记录器)、Appenders（输出端）和 Layout（日志格式化器）组成。其中Loggers 控制日志的输出级别与日志是否输出；Appenders 指定日志的输出方式（输出到控制台、文件等）；Layout 控制日志信息的输出格式。
 
-#### 4.2.1 Loggers
+#### 3.2.1 Loggers
 
 日志记录器，负责收集处理日志记录，实例的命名就是类“XX”的full quailied name（类的全限定名），Logger的名字大小写敏感，其命名有继承机制：例如：name为org.apache.commons的logger会继承name为org.apache的logger。
 
@@ -77,9 +77,9 @@ Log4J中有一个特殊的logger叫做“root”，他是所有logger的根，�
 
 但是，自log4j 1.2版以来， Logger 类已经取代了 Category 类。对于熟悉早期版本的log4j的人来说，Logger 类可以被视为 Category 类的别名。
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
-#### 4.2.2 Appenders
+#### 3.2.2 Appenders
 
 Appender 用来指定日志输出到哪个地方，可以同时指定日志的输出目的地。Log4j 常用的输出目的地有以下几种：
 
@@ -93,7 +93,7 @@ Appender 用来指定日志输出到哪个地方，可以同时指定日志的�
 
 [相关文件log4j.properties](../../Log4J/src/main/resources/log4j.properties)
 
-#### 4.2.3 Layouts
+#### 3.2.3 Layouts
 
 布局器 Layouts用于控制日志输出内容的格式，让我们可以使用各种需要的格式输出日志。Log4j常用的Layouts:
 
@@ -105,7 +105,7 @@ Appender 用来指定日志输出到哪个地方，可以同时指定日志的�
 
 [相关文件log4j.properties](../../Log4J/src/main/resources/log4j.properties)
 
-### 4.3 Layout的格式
+### 3.3 Layout的格式
 
 在 log4j.properties 配置文件中，我们定义了日志输出级别与输出端，在输出端中分别配置日志的输出格式。
 
@@ -127,7 +127,7 @@ Appender 用来指定日志输出到哪个地方，可以同时指定日志的�
   - %.5c 输出category名称，最大宽度是5，category>5，就会将左边多出的字符截掉，<5不会有空格
   - %20.30c category名称<20补空格，并且右对齐，>30字符，就从左边交远销出的字符截掉
 
-### 4.4 Appender的输出
+### 3.4 Appender的输出
 
 控制台，文件，数据库
 
@@ -182,7 +182,7 @@ CREATE TABLE `log`
 );
 ```
 
-### 4.5 自定义Logger
+### 3.5 自定义Logger
 
 ```properties
 # RootLogger配置
@@ -218,4 +218,3 @@ public class Example {
     }
 }
 ```
-
