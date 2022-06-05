@@ -2,6 +2,7 @@ package com.toxicant123;
 
 import org.junit.Test;
 
+import java.io.InputStream;
 import java.util.logging.*;
 
 /**
@@ -131,9 +132,30 @@ public class JULTest {
     @Test
     public void testLogProperties() throws Exception{
         //读取配置文件，通过类加载器实现
-
+        InputStream ins = JULTest.class.getClassLoader().getResourceAsStream("logging.properties");
         //创建LogManager
-
+        LogManager logManager = LogManager.getLogManager();
         //通过LogManager加载配置文件
+        logManager.readConfiguration(ins);
+
+        //创建日志记录器
+        Logger logger = Logger.getLogger("com.toxicant123");
+        logger.severe("severe");
+        logger.warning("warning");
+        logger.info("info"); // JUL默认的日志级别
+        logger.config("config");
+        logger.fine("fine");
+        logger.finer("finer");
+        logger.finest("finest");
+
+        Logger logger2 = Logger.getLogger("test");
+        logger2.severe("severe");
+        logger2.warning("warning");
+        logger2.info("info");
+        logger2.config("config");
+        logger2.fine("fine");
+        logger2.finer("finer");
+        logger2.finest("finest");
+
     }
 }
