@@ -8,7 +8,7 @@ JCL 有两个基本的抽象类：Log(基本记录器)和LogFactory(负责创建
 
 ![img.png](picture/img.png)
 
-## 5.1 JCL入门
+### 4.1 JCL入门
 
 1. 建立maven工程
 2. 添加依赖
@@ -62,7 +62,7 @@ public class Example {
 3. 统一API，方便开发者学习和使用
 4. 统一配置便于项目日志的管理
 
-### 5.2 JCL原理
+### 4.2 JCL原理
 
 1. 通过LogFactory动态加载Log实现类
 
