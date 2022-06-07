@@ -33,3 +33,40 @@ SLF4J是目前市面上最流行的日志门面。现在的项目中，基本上
     </dependency>
 </dependencies>
 ```
+
+2. 编写代码
+
+```java
+public class Slf4jTest {
+    // 声明日志对象
+    public final static Logger LOGGER = LoggerFactory.getLogger(Slf4jTest.class);
+    
+    @Test
+    public void testQuick() throws Exception {
+        //打印日志信息
+        LOGGER.error("error");
+        LOGGER.warn("warn");
+        LOGGER.info("info");
+        LOGGER.debug("debug");
+        LOGGER.trace("trace");
+        // 使用占位符输出日志信息
+        String name = "jack";
+        Integer age = 18;
+        LOGGER.info("用户：{},{}", name, age);
+        // 将系统异常信息写入日志
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            // e.printStackTrace();
+            LOGGER.info("出现异常：", e);
+        }
+    }
+}
+```
+
+为什么要使用SLF4J作为日志门面？
+
+1. 使用SLF4J框架，可以在部署时迁移到所需的日志记录框架。
+2. SLF4J提供了对所有流行的日志框架的绑定，例如log4j，JUL，Simple logging和NOP。因此可以在部署时切换到任何这些流行的框架。
+3. 无论使用哪种绑定，SLF4J都支持参数化日志记录消息。由于SLF4J将应用程序和日志记录框架分离，因此可以轻松编写独立于日志记录框架的应用程序。而无需担心用于编写应用程序的日志记录框架。
+4. SLF4J提供了一个简单的Java工具，称为迁移器。使用此工具，可以迁移现有项目，这些项目使用日志框架(如Jakarta Commons Logging(JCL)或log4j或Java.util.logging(JUL))到SLF4J。
