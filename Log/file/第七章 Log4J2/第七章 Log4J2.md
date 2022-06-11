@@ -186,3 +186,108 @@ log4j2默认加载classpath下的 log4j2.xml 文件中的配置。
     </Loggers>
 </Configuration>
 ```
+
+### 4.3 Log4j2异步日志
+
+log4j2最大的特点就是异步日志，其性能的提升主要也是从异步日志中受益，我们来看看如何使用log4j2的异步日志。
+
+* 同步日志
+
+![img.png](img.png)
+
+* 异步日志
+
+![img_1.png](img_1.png)
+
+Log4j2提供了两种实现日志的方式，一个是通过AsyncAppender，一个是通过AsyncLogger，分别对应前面我们说的Appender组件和Logger组件。
+
+注意：配置异步日志需要添加依赖
+
+```xml
+<!--异步日志依赖-->
+<dependency>
+    <groupId>com.lmax</groupId>
+    <artifactId>disruptor</artifactId>
+    <version>3.3.4</version>
+</dependency>
+```
+
+1. AsyncAppender方式
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <properties>
+        <property name="LOG_HOME">D:/logs</property>
+    </properties>
+    <Appenders>
+        <File name="file" fileName="${LOG_HOME}/myfile.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+
+        <!--        启用异步的appender-->
+        <Async name="Async">
+            <!--            指定一个appender-->
+            <AppenderRef ref="file"/>
+        </Async>
+    </Appenders>
+    <Loggers>
+        <Root level="error">
+            <!--            使用异步的appender-->
+            <AppenderRef ref="Async"/>
+        </Root>
+    </Loggers>
+</Configuration>
+```
+
+2. AsyncLogger方式
+
+AsyncLogger才是log4j2 的重头戏，也是官方推荐的异步方式。它可以使得调用Logger.log返回的更快。你可以有两种选择：全局异步和混合异步。
+
+* 全局异步就是，所有的日志都异步的记录，在配置文件上不用做任何改动，只需要添加一个log4j2.component.properties 配置
+
+```properties
+Log4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+```
+
+* 混合异步就是，你可以在应用中同时使用同步日志和异步日志，这使得日志的配置方式更加灵活。
+
+只需更改配置文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <properties>
+        <property name="LOG_HOME">D:/logs</property>
+    </properties>
+    <Appenders>
+        <File name="file" fileName="${LOG_HOME}/myfile.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Async name="Async">
+            <AppenderRef ref="file"/>
+        </Async>
+    </Appenders>
+    <Loggers>
+        <AsyncLogger name="com.toxicant123" level="trace"
+                     includeLocation="false" additivity="false">
+            <AppenderRef ref="file"/>
+        </AsyncLogger>
+        <Root level="info" includeLocation="true">
+            <AppenderRef ref="file"/>
+        </Root>
+    </Loggers>
+</Configuration>
+```
+
+如上配置： com.toxicant123 日志是异步的，root日志是同步的。
+
+使用异步日志需要注意的问题：
+1. 如果使用异步日志，AsyncAppender、AsyncLogger和全局日志，不要同时出现。性能会和AsyncAppender一致，降至最低。
+2. 设置includeLocation=false ，打印位置信息会急剧降低异步日志的性能，比同步日志还要慢。
+
+

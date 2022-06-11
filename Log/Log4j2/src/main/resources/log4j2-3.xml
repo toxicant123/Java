@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <properties>
+        <property name="LOG_HOME">D:/logs</property>
+    </properties>
+    <Appenders>
+        <File name="file" fileName="${LOG_HOME}/myfile.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Async name="Async">
+            <AppenderRef ref="file"/>
+        </Async>
+    </Appenders>
+    <Loggers>
+        <AsyncLogger name="com.toxicant123" level="trace"
+                     includeLocation="false" additivity="false">
+            <AppenderRef ref="file"/>
+        </AsyncLogger>
+        <Root level="info" includeLocation="true">
+            <AppenderRef ref="file"/>
+        </Root>
+    </Loggers>
+</Configuration>

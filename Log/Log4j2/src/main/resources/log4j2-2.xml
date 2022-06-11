@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <properties>
+        <property name="LOG_HOME">D:/logs</property>
+    </properties>
+    <Appenders>
+        <File name="file" fileName="${LOG_HOME}/myfile.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+
+<!--        启用异步的appender-->
+        <Async name="Async">
+<!--            指定一个appender-->
+            <AppenderRef ref="file"/>
+        </Async>
+    </Appenders>
+    <Loggers>
+        <Root level="error">
+<!--            使用异步的appender-->
+            <AppenderRef ref="Async"/>
+        </Root>
+    </Loggers>
+</Configuration>
