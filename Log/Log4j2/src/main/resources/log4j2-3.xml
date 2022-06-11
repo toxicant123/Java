@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<Configuration status="warn">
     <properties>
         <property name="LOG_HOME">D:/logs</property>
     </properties>
@@ -14,6 +14,11 @@
         </Async>
     </Appenders>
     <Loggers>
+<!--
+                自定义异步logger对象
+                includeLocation="false"关闭日志记录的行号信息，如果为true会大幅度影响性能
+
+-->
         <AsyncLogger name="com.toxicant123" level="trace"
                      includeLocation="false" additivity="false">
             <AppenderRef ref="file"/>

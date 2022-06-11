@@ -23,5 +23,6 @@ public class Log4j2Test {
         LOGGER.warn("warn");
         LOGGER.info("info");
         LOGGER.debug("debug");
+        LOGGER.trace("trace");
     }
 }
