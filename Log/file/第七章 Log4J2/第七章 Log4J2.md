@@ -193,11 +193,11 @@ log4j2最大的特点就是异步日志，其性能的提升主要也是从异�
 
 * 同步日志
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
 * 异步日志
 
-![img_1.png](img_1.png)
+![img_1.png](picture/img_1.png)
 
 Log4j2提供了两种实现日志的方式，一个是通过AsyncAppender，一个是通过AsyncLogger，分别对应前面我们说的Appender组件和Logger组件。
 
@@ -299,7 +299,7 @@ Log4j2最厉害的地方在于异步输出日志时的性能表现，Log4j2在�
 
 可以看出在前两种模式下，Log4j2的性能较之Log4j和Logback有很大的优势。
 
-![img_2.png](img_2.png)
+![img_2.png](picture/img_2.png)
 
 **无垃圾记录**
 
@@ -313,11 +313,11 @@ Log4j 2.6中的无垃圾日志记录部分通过重用ThreadLocal字段中的对
 
 使用Log4j 2.5：内存分配速率809 MB /秒，141个无效集合
 
-![img_3.png](img_3.png)
+![img_3.png](picture/img_3.png)
 
 Log4j 2.6没有分配临时对象：0（零）垃圾回收
 
-![img_4.png](img_4.png)
+![img_4.png](picture/img_4.png)
 
 有两个单独的系统属性可用于手动控制Log4j用于避免创建临时对象的机制：
 * `log4j2.enableThreadlocals` - 如果“true”（非Web应用程序的默认值）对象存储在ThreadLocal字段中并重新使用，否则将为每个日志事件创建新对象。
