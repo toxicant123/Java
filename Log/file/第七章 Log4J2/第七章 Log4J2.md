@@ -9,7 +9,7 @@ Apache Log4j 2是对Log4j的升级版，参考了logback的一些优秀的设计
 
 官网： https://logging.apache.org/log4j/2.x/
 
-### 4.1 Log4j2入门
+### 7.1 Log4j2入门
 
 目前市面上最主流的日志门面就是SLF4J，虽然Log4j2也是日志门面，因为它的日志实现功能非常强大，性能优越。所以大家一般还是将Log4j2看作是日志的实现，Slf4j + Log4j2应该是未来的大势所趋。
 
@@ -82,7 +82,7 @@ public class Log4j2Test {
 </dependencies>
 ```
 
-### 4.2 Log4j2配置
+### 7.2 Log4j2配置
 
 log4j2默认加载classpath下的 log4j2.xml 文件中的配置。
 
@@ -187,7 +187,7 @@ log4j2默认加载classpath下的 log4j2.xml 文件中的配置。
 </Configuration>
 ```
 
-### 4.3 Log4j2异步日志
+### 7.3 Log4j2异步日志
 
 log4j2最大的特点就是异步日志，其性能的提升主要也是从异步日志中受益，我们来看看如何使用log4j2的异步日志。
 
@@ -290,7 +290,7 @@ Log4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelec
 1. 如果使用异步日志，AsyncAppender、AsyncLogger和全局日志，不要同时出现。性能会和AsyncAppender一致，降至最低。
 2. 设置includeLocation=false ，打印位置信息会急剧降低异步日志的性能，比同步日志还要慢。
 
-### 4.4 Log4j2的性能
+### 7.4 Log4j2的性能
 
 Log4j2最厉害的地方在于异步输出日志时的性能表现，Log4j2在多线程的环境下吞吐量与Log4j和Logback的比较如下图。下图比较中Log4j2有三种模式：
 1) 全局使用异步模式；
