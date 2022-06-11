@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 自定义属性 可以通过${name}进行引用-->
+    <property name="pattern" value="[%-5level] %d{yyyy-MM-dd HH:mm:ss} %c %M %L [%thread] %m %n"/>
+    <!--
+    日志输出格式：
+    %d{pattern}日期
+    %m或者%msg为信息
+    %M为method
+    %L为行号
+    %c类的完整名称
+    %thread线程名称
+    %n换行
+    %-5level
+-->
+    <!-- 日志文件存放目录 -->
+    <property name="log_dir" value="d:/logs"></property>
+    <!--控制台输出appender对象-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--输出流对象 默认 System.out 改为 System.err-->
+        <target>System.err</target>
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+    <!--日志文件输出appender对象-->
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--日志输出路径-->
+        <file>${log_dir}/logback.log</file>
+    </appender>
+    <!-- 生成html格式appender对象 -->
+    <appender name="htmlFile" class="ch.qos.logback.core.FileAppender">
+        <!--日志格式配置-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.html.HTMLLayout">
+                <pattern>%level%d{yyyy-MM-dd HH:mm:ss}%c%M%L%thread%m</pattern>
+            </layout>
+        </encoder>
+        <!--日志输出路径-->
+        <file>${log_dir}/logback.html</file>
+    </appender>
+    <!--RootLogger对象-->
+    <root level="all">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+        <appender-ref ref="htmlFile"/>
+    </root>
+</configuration>
