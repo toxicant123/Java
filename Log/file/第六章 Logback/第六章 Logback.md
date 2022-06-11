@@ -11,7 +11,7 @@ Logback主要分为三个模块：
 
 后续的日志代码都是通过SLF4J日志门面搭建日志系统，所以在代码是没有区别，主要是通过修改配置文件和pom.xml依赖
 
-### 3.1 logback入门
+### 6.1 logback入门
 
 1. 添加依赖
 
@@ -54,7 +54,7 @@ public class Example {
 }
 ```
 
-### 3.2 logback配置
+### 6.2 logback配置
 
 logback会依次读取以下类型配置文件：
 * logback.groovy
@@ -247,9 +247,113 @@ logback会依次读取以下类型配置文件：
 5. Filter、异步日志和自定义Logger配置
 
 ```xml
-
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 自定义属性 可以通过${name}进行引用-->
+    <property name="pattern" value="[%-5level] %d{yyyy-MM-dd HH:mm:ss} %c %M %L [%thread] %m %n"/>
+    <!--
+        日志输出格式：
+        %d{pattern}日期
+        %m或者%msg为信息
+        %M为method
+        %L为行号
+        %c类的完整名称
+        %thread线程名称
+        %n换行
+        %-5level
+    -->
+    <!-- 日志文件存放目录 -->
+    <property name="log_dir" value="d:/logs/"></property>
+    <!--控制台输出appender对象-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--输出流对象 默认 System.out 改为 System.err-->
+        <target>System.err</target>
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+    <!-- 日志文件拆分和归档的appender对象-->
+    <appender name="rollFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--日志输出路径-->
+        <file>${log_dir}roll_logback.log</file>
+        <!--指定日志文件拆分和压缩规则-->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--通过指定压缩文件名称，来确定分割文件方式-->
+            <fileNamePattern>${log_dir}rolling.%d{yyyy-MMdd}.log%i.gz</fileNamePattern>
+            <!--文件拆分大小-->
+            <maxFileSize>1MB</maxFileSize>
+        </rollingPolicy>
+        <!--filter配置-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--设置拦截日志级别-->
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--异步日志-->
+    <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="rollFile"/>
+    </appender>
+    <!--RootLogger对象-->
+    <root level="all">
+        <appender-ref ref="console"/>
+        <appender-ref ref="async"/>
+    </root>
+    <!--自定义logger additivity表示是否从 rootLogger继承配置-->
+    <logger name="com.itheima" level="debug" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+</configuration>
 ```
 
+6. 官方提供的log4j.properties转换成logback.xml
 
+https://logback.qos.ch/translator/
 
+### 6.3 logback-access的使用
 
+logback-access模块与Servlet容器（如Tomcat和Jetty）集成，以提供HTTP访问日志功能。我们可以使用logback-access模块来替换tomcat的访问日志。
+
+1. 将logback-access.jar与logback-core.jar复制到$TOMCAT_HOME/lib/目录下
+2. 修改$TOMCAT_HOME/conf/server.xml中的Host元素中添加：
+
+```xml
+<Valve className="ch.qos.logback.access.tomcat.LogbackValve" />
+```
+
+3. logback默认会在$TOMCAT_HOME/conf下查找文件 logback-access.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- always a good activate OnConsoleStatusListener -->
+    <statusListener
+            class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+    <property name="LOG_DIR" value="${catalina.base}/logs"/>
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/access.log</file>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>access.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <!-- 访问日志的格式 -->
+            <pattern>combined</pattern>
+        </encoder>
+    </appender>
+    <appender-ref ref="FILE"/>
+</configuration>
+```
+
+4. 官方配置： https://logback.qos.ch/access.html#configuration
