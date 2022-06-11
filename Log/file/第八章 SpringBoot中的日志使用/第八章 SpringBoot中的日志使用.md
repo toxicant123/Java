@@ -15,7 +15,7 @@ springboot中的日志
 
 依赖关系图：
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
 总结：
 1. springboot 底层默认使用logback作为日志实现。
