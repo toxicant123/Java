@@ -46,6 +46,69 @@ public class BookController {
 
 使用带main方法的java程序的运行形式来运行程序，运行完毕后，控制台输出上述信息
 
+
+
+步骤五：访问以下路径以验证是否成功
+
+访问路径：
+
 ```text
-访问路径 http://localhost:8080/books
+http://localhost:8080/books
 ```
+
+#### 总结
+
+从开发者角度来看，目前只有两个文件展现到了开发者面前
+
+第一个是pom.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.4</version>
+    </parent>
+
+    <groupId>com.itheima</groupId>
+    <artifactId>springboot_01_01_quickstart</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+第二个是Application类
+
+```java
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+Spring与SpringBoot的对比
+
+| 类配置文件               | Spring | SpringBoot |
+|---------------------|--------|------------|
+| pom文件中的坐标           | 手工添加   | 勾选添加       |
+| web3.0配置类           | 手工制作   | 无          |
+| Spring/SpringMVC配置类 | 手工制作   | 无          |
+| 控制器                 | 手工制作   | 手工制作       |
