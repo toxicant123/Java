@@ -127,9 +127,11 @@ Spring与SpringBoot的对比
 
 步骤4：保存后得到一个压缩文件，这个文件打开后就是创建的SpringBoot工程文件夹，解压缩此文件后，得到工程目录，在Idea中导入即可使用。
 
+### 1.1.2 方式三
 
+如果Spring的官网访问出现了问题，我们可以使用阿里云提供的地址：http://start.aliyun.com 或 https://start.aliyun.com
 
-
+创建工程时，切换选择starter服务路径
 
 
 
