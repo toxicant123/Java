@@ -133,12 +133,17 @@ Spring与SpringBoot的对比
 
 创建工程时，切换选择starter服务路径
 
+![img_5.png](img_5.png)
 
+阿里云地址默认创建的SpringBoot工程版本是2.4.1，如果想更换其他的版本，创建项目后手工修改即可
 
+![img_6.png](img_6.png)
 
+#### 总结
 
-
-
+1. 选择start来源为自定义URL
+2. 输入阿里云start地址
+3. 创建项目
 
 
 
