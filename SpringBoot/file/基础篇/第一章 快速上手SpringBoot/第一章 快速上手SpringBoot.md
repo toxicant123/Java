@@ -185,11 +185,25 @@ Spring与SpringBoot的对比
 </project>
 ```
 
-步骤4：之前运行SpringBoot工程需要一个类，这个缺不了，自己手写一个就行了，建议按照之前的目录结构来创建，先别玩花样，先学走后学跑。类名可以自定义，关联的名称一切修改即可
+步骤4：根据pom.xml中的groupId创建包，再创建启动类，类名可以自定义
 
+```java
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class);
+    }
+}
+```    
 
+类上的注解@SpringBootApplication必须有
 
+#### 总结
 
+1. 创建普通Maven工程
+2. 继承spring-boot-starter-parent
+3. 添加依赖spring-boot-starter-web
+4. 制作引导类Application
 
 
 
