@@ -127,7 +127,7 @@ Spring与SpringBoot的对比
 
 步骤4：保存后得到一个压缩文件，这个文件打开后就是创建的SpringBoot工程文件夹，解压缩此文件后，得到工程目录，在Idea中导入即可使用。
 
-### 1.1.2 方式三
+### 1.1.3 方式三
 
 如果Spring的官网访问出现了问题，我们可以使用阿里云提供的地址：http://start.aliyun.com 或 https://start.aliyun.com
 
@@ -144,6 +144,59 @@ Spring与SpringBoot的对比
 1. 选择start来源为自定义URL
 2. 输入阿里云start地址
 3. 创建项目
+
+### 1.1.4 方式四
+
+步骤1：创建工程时，选择手工创建Maven工程
+
+![img_7.png](img_7.png)
+
+步骤2：参照标准SpringBoot工程的pom文件，编写该项目的pom文件即可
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.4</version>
+    </parent>
+
+    <groupId>com.itheima</groupId>
+    <artifactId>springboot_01_04_quickstart</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
+```
+
+步骤4：之前运行SpringBoot工程需要一个类，这个缺不了，自己手写一个就行了，建议按照之前的目录结构来创建，先别玩花样，先学走后学跑。类名可以自定义，关联的名称一切修改即可
+
+
+
+
+
+
+
+
+
+
+
 
 
 
