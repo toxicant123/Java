@@ -25,6 +25,10 @@ SpringBoot技术由Pivotal团队研发制作，功能是加速Spring程序的开
 
 步骤3：开发控制器类
 
+在自动生成的类的同包下，可以创建一个controller包以存放控制器类
+
+![img_8.png](img_8.png)
+
 ```java
 //Rest模式
 @RestController
@@ -45,8 +49,6 @@ public class BookController {
 ![img_2.png](img_2.png)
 
 使用带main方法的java程序的运行形式来运行程序，运行完毕后，控制台输出上述信息
-
-
 
 步骤五：访问以下路径以验证是否成功
 
@@ -205,16 +207,28 @@ public class Application {
 3. 添加依赖spring-boot-starter-web
 4. 制作引导类Application
 
+## 1.2 SpringBoot简介
 
+SpringBoot是由Pivotal团队提供的全新框架，其设计目的是用来简化Spring应用的初始搭建以及开发过程。
 
+### 1.2.1 Spring程序的缺点
 
+- 依赖设置繁琐
+- 配置繁琐
 
+### 1.2.2 SpringBoot程序的优点
 
+- 简化依赖配置
+- 自动配置，约定大于配置
+- 辅助功能：内置服务器等
 
+### 1.2.3 SpringBoot对于Spring的简化之处
 
-
-
-
+一共分为四个方面：
+- parent
+- starter
+- 引导类
+- 内嵌tomcat
 
 
 
