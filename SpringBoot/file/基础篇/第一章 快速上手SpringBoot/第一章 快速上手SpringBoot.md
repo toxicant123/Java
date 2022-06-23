@@ -230,5 +230,94 @@ SpringBoot是由Pivotal团队提供的全新框架，其设计目的是用来简
 - 引导类
 - 内嵌tomcat
 
+### 1.2.3.1 parent
 
+SpringBoot关注到开发者在进行开发时，往往对依赖版本的选择具有固定的搭配格式，并且这些依赖版本的选择还不能乱搭配。比如A技术的2.0版与B技术的3.5版可以合作在一起，但是和B技术的3.7版合并使用时就有冲突。其实很多开发者都一直想做一件事情，就是将各种各样的技术配合使用的常见依赖版本进行收集整理，制作出了最合理的依赖版本配置方案，这样使用起来就方便多了。
 
+SpringBoot将所有的技术版本的常见使用方案都给开发者整理了出来，以后开发者使用时直接用它提供的版本方案，就不用担心冲突问题了，相当于SpringBoot做了无数个技术版本搭配的列表，这个技术搭配列表的名字叫做parent。
+
+parent自身具有很多个版本，每个parent版本中包含有几百个其他技术的版本号，不同的parent间使用的各种技术的版本号有可能会发生变化。当开发者使用某些技术时，直接使用SpringBoot提供的parent就行了，由parent帮助开发者统一的进行各种技术的版本管理，而无需关注这些技术间的版本冲突问题，只需要关注你用什么技术就行了，冲突问题由parent负责处理。
+
+pringBoot又是如何做到这一点的呢？可以查阅SpringBoot的配置源码，看到这些定义
+
+- 项目中的pom.xml中继承了一个坐标
+
+```xml
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.5.4</version>
+</parent>
+```
+
+- 打开后可以查阅到其中又继承了一个坐标
+
+```xml
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-dependencies</artifactId>
+    <version>2.5.4</version>
+</parent>
+```
+
+- 这个坐标中定义了两组信息，第一组是各式各样的依赖版本号属性，下面列出依赖版本属性的局部，可以看的出来，定义了若干个技术的依赖版本号
+
+```xml
+<properties>
+    <activemq.version>5.16.3</activemq.version>
+    <aspectj.version>1.9.7</aspectj.version>
+    <assertj.version>3.19.0</assertj.version>
+    <commons-codec.version>1.15</commons-codec.version>
+    <commons-dbcp2.version>2.8.0</commons-dbcp2.version>
+    <commons-lang3.version>3.12.0</commons-lang3.version>
+    <commons-pool.version>1.6</commons-pool.version>
+    <commons-pool2.version>2.9.0</commons-pool2.version>
+    <h2.version>1.4.200</h2.version>
+    <hibernate.version>5.4.32.Final</hibernate.version>
+    <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
+    <httpclient.version>4.5.13</httpclient.version>
+    <jackson-bom.version>2.12.4</jackson-bom.version>
+    <javax-jms.version>2.0.1</javax-jms.version>
+    <javax-json.version>1.1.4</javax-json.version>
+    <javax-websocket.version>1.1</javax-websocket.version>
+    <jetty-el.version>9.0.48</jetty-el.version>
+    <junit.version>4.13.2</junit.version>
+</properties>
+```
+
+第二组是各式各样的的依赖坐标信息，可以看出依赖坐标定义中没有具体的依赖版本号，而是引用了第一组信息中定义的依赖版本属性值
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+上面的依赖坐标定义是出现在标签`dependencyManagement`中的，其实是对引用坐标的依赖管理，并不是实际使用的坐标。因此当你的项目中继承了这组parent信息后，在不使用对应坐标的情况下，前面的这组定义是不会具体导入某个依赖的
+
+因为在maven中继承机会只有一次，上述继承的格式还可以切换成导入的形式进行，例如在阿里云的starter创建工程时就使用了此种形式
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>${spring-boot.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
