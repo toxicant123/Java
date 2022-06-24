@@ -230,7 +230,7 @@ SpringBoot是由Pivotal团队提供的全新框架，其设计目的是用来简
 - 引导类
 - 内嵌tomcat
 
-### 1.2.3.1 parent
+#### 1.2.3.1 parent
 
 SpringBoot关注到开发者在进行开发时，往往对依赖版本的选择具有固定的搭配格式，并且这些依赖版本的选择还不能乱搭配。比如A技术的2.0版与B技术的3.5版可以合作在一起，但是和B技术的3.7版合并使用时就有冲突。其实很多开发者都一直想做一件事情，就是将各种各样的技术配合使用的常见依赖版本进行收集整理，制作出了最合理的依赖版本配置方案，这样使用起来就方便多了。
 
@@ -329,23 +329,144 @@ pringBoot又是如何做到这一点的呢？可以查阅SpringBoot的配置源�
 3. 继承parent模块可以避免多个依赖使用相同技术时出现依赖版本冲突
 4. 继承parent的形式也可以采用引入依赖的形式实现效果
 
+#### 1.2.3.2 starter
 
+starter定义了使用某种技术时对于依赖的固定搭配格式，也是一种最佳解决方案，使用starter可以帮助开发者减少依赖配置
 
+项目中的pom.xml定义了使用SpringMVC技术，但是并没有写SpringMVC的坐标，而是添加了一个名字中包含starter的依赖
 
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
 
+在spring-boot-starter-web中又定义了若干个具体依赖的坐标
 
+```XML
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
+        <version>2.5.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-json</artifactId>
+        <version>2.5.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <version>2.5.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>5.3.9</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>5.3.9</version>
+        <scope>compile</scope>
+    </dependency>
+</dependencies>
+```
 
+开发SpringMVC程序需要导入spring-webmvc的坐标和spring整合web开发的坐标，就是上面这组坐标中的最后两个了。
 
+spring-boot-starter-json也是一群坐标的集合体：
 
+```XML
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
+        <version>2.5.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>5.3.9</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jdk8</artifactId>
+        <version>2.12.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>2.12.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.module</groupId>
+        <artifactId>jackson-module-parameter-names</artifactId>
+        <version>2.12.4</version>
+        <scope>compile</scope>
+    </dependency>
+</dependencies>
+```
 
+这个starter中包含了SpringMVC开发通常都会使用到的Json工具
 
+使用starter可以帮开发者快速配置依赖关系
 
+#### 1.2.3.3 starter与parent的区别
 
+starter是一个坐标中定了若干个坐标，是用来减少依赖配置的书写量的
 
+parent是定义了几百个依赖版本号，以前写依赖需要自己手工控制版本，现在由SpringBoot统一管理，是用来减少依赖冲突的
 
+实际开发应用方式：
 
+- 实际开发中如果需要用什么技术，先去寻找这个技术对应的starter
 
+    - 如果有对应的starter，直接写starter，而且无需指定版本，版本由parent提供
+    - 如果没有对应的starter，手写坐标即可
 
+- 实际开发中如果发现坐标出现了冲突现象，确认要使用的可行的版本号，使用手工书写的方式添加对应依赖，覆盖SpringBoot提供给我们的配置管理
 
+    - 方式一：直接写坐标
+    - 方式二：覆盖<properties>中定义的版本号，即重新在当前pom.xml中的properties标签中定义相关属性的值
+
+```xml
+<properties>
+    <activemq.version>5.16.3</activemq.version>
+    <aspectj.version>1.9.7</aspectj.version>
+    <assertj.version>3.19.0</assertj.version>
+    <commons-codec.version>1.15</commons-codec.version>
+    <commons-dbcp2.version>2.8.0</commons-dbcp2.version>
+    <commons-lang3.version>3.12.0</commons-lang3.version>
+    <commons-pool.version>1.6</commons-pool.version>
+    <commons-pool2.version>2.9.0</commons-pool2.version>
+    <h2.version>1.4.200</h2.version>
+    <hibernate.version>5.4.32.Final</hibernate.version>
+    <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
+    <httpclient.version>4.5.13</httpclient.version>
+    <jackson-bom.version>2.12.4</jackson-bom.version>
+    <javax-jms.version>2.0.1</javax-jms.version>
+    <javax-json.version>1.1.4</javax-json.version>
+    <javax-websocket.version>1.1</javax-websocket.version>
+    <jetty-el.version>9.0.48</jetty-el.version>
+    <junit.version>4.13.2</junit.version>
+</properties>
+```
 
 
