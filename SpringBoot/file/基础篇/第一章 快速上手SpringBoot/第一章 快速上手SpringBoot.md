@@ -342,6 +342,12 @@ starter定义了使用某种技术时对于依赖的固定搭配格式，也是�
 </dependency>
 ```
 
+SpringBoot官方给出了好多个starter的定义，名称都是如下格式
+
+```text
+spring-boot-starter-技术名称
+```
+
 在spring-boot-starter-web中又定义了若干个具体依赖的坐标
 
 ```XML
@@ -468,5 +474,38 @@ parent是定义了几百个依赖版本号，以前写依赖需要自己手工�
     <junit.version>4.13.2</junit.version>
 </properties>
 ```
+
+#### 1.2.3.4 引导类
+
+SpringBoot工程创建时自带的类是整个项目的引导类，运行这个类就可以启动SpringBoot工程的运行
+
+```java
+@SpringBootApplication
+public class Springboot0101QuickstartApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(Springboot0101QuickstartApplication.class, args);
+    }
+}
+```
+
+SpringBoot本身是为了加速Spring程序的开发的，而Spring程序运行的基础是需要创建自己的Spring容器对象（IoC容器）并将所有的对象交给Spring的容器管理。当前这个类运行后就会产生一个Spring容器对象，并且可以将这个对象保存起来，通过容器对象直接操作Bean。
+
+```JAVA
+@SpringBootApplication
+public class Springboot0101QuickstartApplication {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext ctx = SpringApplication.run(Springboot0101QuickstartApplication.class, args);
+        BookController bean = ctx.getBean(BookController.class);
+        System.out.println("bean======>" + bean);
+    }
+}
+```
+
+
+
+
+
+
+
 
 
