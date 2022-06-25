@@ -501,11 +501,121 @@ public class Springboot0101QuickstartApplication {
 }
 ```
 
+SpringBoot程序启动还是创建了一个Spring容器对象。这个类在SpringBoot程序中是所有功能的入口，称这个类为引导类。
 
+作为一个引导类最典型的特征就是当前类上方声明了一个注解@SpringBootApplication
 
+总结
 
+1. SpringBoot工程提供引导类用来启动程序
+2. SpringBoot工程启动后创建并初始化Spring容器
 
+#### 1.2.3.5 内嵌tomcat
 
+当前的SpringBoot工程勾选了Spirng-web的功能，并且导入了对应的starter
 
+这个starter中已经内嵌了一个tomcat服务器
 
+```XML
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
 
+下面就围绕着这个内置的web服务器来研究几个问题
+
+1. 这个服务器在什么位置定义的
+2. 这个服务器是怎么运行的
+3. 这个服务器如何更换
+
+内嵌Tomcat的位置
+
+```XML
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+打开web的starter导入了哪些模块
+
+```XML
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
+        <version>2.5.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-json</artifactId>
+        <version>2.5.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <version>2.5.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>5.3.9</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>5.3.9</version>
+        <scope>compile</scope>
+    </dependency>
+</dependencies>
+```
+
+第三个依赖就是tomcat了，再打开看看
+
+```XML
+<dependencies>
+    <dependency>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>1.3.5</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-core</artifactId>
+        <version>9.0.52</version>
+        <scope>compile</scope>
+        <exclusions>
+            <exclusion>
+                <artifactId>tomcat-annotations-api</artifactId>
+                <groupId>org.apache.tomcat</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-el</artifactId>
+        <version>9.0.52</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-websocket</artifactId>
+        <version>9.0.52</version>
+        <scope>compile</scope>
+        <exclusions>
+            <exclusion>
+                <artifactId>tomcat-annotations-api</artifactId>
+                <groupId>org.apache.tomcat</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+</dependencies>
+```
+
+这里面有一个核心的坐标，tomcat-embed-core，叫tomcat内嵌核心。就是这个把tomcat功能引入到了程序中。
