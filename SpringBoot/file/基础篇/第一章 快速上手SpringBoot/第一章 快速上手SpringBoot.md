@@ -11,7 +11,7 @@ SpringBoot技术由Pivotal团队研发制作，功能是加速Spring程序的开
 
 步骤1：创建新模块，选择Spring Initializr，并配置模块相关基础信息
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
 第3步点击Next时，Idea需要联网状态，如果不能正常联网，就无法正确到达右边的设置页
 
@@ -19,7 +19,7 @@ SpringBoot技术由Pivotal团队研发制作，功能是加速Spring程序的开
 
 步骤②：选择当前模块需要使用的技术
 
-![img_1.png](img_1.png)
+![img_1.png](picture/img_1.png)
 
 左侧选择web，然后在中间选择Spring Web即可，选完右侧就出现了新的内容项，这就表示勾选成功了
 
@@ -27,7 +27,7 @@ SpringBoot技术由Pivotal团队研发制作，功能是加速Spring程序的开
 
 在自动生成的类的同包下，可以创建一个controller包以存放控制器类
 
-![img_8.png](img_8.png)
+![img_8.png](picture/img_8.png)
 
 ```java
 //Rest模式
@@ -46,7 +46,7 @@ public class BookController {
 
 步骤4：运行自动生成的Application类
 
-![img_2.png](img_2.png)
+![img_2.png](picture/img_2.png)
 
 使用带main方法的java程序的运行形式来运行程序，运行完毕后，控制台输出上述信息
 
@@ -119,11 +119,11 @@ Spring与SpringBoot的对比
 
 步骤1：点击网址 https://start.spring.io/ 后进入到创建SpringBoot程序的界面，输入信息
 
-![img_3.png](img_3.png)
+![img_3.png](picture/img_3.png)
 
 步骤2：右侧的ADD DEPENDENCIES用于选择技术，点击后打开网页版的技术选择界面
 
-![img_4.png](img_4.png)
+![img_4.png](picture/img_4.png)
 
 步骤3：所有信息设置完毕后，点击下面左侧按钮，生成一个文件包
 
@@ -135,11 +135,11 @@ Spring与SpringBoot的对比
 
 创建工程时，切换选择starter服务路径
 
-![img_5.png](img_5.png)
+![img_5.png](picture/img_5.png)
 
 阿里云地址默认创建的SpringBoot工程版本是2.4.1，如果想更换其他的版本，创建项目后手工修改即可
 
-![img_6.png](img_6.png)
+![img_6.png](picture/img_6.png)
 
 #### 总结
 
@@ -151,7 +151,7 @@ Spring与SpringBoot的对比
 
 步骤1：创建工程时，选择手工创建Maven工程
 
-![img_7.png](img_7.png)
+![img_7.png](picture/img_7.png)
 
 步骤2：参照标准SpringBoot工程的pom文件，编写该项目的pom文件即可
 
