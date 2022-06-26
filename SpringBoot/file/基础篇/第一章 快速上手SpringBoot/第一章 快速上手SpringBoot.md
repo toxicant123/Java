@@ -619,3 +619,61 @@ SpringBoot程序启动还是创建了一个Spring容器对象。这个类在Spri
 ```
 
 这里面有一个核心的坐标，tomcat-embed-core，叫tomcat内嵌核心。就是这个把tomcat功能引入到了程序中。
+
+内嵌Tomcat运行原理：
+
+tomcat服务器运行是以对象的形式在Spring容器中运行的
+
+具体运行的是下面的tomcat内嵌核心
+
+```XML
+<dependencies>
+    <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-core</artifactId>
+        <version>9.0.52</version>
+        <scope>compile</scope>
+    </dependency>
+</dependencies>
+```
+
+更换内嵌Tomcat：
+
+SpringBoot提供了3款内置的服务器
+
+- tomcat(默认)：apache基金会出品，应用面广，负载了若干较重的组件
+
+- jetty：更轻量级，负载性能远不及tomcat
+
+- undertow：负载性能勉强跑赢tomcat
+
+将tomcat排除掉，因为tomcat是默认加载的，然后把对应的坐标加入即可
+
+例如：
+
+```XML
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <exclusions>
+            <exclusion>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-jetty</artifactId>
+    </dependency>
+</dependencies>
+```
+
+现在就已经成功替换了web服务器，核心思想就是用什么加入对应坐标就可以了。如果有starter，优先使用starter。
+
+总结
+
+1. 内嵌Tomcat服务器是SpringBoot辅助功能之一
+2. 内嵌Tomcat工作原理是将Tomcat服务器作为对象运行，并将该对象交给Spring容器管理
+3. 变更内嵌服务器思想是去除现有服务器，添加全新的服务器
