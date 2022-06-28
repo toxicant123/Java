@@ -68,11 +68,11 @@ logging.pattern.file=%d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n
 
 给类路径下放上每个日志框架自己的配置文件，SpringBoot就不使用默认配置的了
 
-|   日志框架    | 配置文件  |
-|:-----:|:-----:|
-|    Logback   | logback-spring.xml , logback.xml      |
-|   Log4j2    |  log4j2-spring.xml ， log4j2.xml     |
-|    JUL    | logging.properties      |
+|  日志框架   |               配置文件               |
+|:-------:|:--------------------------------:|
+| Logback | logback-spring.xml , logback.xml |
+| Log4j2  |  log4j2-spring.xml ， log4j2.xml  |
+|   JUL   |        logging.properties        |
 
 4. 使用SpringBoot解析日志配置
 

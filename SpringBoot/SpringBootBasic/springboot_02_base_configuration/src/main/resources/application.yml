@@ -1,0 +1,3 @@
+# SpringBoot提供的配置文件种类之一————yml
+server:
+  port: 81
