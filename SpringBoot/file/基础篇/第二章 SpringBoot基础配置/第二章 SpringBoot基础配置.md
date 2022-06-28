@@ -1,1 +1,31 @@
 # 第二章 SpringBoot基础配置
+
+## 2.1 属性配置
+
+SpringBoot通过配置文件application.properties就可以修改默认的配置
+
+properties格式的文件书写规范是key=value
+
+```properties
+name=toxicant123
+```
+
+当输入port时，会出现自动提示
+
+![img.png](img.png)
+
+根据提示敲回车，输入80端口
+
+```properties
+server.port=80
+```
+
+为了简化开发者的配置书写，便于集中管理，SpringBoot将所有配置都集中到了这一个配置文件中
+
+总结：
+
+1. SpringBoot程序可以在application.properties文件中进行属性配置
+2. application.properties文件中只要输入要配置的属性关键字就可以根据提示进行设置
+3. SpringBoot将配置信息集中在一个文件中
+
+
