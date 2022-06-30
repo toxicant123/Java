@@ -22,9 +22,25 @@ server.port=80
 
 为了简化开发者的配置书写，便于集中管理，SpringBoot将所有配置都集中到了这一个配置文件中
 
+其他的配置：
+
+关闭运行日志图表（banner)：
+
+```properties
+spring.main.banner-mode=off
+```
+
+设置运行日志的显示级别
+
+```properties
+logging.level.root=debug
+```
+
+SpringBoot可配置属性汇总：https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#application-properties
+
 总结：
 
-1. SpringBoot程序可以在application.properties文件中进行属性配置
+1. SpringBoot默认配置文件是application.properties
 2. application.properties文件中只要输入要配置的属性关键字就可以根据提示进行设置
 3. SpringBoot将配置信息集中在一个文件中
 
