@@ -59,3 +59,42 @@ SpringBoot可配置属性汇总：https://docs.spring.io/spring-boot/docs/curren
 4. SpringBoot中导入对应starter后，才提供对应配置属性
 5. 书写SpringBoot配置时IDEA采用关键字+提示形式书写
 
+## 2.2 配置文件的种类
+
+SpringBoot支持三种格式的配置文件，分别如下:
+
+- properties格式
+- yml格式
+- yaml格式
+
+properties格式举例：
+
+```properties
+server.port=80
+```
+
+yml格式举例
+
+```yaml
+server:
+  port: 81
+```
+
+yaml格式举例：
+
+```yaml
+server:
+  port: 82
+```
+
+yml和yaml文件格式其实是一模一样的，只是后缀名不同。
+
+总结
+
+1. SpringBoot提供了3种配置文件的格式
+    - properties（传统格式/默认格式）
+    - yml（主流格式）
+    - yaml
+
+### 2.2.1 配置文件优先级
+
