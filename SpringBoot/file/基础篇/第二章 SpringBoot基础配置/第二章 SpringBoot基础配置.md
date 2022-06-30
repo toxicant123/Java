@@ -38,10 +38,24 @@ logging.level.root=debug
 
 SpringBoot可配置属性汇总：https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#application-properties
 
+注意：使用对应技术才能进行对应的配置
+
+下面这个坐标定义了SpringBoot相关的基础配置
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+    <version>2.5.4</version>
+    <scope>compile</scope>
+</dependency>
+```
+
 总结：
 
 1. SpringBoot默认配置文件是application.properties
 2. application.properties文件中只要输入要配置的属性关键字就可以根据提示进行设置
 3. SpringBoot将配置信息集中在一个文件中
-
+4. SpringBoot中导入对应starter后，才提供对应配置属性
+5. 书写SpringBoot配置时IDEA采用关键字+提示形式书写
 
