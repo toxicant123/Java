@@ -11,3 +11,7 @@ likes:
 
 server:
   port: 81
+
+
+user2:
+  location: ${country}.zhejiang
