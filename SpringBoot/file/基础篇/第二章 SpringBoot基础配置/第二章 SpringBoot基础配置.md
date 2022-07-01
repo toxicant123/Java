@@ -58,6 +58,9 @@ SpringBoot可配置属性汇总：https://docs.spring.io/spring-boot/docs/curren
 3. SpringBoot将配置信息集中在一个文件中
 4. SpringBoot中导入对应starter后，才提供对应配置属性
 5. 书写SpringBoot配置时IDEA采用关键字+提示形式书写
+6. 配置文件间的加载优先级	properties（最高）>  yml  >  yaml（最低）
+7. 不同配置文件中相同配置按照加载优先级相互覆盖，不同配置文件中不同配置全部保留
+
 
 ## 2.2 配置文件的种类
 
@@ -98,3 +101,10 @@ yml和yaml文件格式其实是一模一样的，只是后缀名不同。
 
 ### 2.2.1 配置文件优先级
 
+三种配置文件的加载优先顺序
+
+```text
+application.properties  >  application.yml  >  application.yaml
+```
+
+注意：每个配置文件中的项都会生效，但多个配置文件中相同类型的配置会被优先级高的文件。如果配置项不同的话，那所有的配置项都会生效。
