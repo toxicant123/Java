@@ -1,6 +1,6 @@
 package com.toxicant123;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
  * @Description
  * @create 2022-07-02 9:49
  */
+//1. 定义数据模型封装yaml文件中对应的数据
+//2. 定义为spring管控的bean
 @Component
-@Configuration("datasource")
+//3. 指定加载的数据
+@ConfigurationProperties("datasource")
 public class MyDataSource {
     private String driver;
 

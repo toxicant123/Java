@@ -1,5 +1,6 @@
 package com.toxicant123.controller;
 
+import com.toxicant123.MyDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -32,6 +33,9 @@ public class BookController {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private MyDataSource myDataSource;
+
     @GetMapping
     public String getById(){
         System.out.println("springboot is running");
@@ -40,6 +44,8 @@ public class BookController {
         System.out.println("hobby: " + hobby);
         System.out.println("user2Location: " + user2Location);
         System.out.println(env.getProperty("country"));
+        System.out.println(myDataSource);
+
         return "springboot is running";
     }
 }
