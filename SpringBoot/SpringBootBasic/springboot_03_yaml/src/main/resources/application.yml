@@ -1,0 +1,23 @@
+# SpringBoot提供的配置文件种类之一————yml
+country: China
+
+user1:
+  name: John
+
+likes:
+  - music
+  - cheese
+  - game
+
+server:
+  port: 80
+
+
+user2:
+  location: ${country}.zhejiang
+
+datasource:
+  driver: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost/springboot_db
+  username: root
+  password: root666
