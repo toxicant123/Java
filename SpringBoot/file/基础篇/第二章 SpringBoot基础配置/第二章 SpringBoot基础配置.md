@@ -194,3 +194,20 @@ yaml中保存的单个数据，可以使用Spring中的注解直接读取，使�
 
 1. 使用@Value配合SpEL读取单个数据
 2. 如果数据存在多层级，依次书写层级名称即可
+
+### 2.4.2 读取对象数据
+
+SpringBoot提供了一个对象，叫Environment，使用自动装配注解可以将所有的yaml数据封装到这个对象中
+
+![img_2.png](img_2.png)
+
+数据封装到了Environment对象中，获取属性时，通过Environment的接口操作进行，具体方法时`getProperties(String)`，参数填写属性名即可
+
+总结
+
+1. 使用Environment对象封装全部配置信息
+2. 使用@Autowired自动装配数据到Environment对象中
+
+### 2.4.3 读取对象数据
+
+SpringBoot提供了可以将一组yaml对象数据封装一个Java对象的操作
