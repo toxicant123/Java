@@ -211,3 +211,18 @@ SpringBoot提供了一个对象，叫Environment，使用自动装配注解可�
 ### 2.4.3 读取对象数据
 
 SpringBoot提供了可以将一组yaml对象数据封装一个Java对象的操作
+
+首先定义一个对象，并将该对象纳入Spring管控的范围，即定义成一个bean，然后使用注解@ConfigurationProperties指定该对象加载哪一组yaml中配置的信息。
+
+![img_3.png](img_3.png)
+
+注意：对于注解@ConfigurationProperties必须设置加载数据的前缀，且数据属性名要与对象的变量名一一对应。
+
+例如：
+
+![img_4.png](img_4.png)
+
+总结
+
+1. 使用@ConfigurationProperties注解绑定配置信息到封装类中
+2. 封装类需要定义为Spring管理的bean，否则无法进行属性注入
