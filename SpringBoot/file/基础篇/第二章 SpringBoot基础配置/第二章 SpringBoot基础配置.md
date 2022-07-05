@@ -226,3 +226,47 @@ SpringBoot提供了可以将一组yaml对象数据封装一个Java对象的操�
 
 1. 使用@ConfigurationProperties注解绑定配置信息到封装类中
 2. 封装类需要定义为Spring管理的bean，否则无法进行属性注入
+
+### 2.4.4 yaml文件中的数据引用
+
+在书写yaml数据时，经常出现如下现象，如很多个文件都具有相同的目录前缀
+
+```YAML
+center:
+  dataDir: /usr/local/fire/data
+  tmpDir: /usr/local/fire/tmp
+  logDir: /usr/local/fire/log
+  msgDir: /usr/local/fire/msgDir
+```
+
+或
+
+```YAML
+center:
+  dataDir: D:/usr/local/fire/data
+  tmpDir: D:/usr/local/fire/tmp
+  logDir: D:/usr/local/fire/log
+  msgDir: D:/usr/local/fire/msgDir
+```
+
+此时可以使用引用格式来定义数据
+
+```YAML
+baseDir: /usr/local/fire
+center:
+  dataDir: ${baseDir}/data
+  tmpDir: ${baseDir}/tmp
+  logDir: ${baseDir}/log
+  msgDir: ${baseDir}/msgDir
+```
+
+注意：在书写字符串时，如果需要使用转义字符，需要将数据字符串使用双引号包裹起来
+
+```YAML
+lesson: "Spring\tboot\nlesson"
+```
+
+总结
+
+1. 在配置文件中可以使用${属性名}方式引用属性值
+2. 如果属性中出现特殊字符，可以使用双引号包裹起来作为字符解析

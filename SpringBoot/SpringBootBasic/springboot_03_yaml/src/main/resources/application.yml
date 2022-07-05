@@ -21,3 +21,5 @@ datasource:
   url: jdbc:mysql://localhost/springboot_db
   username: root
   password: root666
+
+
