@@ -12,7 +12,7 @@ name=toxicant123
 
 当输入port时，会出现自动提示
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
 根据提示敲回车，输入80端口
 
@@ -186,7 +186,7 @@ users3: [ { name:Tom , age:4 } , { name:Jerry , age:5 } ]	#对象数组缩略格
 
 yaml中保存的单个数据，可以使用Spring中的注解直接读取，使用@Value可以读取单个数据，属性名引用方式：${一级属性名.二级属性名……}
 
-![img_1.png](img_1.png)
+![img_1.png](picture/img_1.png)
 
 在使用@Value注解时，要将该注入写在某一个Spring管控的bean的属性名的上方。就可以读取到对应的单一数据行了
 
@@ -199,7 +199,7 @@ yaml中保存的单个数据，可以使用Spring中的注解直接读取，使�
 
 SpringBoot提供了一个对象，叫Environment，使用自动装配注解可以将所有的yaml数据封装到这个对象中
 
-![img_2.png](img_2.png)
+![img_2.png](picture/img_2.png)
 
 数据封装到了Environment对象中，获取属性时，通过Environment的接口操作进行，具体方法时`getProperties(String)`，参数填写属性名即可
 
@@ -214,13 +214,13 @@ SpringBoot提供了可以将一组yaml对象数据封装一个Java对象的操�
 
 首先定义一个对象，并将该对象纳入Spring管控的范围，即定义成一个bean，然后使用注解@ConfigurationProperties指定该对象加载哪一组yaml中配置的信息。
 
-![img_3.png](img_3.png)
+![img_3.png](picture/img_3.png)
 
 注意：对于注解@ConfigurationProperties必须设置加载数据的前缀，且数据属性名要与对象的变量名一一对应。
 
 例如：
 
-![img_4.png](img_4.png)
+![img_4.png](picture/img_4.png)
 
 总结
 
