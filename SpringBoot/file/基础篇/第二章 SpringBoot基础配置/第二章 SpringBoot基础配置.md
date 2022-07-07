@@ -141,30 +141,28 @@ yaml格式中也可以表示数组，在属性名书写位置的下方使用减�
 
 ```YAML
 subject:
-	- Java
-	- 前端
-	- 大数据
+  - Java
+  - 前端
+  - 大数据
 enterprise:
-	name: itcast
-    age: 16
-    subject:
-    	- Java
-        - 前端
-        - 大数据
-likes: [cheese,ball]			#数组书写缩略格式
-users:							 #对象数组格式一
+  name: itcast
+  age: 16
+  subject:
+    - Java
+    - 前端
+    - 大数据
+likes: [ cheese,ball ]            #数组书写缩略格式
+users:                            #对象数组格式一
   - name: Tom
-   	age: 4
+    age: 4
   - name: Jerry
-    age: 5		    
-users2:							 #对象数组格式二
-  -  
-    name: Tom
-   	age: 4
- -   
-    name: Jerry
-    age: 5		    
-users3: [ { name:Tom , age:4 } , { name:Jerry , age:5 } ]	#对象数组缩略格式
+    age: 5
+users2:                           #对象数组格式二
+  - name: Tom
+    age: 4
+  - name: Jerry
+    age: 5
+users3: [ { name:Tom , age:4 } , { name:Jerry , age:5 } ]    #对象数组缩略格式
 ```
 
 总结
