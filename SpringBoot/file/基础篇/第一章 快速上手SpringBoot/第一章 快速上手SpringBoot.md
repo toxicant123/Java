@@ -76,7 +76,7 @@ http://localhost:8080/books
         <version>2.5.4</version>
     </parent>
 
-    <groupId>com.itheima</groupId>
+    <groupId>com.toxicant123</groupId>
     <artifactId>springboot_01_01_quickstart</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -168,7 +168,7 @@ Spring与SpringBoot的对比
         <version>2.5.4</version>
     </parent>
 
-    <groupId>com.itheima</groupId>
+    <groupId>com.toxicant123</groupId>
     <artifactId>springboot_01_04_quickstart</artifactId>
     <version>1.0-SNAPSHOT</version>
 

@@ -135,3 +135,75 @@ class Springboot04JunitApplicationTests {
 ```
 
 第二步，进行Spring核心配置
+
+```java
+@Configuration
+@ComponentScan("com.toxicant123")
+@PropertySource("jdbc.properties")
+public class SpringConfig {
+}
+```
+
+第三步，使用@Bean注解使得spring容器管理MyBatis
+
+```java
+//定义mybatis专用的配置类
+@Configuration
+public class MyBatisConfig {
+    //    定义创建SqlSessionFactory对应的bean
+    @Bean
+    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
+        //SqlSessionFactoryBean是由mybatis-spring包提供的，专用于整合用的对象
+        SqlSessionFactoryBean sfb = new SqlSessionFactoryBean();
+        //设置数据源替代原始配置中的environments的配置
+        sfb.setDataSource(dataSource);
+        //设置类型别名替代原始配置中的typeAliases的配置
+        sfb.setTypeAliasesPackage("com.itheima.domain");
+        return sfb;
+    }
+
+    //    定义加载所有的映射配置
+    @Bean
+    public MapperScannerConfigurer mapperScannerConfigurer() {
+        MapperScannerConfigurer msc = new MapperScannerConfigurer();
+        msc.setBasePackage("com.itheima.dao");
+        return msc;
+    }
+}
+```
+
+第四步，配置数据源
+
+```java
+@Configuration
+public class JdbcConfig {
+    @Value("${jdbc.driver}")
+    private String driver;
+    @Value("${jdbc.url}")
+    private String url;
+    @Value("${jdbc.username}")
+    private String userName;
+    @Value("${jdbc.password}")
+    private String password;
+
+    @Bean("dataSource")
+    public DataSource dataSource(){
+        DruidDataSource ds = new DruidDataSource();
+        ds.setDriverClassName(driver);
+        ds.setUrl(url);
+        ds.setUsername(userName);
+        ds.setPassword(password);
+        return ds;
+    }
+}
+```
+
+第五步，在配置文件中配置数据库连接信息
+
+```properties
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/spring_db?useSSL=false
+jdbc.username=root
+jdbc.password=root
+```
+
