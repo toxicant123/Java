@@ -14,7 +14,6 @@ class Springboot05MybatisApplicationTests {
 
     @Test
     void contextLoads() {
-//        User byId = userDao.getById(1);
         User userById = userDao.getUserById(1);
         System.out.println(userById);
     }
@@ -24,5 +23,4 @@ class Springboot05MybatisApplicationTests {
         User byId = userDao.getById(1);
         System.out.println(byId);
     }
-
 }

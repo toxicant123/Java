@@ -246,3 +246,88 @@ spring:
     password: root
 ```
 
+步骤三：在pojo包下创建实体类
+
+```java
+public class User {
+    private Integer id;
+    private String name;
+
+    public User() {
+    }
+
+    public User(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "user{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+}
+```
+
+步骤四：在dao包下创建映射接口
+
+```java
+@Mapper
+public interface UserDao {
+    @Select("select * from user where id = #{id}")
+    User getById(Integer id);
+
+    User getUserById(Integer id);
+}
+```
+
+步骤五：编写并运行测试类
+
+```java
+@SpringBootTest
+class Springboot05MybatisApplicationTests {
+
+    @Autowired
+    private UserDao userDao;
+
+    @Test
+    void contextLoads() {
+        User userById = userDao.getUserById(1);
+        System.out.println(userById);
+    }
+
+    @Test
+    public void test1(){
+        User byId = userDao.getById(1);
+        System.out.println(byId);
+    }
+}
+```
+
+总结
+
+1. 整合操作需要勾选MyBatis技术，也就是导入MyBatis对应的starter
+2. 数据库连接相关信息转换成配置
+3. 数据库SQL映射需要添加@Mapper被容器识别到
+4. MySQL 8.X驱动强制要求设置时区
+    - 修改url，添加`serverTimezone=UTC`或`serverTimezone=Asia/Shanghai`
+    - 修改MySQL数据库配置文件`mysql.ini`，在mysqld项下添加`default-time-zone=+8:00`
+5. 驱动类过时，会提醒更换为`com.mysql.cj.jdbc.Driver`
