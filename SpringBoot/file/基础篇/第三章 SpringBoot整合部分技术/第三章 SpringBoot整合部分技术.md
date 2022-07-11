@@ -373,6 +373,11 @@ spring:
       url: jdbc:mysql://localhost:3306/test
       username: root
       password: 123456
+
+#mybatis-plus:
+#   global-config:
+#      db-config:
+#         table-prefix: tbl_		#设置所有表的通用前缀名称为tbl_
 ```
 
 步骤三：在pojo包下创建实体类
@@ -423,3 +428,30 @@ public class User {
 public interface UserDao extends BaseMapper<User> {
 }
 ```
+
+Dao接口继承了一个BaseMapper的接口，这个接口中帮助开发者预定了若干个常用的API接口，简化了通用API接口的开发工作
+
+![img_2.png](img_2.png)
+
+步骤五：编写并运行测试类
+
+```java
+@SpringBootTest
+class Springboot06MybatisPlusApplicationTests {
+
+    @Autowired
+    private UserDao userDao;
+
+    @Test
+    void contextLoads() {
+        User user = userDao.selectById(2);
+        System.out.println(user);
+    }
+}
+```
+
+总结
+
+1. 手工添加MyBatis-Plus对应的starter
+2. 数据层接口使用BaseMapper简化开发
+3. 需要使用的第三方技术无法通过勾选确定时，需要手工添加坐标
