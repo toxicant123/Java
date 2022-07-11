@@ -238,12 +238,17 @@ jdbc.password=root
 
 ```yaml
 #2.配置相关信息
+#数据库配置
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ssm_db
-    username: root
-    password: root
+   datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/test
+      username: root
+      password: 123456
+
+mybatis:
+   type-aliases-package: com.toxicant123.pojo   #给pojo实体类起别名
+   mapper-locations: classpath:mapper/*.xml     #接口的配置文件的具体位置
 ```
 
 步骤三：在pojo包下创建实体类
@@ -299,7 +304,21 @@ public interface UserDao {
 }
 ```
 
-步骤五：编写并运行测试类
+步骤五：在resource/mapper下创建XML配置文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toxicant123.dao.UserDao">
+   <select id="getUserById" resultType="user">
+      select * from user where id = #{id}
+   </select>
+</mapper>
+```
+
+步骤六：编写并运行测试类
 
 ```java
 @SpringBootTest
@@ -331,3 +350,76 @@ class Springboot05MybatisApplicationTests {
     - 修改url，添加`serverTimezone=UTC`或`serverTimezone=Asia/Shanghai`
     - 修改MySQL数据库配置文件`mysql.ini`，在mysqld项下添加`default-time-zone=+8:00`
 5. 驱动类过时，会提醒更换为`com.mysql.cj.jdbc.Driver`
+
+## 3.3 整合MyBatis-Plus
+
+步骤一：导入对应的starter
+
+```XML
+<dependency>
+    <groupId>com.baomidou</groupId>
+    <artifactId>mybatis-plus-boot-starter</artifactId>
+    <version>3.4.3</version>
+</dependency>
+```
+
+步骤二：配置数据源相关信息
+
+```yaml
+#2.配置相关信息
+spring:
+   datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/test
+      username: root
+      password: 123456
+```
+
+步骤三：在pojo包下创建实体类
+
+```java
+public class User {
+    private Integer id;
+    private String name;
+
+    public User() {
+    }
+
+    public User(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "user{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+}
+```
+
+步骤四：在dao中创建映射接口
+
+```java
+@Mapper
+public interface UserDao extends BaseMapper<User> {
+}
+```
