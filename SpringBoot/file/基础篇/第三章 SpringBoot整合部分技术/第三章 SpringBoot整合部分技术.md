@@ -452,6 +452,72 @@ class Springboot06MybatisPlusApplicationTests {
 
 总结
 
-1. 手工添加MyBatis-Plus对应的starter
+1. 添加MyBatis-Plus对应的starter
 2. 数据层接口使用BaseMapper简化开发
 3. 需要使用的第三方技术无法通过勾选确定时，需要手工添加坐标
+
+## 3.4 整合Druid
+
+### 3.4.1 方式一
+
+步骤一：导入对应的坐标
+
+```XML
+<dependencies>
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>1.1.16</version>
+    </dependency>
+</dependencies>
+```
+
+步骤二：修改配置，在数据源配置中有一个type属性，专用于指定数据源类型
+
+```YAML
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ssm_db?serverTimezone=UTC
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+```
+
+### 3.4.1 方式二
+
+步骤一：导入对应的starter
+
+```XML
+<dependencies>
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid-spring-boot-starter</artifactId>
+        <version>1.2.6</version>
+    </dependency>
+</dependencies>
+```
+
+步骤二：修改相关配置
+
+```YAML
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/ssm_db?serverTimezone=UTC
+      username: root
+      password: root
+```
+
+提示：druid其他的专用配置
+
+![img_3.png](img_3.png)
+
+总结
+
+1. 整合Druid需要导入Druid对应的starter
+2. 根据Druid提供的配置方式进行配置
+3. 整合第三方技术通用方式
+   - 导入对应的starter
+   - 根据提供的配置格式，配置非默认值对应的配置项
