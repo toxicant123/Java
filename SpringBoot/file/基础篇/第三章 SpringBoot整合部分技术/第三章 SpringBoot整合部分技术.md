@@ -207,3 +207,42 @@ jdbc.username=root
 jdbc.password=root
 ```
 
+### 3.2.2 SpringBoot整合MyBatis
+
+步骤一，创建模块时勾选MyBatis，由于要操作数据库，还要勾选对应数据库
+
+![img.png](img.png)
+
+![img_1.png](img_1.png)
+
+或者手工导入对应技术的starter，和对应数据库的坐标
+
+```XML
+<dependencies>
+    <!--1.导入对应的starter-->
+    <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>2.2.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+```
+
+步骤二：配置数据源相关信息
+
+```yaml
+#2.配置相关信息
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ssm_db
+    username: root
+    password: root
+```
+
