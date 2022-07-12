@@ -10,4 +10,5 @@ spring:
 mybatis-plus:
   global-config:
     db-config:
-      table-prefix: tbl_
+      table-prefix: tbl_  #设置表名前缀
+      id-type: auto       #设置主键的自增策略
