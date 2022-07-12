@@ -211,9 +211,9 @@ jdbc.password=root
 
 步骤一，创建模块时勾选MyBatis，由于要操作数据库，还要勾选对应数据库
 
-![img.png](img.png)
+![img.png](picture/img.png)
 
-![img_1.png](img_1.png)
+![img_1.png](picture/img_1.png)
 
 或者手工导入对应技术的starter，和对应数据库的坐标
 
@@ -431,7 +431,7 @@ public interface UserDao extends BaseMapper<User> {
 
 Dao接口继承了一个BaseMapper的接口，这个接口中帮助开发者预定了若干个常用的API接口，简化了通用API接口的开发工作
 
-![img_2.png](img_2.png)
+![img_2.png](picture/img_2.png)
 
 步骤五：编写并运行测试类
 
@@ -512,7 +512,7 @@ spring:
 
 提示：druid其他的专用配置
 
-![img_3.png](img_3.png)
+![img_3.png](picture/img_3.png)
 
 总结
 
