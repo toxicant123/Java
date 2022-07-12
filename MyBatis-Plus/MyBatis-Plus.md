@@ -14,7 +14,7 @@
 
 ![img_2.png](picture/img_2.png)
 
-### 2、特性
+### 2. 特性
 
 * **无侵入**：只做增强不做改变，引入它不会对现有工程产生影响，如丝般顺滑
 * **损耗小**：启动即会自动注入基本 CURD，性能基本无损耗，直接面向对象操作
@@ -267,16 +267,19 @@ MyBatis-Plus中的基本CRUD在内置的BaseMapper中都已得到了实现，可
 ### 2. 插入
 
 ```java
-@Test
-public void testInsert(){
+public class Example {
+  @Test
+  public void testInsert(){
     User user = new User(null, "张三", 23, "zhangsan@atguigu.com");
     //INSERT INTO user ( id, name, age, email ) VALUES ( ?, ?, ?, ? )
     int result = userMapper.insert(user);
     System.out.println("受影响行数："+result);
     //1475754982694199298
     System.out.println("id自动获取："+user.getId());
+  }
 }
 ```
+
 [相关文件MybatisplusApplicationTest](mybatisplus/src/test/java/com/toxicant123/mybatisplus/MybatisplusApplicationTests.java)
 
 > 最终执行的结果，所获取的id为1475754982694199298
@@ -288,33 +291,38 @@ public void testInsert(){
 #### a> 通过id删除记录
 
 ```java
-@Test
-public void testDeleteById(){
+public class Example {
+  @Test
+  public void testDeleteById(){
     //通过id删除用户信息
     //DELETE FROM user WHERE id=?
     int result = userMapper.deleteById(1475754982694199298L);
     System.out.println("受影响行数："+result);
+  }
 }
 ```
 
 #### b> 通过id批量删除记录
 
 ```java
-@Test
-public void testDeleteBatchIds(){
+public class Example {
+  @Test
+  public void testDeleteBatchIds(){
     //通过多个id批量删除
     //DELETE FROM user WHERE id IN ( ? , ? , ? )
     List<Long> idList = Arrays.asList(1L, 2L, 3L);
     int result = userMapper.deleteBatchIds(idList);
     System.out.println("受影响行数："+result);
+  }
 }
 ```
 
 #### c> 通过map条件删除记录
 
 ```java
-@Test
-public void testDeleteByMap(){
+public class Example {
+  @Test
+  public void testDeleteByMap(){
     //根据map集合中所设置的条件删除记录
     //DELETE FROM user WHERE name = ? AND age = ?
     Map<String, Object> map = new HashMap<>();
@@ -322,6 +330,7 @@ public void testDeleteByMap(){
     map.put("name", "张三");
     int result = userMapper.deleteByMap(map);
     System.out.println("受影响行数："+result);
+  }
 }
 ```
 
@@ -330,12 +339,14 @@ public void testDeleteByMap(){
 ### 4. 修改
 
 ```java
-@Test
-public void testUpdateById(){
+public class Example {
+  @Test
+  public void testUpdateById(){
     User user = new User(4L, "admin", 22, null);
     //UPDATE user SET name=?, age=? WHERE id=?
     int result = userMapper.updateById(user);
     System.out.println("受影响行数："+result);
+  }
 }
 ```
 
@@ -344,33 +355,38 @@ public void testUpdateById(){
 #### a> 根据id查询用户信息
 
 ```java
-@Test
-public void testSelectById(){
+public class Example {
+  @Test
+  public void testSelectById(){
     //根据id查询用户信息
     //SELECT id,name,age,email FROM user WHERE id=?
     User user = userMapper.selectById(4L);
     System.out.println(user);
+  }
 }
 ```
 
 #### b> 根据多个id查询多个用户信息
 
 ```java
-@Test
-public void testSelectBatchIds(){
+public class Example {
+  @Test
+  public void testSelectBatchIds(){
     //根据多个id查询多个用户信息
     //SELECT id,name,age,email FROM user WHERE id IN ( ? , ? )
     List<Long> idList = Arrays.asList(4L, 5L);
     List<User> list = userMapper.selectBatchIds(idList);
     list.forEach(System.out::println);
+  }
 }
 ```
 
 ### c> 通过map条件查询用户信息
 
 ```java
-@Test
-public void testSelectByMap(){
+public class Example {
+  @Test
+  public void testSelectByMap(){
     //通过map条件查询用户信息
     //SELECT id,name,age,email FROM user WHERE name = ? AND age = ?
     Map<String, Object> map = new HashMap<>();
@@ -378,18 +394,21 @@ public void testSelectByMap(){
     map.put("name", "admin");
     List<User> list = userMapper.selectByMap(map);
     list.forEach(System.out::println);
+  }
 }
 ```
 
 #### d> 查询所有数据
 
 ```java
-@Test
-public void testSelectList(){
+public class Example {
+  @Test
+  public void testSelectList(){
     //查询所有用户信息
     //SELECT id,name,age,email FROM user
     List<User> list = userMapper.selectList(null);
     list.forEach(System.out::println);
+  }
 }
 ```
 
@@ -456,32 +475,36 @@ UserService {
 #### c> 测试查询记录数
 
 ```java
-@Autowired
-private UserService userService;
+public class Example {
+  @Autowired
+  private UserService userService;
 
-@Test
-public void testGetCount(){
+  @Test
+  public void testGetCount(){
     long count = userService.count();
     System.out.println("总记录数：" + count);
+  }
 }
 ```
 
 #### d> 测试批量插入
 
 ```java
-@Test
-public void testSaveBatch(){
+public class Example {
+  @Test
+  public void testSaveBatch(){
     // SQL长度有限制，海量数据插入单条SQL无法实行，
     // 因此MP将批量插入放在了通用Service中实现，而不是通用Mapper
     ArrayList<User> users = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
-    User user = new User();
-    user.setName("ybc" + i);
-    user.setAge(20 + i);
-    users.add(user);
-}
+      User user = new User();
+      user.setName("ybc" + i);
+      user.setAge(20 + i);
+      users.add(user);
+    }
     //SQL:INSERT INTO t_user ( username, age ) VALUES ( ?, ? )
     userService.saveBatch(users);
+  }
 }
 ```
 
@@ -1061,13 +1084,15 @@ User(id=1, name=Jone, age=18, email=test1@baomidou.com, isDeleted=0) User(id=2, 
 #### a> UserMapper中定义接口方法
 
 ```java
-/**
-* 根据年龄查询用户列表，分页显示
-* @param page 分页对象,xml中可以从里面进行取值,传递参数 Page 即自动分页,必须放在第一位
-* @param age 年龄
-* @return
-*/
-Page<User> selectPageVo(@Param("page") Page<User> page, @Param("age") Integer age);
+public interface Example {
+  /**
+   * 根据年龄查询用户列表，分页显示
+   * @param page 分页对象,xml中可以从里面进行取值,传递参数 Page 即自动分页,必须放在第一位
+   * @param age 年龄
+   * @return
+   */
+  Page<User> selectPageVo(@Param("page") Page<User> page, @Param("age") Integer age);
+}
 ```
 
 [相关文件ProductMapper.java](mybatisplus/src/main/java/com/toxicant123/mybatisplus/mapper/ProductMapper.java)
@@ -1079,8 +1104,7 @@ Page<User> selectPageVo(@Param("page") Page<User> page, @Param("age") Integer ag
 <sql id="BaseColumns">id,username,age,email</sql>
         <!--IPage<User> selectPageVo(Page<User> page, Integer age);-->
 <select id="selectPageVo" resultType="User">
-SELECT <include refid="BaseColumns"></include> FROM t_user WHERE age > #
-{age}
+SELECT <include refid="BaseColumns"></include> FROM t_user WHERE age > #{age}
 </select>
 ```
 
