@@ -12,3 +12,5 @@ mybatis-plus:
     db-config:
       table-prefix: tbl_  #设置表名前缀
       id-type: auto       #设置主键的自增策略
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #开启MyBatis-Plus日志
