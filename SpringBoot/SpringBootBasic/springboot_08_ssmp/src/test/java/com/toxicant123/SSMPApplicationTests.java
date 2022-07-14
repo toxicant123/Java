@@ -59,5 +59,16 @@ class SSMPApplicationTests {
     public void testGetPage(){
         Page<Book> page = new Page<>(1, 5);
         bookDao.selectPage(page,null);
+        System.out.println(page.getCurrent());
+        System.out.println(page.getSize());
+        System.out.println(page.getTotal());
+        System.out.println(page.getPages());
+        System.out.println(page.getRecords());
+    }
+
+    @Test
+    public void testGetPage2(){
+        Page<Book> page = new Page<>(3, 5);
+        bookDao.selectPage(page,null);
     }
 }
