@@ -1,6 +1,7 @@
 package com.toxicant123;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.toxicant123.dao.BookDao;
 import com.toxicant123.pojo.Book;
 import org.junit.jupiter.api.Test;
@@ -52,5 +53,11 @@ class SSMPApplicationTests {
     public void testGetAll(){
         List<Book> books = bookDao.selectList(null);
         System.out.println(books);
+    }
+    
+    @Test
+    public void testGetPage(){
+        Page<Book> page = new Page<>(1, 5);
+        bookDao.selectPage(page,null);
     }
 }
