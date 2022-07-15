@@ -1,47 +1,36 @@
 package com.toxicant123.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.toxicant123.dao.BookDao;
 import com.toxicant123.pojo.Book;
-import com.toxicant123.service.BookService;
+import com.toxicant123.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author toxicant123
  * @version 1.0
  * @Description
- * @create 2022-07-15 19:47
+ * @create 2022-07-15 20:13
  */
 @Service
-public class BookServiceImpl implements BookService {
-
+public class BookServiceImpl extends ServiceImpl<BookDao, Book> implements IBookService {
     @Autowired
-    BookDao bookDao;
+    private BookDao bookDao;
+
 
     @Override
-    public Boolean save(Book book) {
+    public boolean saveBook(Book book) {
         return bookDao.insert(book) > 0;
     }
 
     @Override
-    public Boolean update(Book book) {
+    public boolean modify(Book book) {
         return bookDao.updateById(book) > 0;
     }
 
     @Override
-    public Boolean delete(Integer id) {
+    public boolean delete(Integer id) {
         return bookDao.deleteById(id) > 0;
-    }
-
-    @Override
-    public Book getById(Integer id) {
-        return bookDao.selectById(id);
-    }
-
-    @Override
-    public List<Book> getAll() {
-        return bookDao.selectList(null);
     }
 }

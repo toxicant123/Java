@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.toxicant123.dao.BookDao;
 import com.toxicant123.pojo.Book;
 import com.toxicant123.service.BookService;
+import com.toxicant123.service.IBookService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,9 @@ class SSMPApplicationTests {
     
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private IBookService bookServices;
 
     @Value("${server.port}")
     private String s1;
@@ -180,5 +184,17 @@ class SSMPApplicationTests {
     public void testServiceGetAll(){
         List<Book> all = bookService.getAll();
         System.out.println(all);
+    }
+    
+    @Test
+    public void testGetById3(){
+        Book byId = bookServices.getById(1);
+        System.out.println(byId);
+    }
+
+    @Test
+    public void test2(){
+        int count = bookServices.count();
+        System.out.println(count);
     }
 }
