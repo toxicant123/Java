@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.toxicant123.dao.BookDao;
 import com.toxicant123.pojo.Book;
+import com.toxicant123.service.BookService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,9 @@ import java.util.List;
 class SSMPApplicationTests {
     @Autowired
     private BookDao bookDao;
+    
+    @Autowired
+    private BookService bookService;
 
     @Value("${server.port}")
     private String s1;
@@ -133,5 +137,48 @@ class SSMPApplicationTests {
         System.out.println(s3);
         System.out.println(s4);
         System.out.println(s5);
+    }
+
+    @Test
+    public void testServiceSave(){
+        Book book = new Book();
+        book.setName("TestBookService");
+        book.setType("TestData");
+        book.setDescription("TestBookService");
+        bookService.save(book);
+    }
+
+    @Test
+    public void testServiceUpdate(){
+        QueryWrapper<Book> wrap = new QueryWrapper<>();
+        wrap.select("id").orderByDesc("id");
+        List<Book> books = bookDao.selectList(wrap);
+        Book book = new Book();
+        book.setId(books.get(0).getId());
+        book.setName("TestServiceUpdate");
+        book.setType("TestData");
+        book.setDescription("TestServiceUpdate");
+    }
+
+    @Test
+    public void testServiceDelete(){
+        QueryWrapper<Book> wrap = new QueryWrapper<>();
+        wrap.select("id").orderByDesc("id");
+        List<Book> books = bookDao.selectList(wrap);
+        bookService.delete(books.get(0).getId());
+    }
+
+    @Test
+    public void testServiceGetById(){
+        QueryWrapper<Book> wrap = new QueryWrapper<>();
+        wrap.select("id").orderByDesc("id");
+        List<Book> books = bookDao.selectList(wrap);
+        System.out.println(bookService.getById(books.get(0).getId()));
+    }
+
+    @Test
+    public void testServiceGetAll(){
+        List<Book> all = bookService.getAll();
+        System.out.println(all);
     }
 }
