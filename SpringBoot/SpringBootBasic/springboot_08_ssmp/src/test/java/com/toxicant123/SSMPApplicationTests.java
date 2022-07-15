@@ -7,6 +7,7 @@ import com.toxicant123.dao.BookDao;
 import com.toxicant123.pojo.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -15,6 +16,21 @@ import java.util.List;
 class SSMPApplicationTests {
     @Autowired
     private BookDao bookDao;
+
+    @Value("${server.port}")
+    private String s1;
+
+    @Value("${mybatis-plus.configuration.log-impl}")
+    private String s2;
+
+    @Value("${spring.datasource.druid.driver-class-name}")
+    private String s3;
+
+    @Value("${spring.datasource.druid.url}")
+    private String s4;
+
+    @Value("${mybatis-plus.global-config.db-config.table-prefix}")
+    private String s5;
 
     @Test
     public void testGetById() {
@@ -82,31 +98,40 @@ class SSMPApplicationTests {
     }
 
     @Test
-    public void testGetBy2(){
+    public void testGetBy2() {
         LambdaQueryWrapper<Book> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(Book::getName,"spring");
+        wrapper.like(Book::getName, "spring");
         bookDao.selectList(wrapper);
     }
 
     @Test
-    public void testGetBy3(){
+    public void testGetBy3() {
         String name = null;
         LambdaQueryWrapper<Book> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(name != null,Book::getName,name);
+        wrapper.like(name != null, Book::getName, name);
         bookDao.selectList(wrapper);
     }
 
     @Test
-    public void testGetBy4(){
+    public void testGetBy4() {
         QueryWrapper<Book> wrapper = new QueryWrapper<>();
         wrapper.select("count(*) count");
         bookDao.selectOne(wrapper);
     }
 
     @Test
-    public void testGetBy5(){
+    public void testGetBy5() {
         QueryWrapper<Book> wrapper = new QueryWrapper<>();
         wrapper.select("max(id) maxOne");
         bookDao.selectOne(wrapper);
+    }
+
+    @Test
+    public void test1(){
+        System.out.println(s1);
+        System.out.println(s2);
+        System.out.println(s3);
+        System.out.println(s4);
+        System.out.println(s5);
     }
 }
