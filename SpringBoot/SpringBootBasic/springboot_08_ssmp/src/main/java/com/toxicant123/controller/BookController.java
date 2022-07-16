@@ -1,12 +1,10 @@
 package com.toxicant123.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.toxicant123.controller.utils.R;
 import com.toxicant123.pojo.Book;
 import com.toxicant123.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author toxicant123
@@ -21,32 +19,32 @@ public class BookController {
     private IBookService bookService;
 
     @GetMapping
-    public List<Book> getAll(){
-        return bookService.list();
+    public R getAll(){
+        return new R(true,bookService.list());
     }
 
     @PostMapping
-    public Boolean save(@RequestBody Book book){
-        return bookService.save(book);
+    public R save(@RequestBody Book book){
+        return new R(bookService.save(book));
     }
 
     @PutMapping
-    public Boolean update(@RequestBody Book book){
-        return bookService.modify(book);
+    public R update(@RequestBody Book book){
+        return new R(bookService.modify(book));
     }
 
     @DeleteMapping("{id}")
-    public Boolean delete(@PathVariable Integer id){
-        return bookService.delete(id);
+    public R delete(@PathVariable Integer id){
+        return new R(bookService.delete(id));
     }
 
     @GetMapping("{id}")
-    public Book getById(@PathVariable Integer id){
-        return bookService.getById(id);
+    public R getById(@PathVariable Integer id){
+        return new R(true, bookService.getById(id));
     }
 
     @GetMapping("{currentPage}/{pageSize}")
-    public IPage<Book> getPage(@PathVariable int currentPage,@PathVariable int pageSize){
-        return bookService.getPage(currentPage, pageSize);
+    public R getPage(@PathVariable int currentPage,@PathVariable int pageSize){
+        return new R(true,bookService.getPage(currentPage, pageSize));
     }
 }
