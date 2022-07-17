@@ -150,3 +150,106 @@ public class Book {
 2. 使用lombok简化开发
    - 导入lombok无需指定版本，由SpringBoot提供版本
    - @Data注解
+
+### 4.5 数据层开发——基础CRUD
+
+步骤一：导入MyBatisPlus与Druid对应的starter，还有mysql的驱动
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-boot-starter</artifactId>
+        <version>3.4.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid-spring-boot-starter</artifactId>
+        <version>1.2.6</version>
+    </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+```
+
+步骤二：配置数据库连接相关的数据源配置
+
+```YAML
+server:
+  port: 80
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/ssm_db?serverTimezone=UTC
+      username: root
+      password: root
+```
+
+步骤三：创建mapper接口，并继承MyBatis-Plus的标准通用接口BaseMapper，在加上@Mapper注解和BaseMapper的泛型
+
+```JAVA
+@Mapper
+public interface BookDao extends BaseMapper<Book> {
+}
+```
+
+步骤四：编写测试类
+
+```JAVA
+package com.itheima.dao;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.itheima.domain.Book;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+public class BookDaoTestCase {
+
+    @Autowired
+    private BookDao bookDao;
+
+    @Test
+    void testGetById(){
+        System.out.println(bookDao.selectById(1));
+    }
+
+    @Test
+    void testSave(){
+        Book book = new Book();
+        book.setType("测试数据123");
+        book.setName("测试数据123");
+        book.setDescription("测试数据123");
+        bookDao.insert(book);
+    }
+
+    @Test
+    void testUpdate(){
+        Book book = new Book();
+        book.setId(17);
+        book.setType("测试数据abcdefg");
+        book.setName("测试数据123");
+        book.setDescription("测试数据123");
+        bookDao.updateById(book);
+    }
+
+    @Test
+    void testDelete(){
+        bookDao.deleteById(16);
+    }
+
+    @Test
+    void testGetAll(){
+        bookDao.selectList(null);
+    }
+}
+```
