@@ -151,7 +151,7 @@ public class Book {
    - 导入lombok无需指定版本，由SpringBoot提供版本
    - @Data注解
 
-### 4.5 数据层开发——基础CRUD
+## 4.5 数据层开发——基础CRUD
 
 步骤一：导入MyBatisPlus与Druid对应的starter，还有mysql的驱动
 
@@ -253,3 +253,81 @@ public class BookDaoTestCase {
     }
 }
 ```
+
+MyBatis-Plus默认的主键生成策略为雪花算法，生成的主键ID长度较大，和目前的数据库设定规则不相符，需要配置一下使MyBatis-Plus使用数据库的主键生成策略，application.yml中添加对应配置即可
+
+```yaml
+server:
+  port: 80
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/ssm_db?serverTimezone=UTC
+      username: root
+      password: root
+
+mybatis-plus:
+  global-config:
+    db-config:
+      table-prefix: tbl_		#设置表名通用前缀
+      id-type: auto				#设置主键id字段的生成策略为参照数据库设定的策略，当前数据库设置id生成策略为自增
+```
+
+### 开启MyBatis-Plus运行日志
+
+SpringBoot可以通过配置的形式查阅执行期SQL语句，配置如下
+
+```YAML
+mybatis-plus:
+  global-config:
+    db-config:
+      table-prefix: tbl_
+      id-type: auto
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+```
+
+再来看运行结果，此时就显示了运行期执行SQL的情况
+
+```text
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2c9a6717] was not registered for synchronization because synchronization is not active
+JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@6ca30b8a] will not be managed by Spring
+==>  Preparing: SELECT id,type,name,description FROM tbl_book
+==> Parameters: 
+<==    Columns: id, type, name, description
+<==        Row: 1, 计算机理论, Spring实战 第5版, Spring入门经典教程，深入理解Spring原理技术内幕
+<==        Row: 2, 计算机理论, Spring 5核心原理与30个类手写实战, 十年沉淀之作，手写Spring精华思想
+<==        Row: 3, 计算机理论, Spring 5 设计模式, 深入Spring源码剖析Spring源码中蕴含的10大设计模式
+<==        Row: 4, 计算机理论, Spring MVC+MyBatis开发从入门到项目实战, 全方位解析面向Web应用的轻量级框架，带你成为Spring MVC开发高手
+<==        Row: 5, 计算机理论, 轻量级Java Web企业应用实战, 源码级剖析Spring框架，适合已掌握Java基础的读者
+<==        Row: 6, 计算机理论, Java核心技术 卷I 基础知识（原书第11版）, Core Java 第11版，Jolt大奖获奖作品，针对Java SE9、10、11全面更新
+<==        Row: 7, 计算机理论, 深入理解Java虚拟机, 5个维度全面剖析JVM，大厂面试知识点全覆盖
+<==        Row: 8, 计算机理论, Java编程思想（第4版）, Java学习必读经典,殿堂级著作！赢得了全球程序员的广泛赞誉
+<==        Row: 9, 计算机理论, 零基础学Java（全彩版）, 零基础自学编程的入门图书，由浅入深，详解Java语言的编程思想和核心技术
+<==        Row: 10, 市场营销, 直播就该这么做：主播高效沟通实战指南, 李子柒、李佳琦、薇娅成长为网红的秘密都在书中
+<==        Row: 11, 市场营销, 直播销讲实战一本通, 和秋叶一起学系列网络营销书籍
+<==        Row: 12, 市场营销, 直播带货：淘宝、天猫直播从新手到高手, 一本教你如何玩转直播的书，10堂课轻松实现带货月入3W+
+<==        Row: 13, 测试类型, 测试数据, 测试描述数据
+<==        Row: 14, 测试数据update, 测试数据update, 测试数据update
+<==        Row: 15, -----------------, 测试数据123, 测试数据123
+<==      Total: 15
+```
+
+其中清晰的标注了当前执行的SQL语句是什么，携带了什么参数，对应的执行结果是什么，信息很全面
+
+此处设4置的是日志的显示形式，当前配置的是控制台输出，当然还可以由更多的选择，根据需求切换即可
+
+![img_5.png](img_5.png)
+
+### 总结
+
+1. 手动导入starter坐标（2个），mysql驱动（1个）
+2. 配置数据源与MyBatisPlus对应的配置
+3. 开发Dao接口（继承BaseMapper）
+4. 制作测试类测试Dao功能是否有效
+5. 使用配置方式开启日志，设置日志输出方式为标准输出即可查阅SQL执行日志
+
+   
