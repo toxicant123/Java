@@ -106,7 +106,7 @@ INSERT INTO `tbl_book` VALUES (11, '市场营销', '直播销讲实战一本通'
 INSERT INTO `tbl_book` VALUES (12, '市场营销', '直播带货：淘宝、天猫直播从新手到高手', '一本教你如何玩转直播的书，10堂课轻松实现带货月入3W+');
 ```
 
-根据上述表结构，制作对应的实体类
+根据上述表结构，创建pojo包并写出对应的实体类
 
 ```JAVA
 public class Book {
@@ -118,3 +118,35 @@ public class Book {
 ```
 
 实体类的开发可以手动生成get/set方法，然后覆盖toString()方法，但此处用更为简便的lombok注解
+
+Lombok，是一个Java类库，提供了一组注解，用于简化实体类开发，SpringBoot目前默认集成了lombok技术，并提供了对应的版本控制，所以只需要提供对应的坐标即可，在pom.xml中添加lombok的坐标
+
+```XML
+<dependencies>
+    <!--lombok-->
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+    </dependency>
+</dependencies>
+```
+
+通过lombok的一个注解@Data完成对一个实体类添加getter，setter，toString，equals，hashCode等方法
+
+```JAVA
+import lombok.Data;
+@Data
+public class Book {
+    private Integer id;
+    private String type;
+    private String name;
+    private String description;
+}
+```
+
+#### 总结
+
+1. 实体类制作
+2. 使用lombok简化开发
+   - 导入lombok无需指定版本，由SpringBoot提供版本
+   - @Data注解
