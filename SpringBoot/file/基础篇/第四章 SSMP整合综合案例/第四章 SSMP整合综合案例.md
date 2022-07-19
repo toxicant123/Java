@@ -332,7 +332,29 @@ JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@6ca30b8a] will not be managed 
 
 ## 4.6 数据层开发——分页功能制作
 
-MyBatis-Plus提供的分页操作API如下
+### 1. 配置分页对象
+
+MySQL的分页操作使用limit关键字进行，而并不是所有的数据库都使用limit关键字实现的，MyBatis-Plus为了较好的兼容性，为分页操作设置了个开关，这个开关是以拦截器的形式存在的，需要时将开关开启，不需要时关闭即可，具体设置方式如下：
+
+定义MyBatis-Plus拦截器并将其设置为Spring管控的bean
+
+```JAVA
+@Configuration
+public class MPConfig {
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor(){
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        return interceptor;
+    }
+}
+```
+
+代码的第一行是创建MyBatis-Plus的拦截器栈，这个时候拦截器栈中没有具体的拦截器，第二行是初始化了分页拦截器，并添加到拦截器栈中。如果后期开发其他功能，需要添加全新的拦截器，按照第二行的格式继续add进去新的拦截器就可以了。
+
+### 2. 书写分页代码
+
+MyBatis-Plus提供的分页操作如下：
 
 ```java
 public class Example {
@@ -354,4 +376,45 @@ public class Example {
 - 当前显示第几页
 - 每页显示几条数据
 
-- 可以通过创建Page对象时利用构造方法初始化这两个数据
+可以通过创建Page对象时利用构造方法初始化这两个数据
+
+```java
+public class Example {
+    public static void main(String[] args) {
+       IPage page = new Page(2,5);
+    }
+}
+```
+
+将该对象传入到查询方法selectPage后，可以得到查询结果，仍然是一个IPage对象
+
+```java
+public class Example {
+    public static void main(String[] args) {
+       IPage page = bookDao.selectPage(page, null);
+    }
+}
+```
+
+这个IPage对象中封装了若干个数据，而查询的结果作为IPage对象封装的一个数据存在的，可以理解为查询结果得到后，又塞到了这个IPage对象中，其实还是为了高度的封装，一个IPage描述了分页所有的信息。下面5个操作就是IPage对象中封装的所有信息：
+
+```java
+public class Example {
+   @Test
+   void testGetPage(){
+      IPage page = new Page(2,5);
+      bookDao.selectPage(page, null);
+      System.out.println(page.getCurrent());		//当前页码值
+      System.out.println(page.getSize());	        //每页显示数
+      System.out.println(page.getTotal());		//数据总量
+      System.out.println(page.getPages());		//总页数
+      System.out.println(page.getRecords());		//详细数据
+   }
+}
+```
+
+### 总结
+
+1. 使用IPage封装分页数据
+2. 分页操作依赖MyBatisPlus分页拦截器实现功能
+3. 借助MyBatisPlus日志查阅执行SQL语句
