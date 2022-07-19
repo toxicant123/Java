@@ -441,3 +441,37 @@ public class Example {
 这组API使用还是比较简单的，但是关于属性字段名的书写存在着安全隐患，如查询字段name，当前是以字符串的形式书写的，如果写错属性名，编译器无法检测出错误，只能抛出异常，不太友好
 
 MyBatis-Plus针对字段检查进行了升级，全面支持Lambda表达式，就有了下面这组API。由QueryWrapper对象升级为LambdaQueryWrapper对象：
+
+```java
+public class Example {
+   @Test
+   void testGetBy2(){
+      String name = "1";
+      LambdaQueryWrapper<Book> lqw = new LambdaQueryWrapper<Book>();
+      lqw.like(Book::getName,name);
+      bookDao.selectList(lqw);
+   }
+}
+```
+
+为了便于开发者动态拼写SQL，防止将null数据作为条件使用，MyBatis-Plus还提供了动态拼装SQL的快捷书写方式
+
+```java
+public class Example {
+   @Test
+   void testGetBy2(){
+      String name = "1";
+      LambdaQueryWrapper<Book> lqw = new LambdaQueryWrapper<Book>();
+      //if(name != null) lqw.like(Book::getName,name);		//æ¹å¼ä¸ï¼JAVAä»£ç æ§å¶
+      lqw.like(name != null,Book::getName,name);				//æ¹å¼äºï¼APIæ¥å£æä¾æ§å¶å¼å³
+      bookDao.selectList(lqw);
+   }
+}
+```
+
+总结
+
+1. 使用QueryWrapper对象封装查询条件
+2. 推荐使用LambdaQueryWrapper对象
+3. 所有查询操作封装成方法调用
+4. 查询条件支持动态条件拼装
