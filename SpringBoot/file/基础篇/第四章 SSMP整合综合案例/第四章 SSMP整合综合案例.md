@@ -418,3 +418,26 @@ public class Example {
 1. 使用IPage封装分页数据
 2. 分页操作依赖MyBatisPlus分页拦截器实现功能
 3. 借助MyBatisPlus日志查阅执行SQL语句
+
+## 4.7 数据层开发——条件查询功能制作
+
+除了分页功能，MyBatis-Plus还提供有条件查询功能。
+
+以下是执行一个模糊匹配的操作，like方法的调用
+
+```java
+public class Example {
+   @Test
+   void testGetBy(){
+      QueryWrapper<Book> qw = new QueryWrapper<>();
+      qw.like("name","Spring");
+      bookDao.selectList(qw);
+   }
+}
+```
+
+第一句中QueryWrapper对象是一个用于封装查询条件的对象，该对象可以动态使用API调用的方法添加条件，最终转化成对应的SQL语句。第二句就是一个条件了，需要什么条件，使用QueryWapper对象直接调用对应操作即可。比如大于小于关系，就可以使用lt或gt方法，等于使用eq方法，等等
+
+这组API使用还是比较简单的，但是关于属性字段名的书写存在着安全隐患，如查询字段name，当前是以字符串的形式书写的，如果写错属性名，编译器无法检测出错误，只能抛出异常，不太友好
+
+MyBatis-Plus针对字段检查进行了升级，全面支持Lambda表达式，就有了下面这组API。由QueryWrapper对象升级为LambdaQueryWrapper对象：
