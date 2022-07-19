@@ -330,4 +330,28 @@ JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@6ca30b8a] will not be managed 
 4. 制作测试类测试Dao功能是否有效
 5. 使用配置方式开启日志，设置日志输出方式为标准输出即可查阅SQL执行日志
 
-   
+## 4.6 数据层开发——分页功能制作
+
+MyBatis-Plus提供的分页操作API如下
+
+```java
+public class Example {
+   @Test
+   void testGetPage(){
+      IPage page = new Page(2,5);
+      bookDao.selectPage(page, null);
+      System.out.println(page.getCurrent());
+      System.out.println(page.getSize());
+      System.out.println(page.getTotal());
+      System.out.println(page.getPages());
+      System.out.println(page.getRecords());
+   }
+}
+```
+
+其中selectPage方法需要传入一个封装分页数据的对象，可以通过new的形式创建这个对象，创建此对象时就需要指定分页的两个基本数据：
+
+- 当前显示第几页
+- 每页显示几条数据
+
+- 可以通过创建Page对象时利用构造方法初始化这两个数据
