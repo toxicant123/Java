@@ -475,3 +475,32 @@ public class Example {
 2. 推荐使用LambdaQueryWrapper对象
 3. 所有查询操作封装成方法调用
 4. 查询条件支持动态条件拼装
+
+## 4.8 业务层开发
+
+业务层的功能是组织业务逻辑功能，并根据业务需求，对数据持久层发起调用
+
+业务层的方法名定义一定要与业务有关，例如登录操作
+
+```text
+login(String username,String password);
+```
+
+而数据层的方法名定义几乎与业务无关，例如根据用户名密码查询
+
+```text
+selectByUserNameAndPassword(String username,String password);
+```
+
+业务层接口定义如下：
+
+```JAVA
+public interface BookService {
+    Boolean save(Book book);
+    Boolean update(Book book);
+    Boolean delete(Integer id);
+    Book getById(Integer id);
+    List<Book> getAll();
+    IPage<Book> getPage(int currentPage,int pageSize);
+}
+```
