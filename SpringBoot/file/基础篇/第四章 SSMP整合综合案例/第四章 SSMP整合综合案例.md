@@ -504,3 +504,104 @@ public interface BookService {
     IPage<Book> getPage(int currentPage,int pageSize);
 }
 ```
+
+业务层实现类如下，需调数据层
+
+```JAVA
+@Service
+public class BookServiceImpl implements BookService {
+
+    @Autowired
+    private BookDao bookDao;
+
+    @Override
+    public Boolean save(Book book) {
+        return bookDao.insert(book) > 0;
+    }
+
+    @Override
+    public Boolean update(Book book) {
+        return bookDao.updateById(book) > 0;
+    }
+
+    @Override
+    public Boolean delete(Integer id) {
+        return bookDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public Book getById(Integer id) {
+        return bookDao.selectById(id);
+    }
+
+    @Override
+    public List<Book> getAll() {
+        return bookDao.selectList(null);
+    }
+
+    @Override
+    public IPage<Book> getPage(int currentPage, int pageSize) {
+        IPage page = new Page(currentPage,pageSize);
+        bookDao.selectPage(page,null);
+        return page;
+    }
+}
+```
+
+对业务层接口进行测试，测试类如下
+
+```JAVA
+@SpringBootTest
+public class BookServiceTest {
+    @Autowired
+    private IBookService bookService;
+
+    @Test
+    void testGetById(){
+        System.out.println(bookService.getById(4));
+    }
+    @Test
+    void testSave(){
+        Book book = new Book();
+        book.setType("测试数据123");
+        book.setName("测试数据123");
+        book.setDescription("测试数据123");
+        bookService.save(book);
+    }
+    @Test
+    void testUpdate(){
+        Book book = new Book();
+        book.setId(17);
+        book.setType("-----------------");
+        book.setName("测试数据123");
+        book.setDescription("测试数据123");
+        bookService.updateById(book);
+    }
+    @Test
+    void testDelete(){
+        bookService.removeById(18);
+    }
+
+    @Test
+    void testGetAll(){
+        bookService.list();
+    }
+
+    @Test
+    void testGetPage(){
+        IPage<Book> page = new Page<Book>(2,5);
+        bookService.page(page);
+        System.out.println(page.getCurrent());
+        System.out.println(page.getSize());
+        System.out.println(page.getTotal());
+        System.out.println(page.getPages());
+        System.out.println(page.getRecords());
+    }
+
+}
+```
+
+总结
+
+1. Service接口名称定义成业务名称，并与Dao接口名称进行区分
+2. 制作测试类测试Service功能是否有效
